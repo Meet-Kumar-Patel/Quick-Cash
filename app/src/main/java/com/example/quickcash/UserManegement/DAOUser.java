@@ -1,4 +1,4 @@
-package com.example.quickcash;
+package com.example.quickcash.UserManegement;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
@@ -6,17 +6,16 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 
-public class DAOJobTypes {
-
+public class DAOUser {
     private DatabaseReference databaseReference;
 
-    public DAOJobTypes() {
+    public DAOUser() {
         FirebaseDatabase db = FirebaseDatabase.getInstance();
-        // Will Get all.
+        databaseReference = db.getReference(User.class.getSimpleName());
     }
 
-    public Task<Void> add(JobType jobType) {
-        return databaseReference.push().setValue(jobType);
+    public Task<Void> add(User user) {
+        return databaseReference.push().setValue(user);
     }
 
     public Task<Void> update(String key, HashMap<String, Object> hashMap) {
