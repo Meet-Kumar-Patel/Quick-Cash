@@ -1,14 +1,17 @@
 package com.example.quickcash.UserManegement;
 public class User {
+
+    // Initialize Variables
     private String firstName;
     private String lastName;
     private String email;
     private String phone;
     private String password;
     private String confirmPassword;
+    private String isEmployee; // Values y = yes, n= no.
 
     // Constructors
-    public User(String firstName, String lastName, String email, String phone, String password, String confirmPassword, char type) {
+    public User(String firstName, String lastName, String email, String phone, String password, String confirmPassword, String type) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -23,6 +26,11 @@ public class User {
     public User(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = "email@test.com";
+        this.phone = "9024423524";
+        this.password = "12345";
+        this.confirmPassword = "12345";
+        this.isEmployee = "y";
     }
 
     // Getters/Setters
@@ -74,14 +82,12 @@ public class User {
         this.confirmPassword = confirmPassword;
     }
 
-    public char getIsEmployee() {
+    public String getIsEmployee() {
         return isEmployee;
     }
 
-    public void setIsEmployee(char isEmployee) {
+    public void setIsEmployee(String isEmployee) {
         this.isEmployee = isEmployee;
     }
-
-    private char isEmployee; // Values y = yes, n= no.
 
 }
