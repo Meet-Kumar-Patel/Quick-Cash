@@ -1,4 +1,4 @@
-package com.example.quickcash.UserManegement;
+package com.example.quickcash.UserManagement;
 
 public class SignUpActivity {
     // Make tests First. Follow TDD.

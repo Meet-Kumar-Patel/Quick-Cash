@@ -7,8 +7,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.quickcash.UserManegement.DAOUser;
-import com.example.quickcash.UserManegement.User;
+import com.example.quickcash.UserManagement.DAOUser;
+import com.example.quickcash.UserManagement.User;
 
 public class MainActivity extends AppCompatActivity {
     private EditText firstName;
