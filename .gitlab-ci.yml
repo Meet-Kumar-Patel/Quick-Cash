@@ -1,5 +1,3 @@
-# This file is a template, and might need editing before it works on your project.
-
 image: openjdk:8-jdk
 
 variables:
@@ -23,7 +21,11 @@ before_script:
   - yes | android-sdk-linux/tools/bin/sdkmanager --licenses
   - set -o pipefail
 
-lintDebug:
+stages:
+  - build
+  - test
+
+intDebug:
   stage: build
   script:
     - ./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint
@@ -33,22 +35,21 @@ lintDebug:
 assembleDebug:
   stage: build
   script:
-    - ./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint && ./gradlew assembleDebug
+    - ./gradlew assembleDebug
   artifacts:
     paths:
       - app/build/outputs/
   tags:
     - dalfcs_gitlab_docker_ci
-    
+
 unit_tests:
   stage: test
   script:
     - ./gradlew test
   artifacts:
     when: always
-    expire_in: 3 days
+    expire_in: 4 days
     paths:
       - app/build/reports/tests/
   tags:
     - dalfcs_gitlab_docker_ci
-
