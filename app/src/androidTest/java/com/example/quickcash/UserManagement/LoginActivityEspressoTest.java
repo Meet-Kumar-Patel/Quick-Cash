@@ -9,8 +9,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -35,14 +34,22 @@ public class LoginActivityEspressoTest {
         onView(withId(R.id.btnLogin)).perform(click());
 
         // Compare the result
-        loginActivity = new LogInActivity();
-        assertTrue(loginActivity.found);
+        onView(withId(R.id.etError)).check(matches(withText("Email Found!")));
     }
 
     // if the email does not E in the firebase => notify "Username/password invalid".
     @Test
     public void checkIfEmailIsInvalid() {
+        // Fill the required
         onView(withId(R.id.etEmail)).perform(typeText("wrong@test.com"));
+        onView(withId(R.id.etPassword)).perform((typeText("12345")));
+
+        // Click the registration Button
+        onView(withId(R.id.btnLogin)).perform(click());
+
+        // Compare the result
+        onView(withId(R.id.etError)).check(matches(withText("Invalid Email or Password")));
+
     }
 
 }
