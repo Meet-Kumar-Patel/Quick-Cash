@@ -25,4 +25,5 @@ public class DAOUser {
     public Task<Void> remove(String key) {
         return databaseReference.child(key).removeValue();
     }
+
 }
