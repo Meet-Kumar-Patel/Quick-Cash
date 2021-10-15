@@ -100,9 +100,14 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         else if (isPasswordEmpty(password)) {
             error = "Empty Password";
         }
+        else if (!findEmailInFirebase(email)) {
+            error = "Email Not Found.";
+        }
+
         else if (findEmailInFirebase(email)) {
             error = "Email Found!";
         }
+
 
         TextView etError = findViewById(R.id.etError);
         etError.setText(error);

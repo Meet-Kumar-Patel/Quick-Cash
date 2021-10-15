@@ -48,7 +48,7 @@ public class LoginActivityEspressoTest {
         onView(withId(R.id.btnLogin)).perform(click());
 
         // Compare the result
-        onView(withId(R.id.etError)).check(matches(withText("Invalid Email or Password")));
+        onView(withId(R.id.etError)).check(matches(withText("Email Not Found.")));
 
     }
 
