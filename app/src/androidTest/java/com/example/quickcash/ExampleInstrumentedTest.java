@@ -1,5 +1,10 @@
 package com.example.quickcash;
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+
 import android.content.Context;
 
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -22,5 +27,14 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         assertEquals("com.example.quickcash", appContext.getPackageName());
+    }
+
+    @Test
+    public void checkIfRegistrationPageIsVisible() {
+        onView(withId(R.id.txtFirstName)).check(matches(withText("")));
+        onView(withId(R.id.txtLastName)).check(matches(withText("")));
+        onView(withId(R.id.txtEmail)).check(matches(withText("")));
+        onView(withId(R.id.txtPassword1)).check(matches(withText("")));
+        onView(withId(R.id.txtLastName)).check(matches(withText("")));
     }
 }
