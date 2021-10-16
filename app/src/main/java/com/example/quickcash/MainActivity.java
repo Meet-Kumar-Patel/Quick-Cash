@@ -1,5 +1,6 @@
 package com.example.quickcash;
 
+//import android.os.Bundle;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quickcash.UserManegement.DAOUser;
 import com.example.quickcash.UserManegement.User;
+
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
     private EditText firstName;
@@ -47,10 +50,36 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 //Pranav:
-    protected String getFirstName(){}
-    protected String getLastName(){}
-    protected String getEmail(){}
-    protected boolean isEmailValid(){}
+    protected String getFirstName(){
+        /**This method is complete**/
+        EditText firstNameBox = findViewById(R.id.txtFirstName);
+        return firstNameBox.getText().toString().trim();
+    }
+
+    protected String getLastName(){
+        EditText lastNameBox = findViewById(R.id.txtLastName);
+        return lastNameBox.getText().toString().trim();
+    }
+
+    protected String getEmail(){
+        EditText emailBox = findViewById(R.id.txtEmail);
+        return emailBox.getText().toString().trim();
+    }
+
+    protected boolean isEmailValid(String emailAddress){
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
+                "[a-zA-Z0-9_+&*-]+)*@" +
+            "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+            "A-Z]{2,7}$";
+
+        Pattern pat = Pattern.compile(emailRegex);
+        if (emailAddress == null)
+            return false;
+        else
+            return pat.matcher(emailAddress).matches();
+    }
+    protected boolean isEmptyFirstName()
+
   //  Raham:
     protected String getPassword1(){}
     protected String getConfirmPassword(){}
@@ -66,7 +95,52 @@ public class MainActivity extends AppCompatActivity {
     // the method that TA sent goes here
 
 
-    public void onClick(View view)(){}
+    public void onClick(View view){
+        String firstName1 = getFirstName();
+        String lastName1 = getLastName();
+        String emailAddress = getEmail();
+
+        String errorMessage = new String("ERROR MESSAGE");
+        if (isEmptyBannerID(bannerID)) {
+            errorMessage = getResources().getString(R.string.EMPTY_BANNER_ID).trim();
+            System.out.println(errorMessage);
+        }
+        else if(isValidBannerID(bannerID))
+        {
+            errorMessage="";
+            if(isValidEmailAddress(emailAddress))
+            {
+                errorMessage="";
+                if(!isDALEmailAddress(emailAddress))
+                {
+                    errorMessage = getResources().getString(R.string.INVALID_DAL_EMAIL);
+                    //System.out.println(errorMessage);
+                }
+            }
+            else
+            {
+                errorMessage = getResources().getString(R.string.INVALID_EMAIL_ADDRESS).trim();
+                //System.out.println(errorMessage);
+            }
+
+        }
+        else
+        {
+            errorMessage = "Invalid Banner ID";
+        }
+
+
+        //This method is incomplete, your business logic goes here!
+        setStatusMessage(errorMessage);
+
+        //if error message is empty, then create a new intent to move to main activity
+        if(errorMessage.equals(""))
+        {
+            saveBannerIDToFirebase(bannerID);
+            saveEmailToFirebase(emailAddress);
+            switch2WelcomeWindow(bannerID, emailAddress);
+        }
+    }
     protected void setStatusMessage(String message)(){}
 
 
