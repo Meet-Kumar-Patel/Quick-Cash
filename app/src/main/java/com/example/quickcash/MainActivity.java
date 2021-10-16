@@ -16,8 +16,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText lastName;
     private Button register;
     private EditText  email;
-    private EditText password1;
-    private EditText   password2;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         email = (EditText) findViewById(R.id.txtEmail);
-        password1 = (EditText) findViewById(R.id.txtPassword1);
-        password2 = (EditText) findViewById(R.id.txtPassword2);
+
 
 
 
@@ -52,8 +51,15 @@ public class MainActivity extends AppCompatActivity {
     protected String getEmail(){}
     protected boolean isEmailValid(){}
   //  Raham:
-    protected String getPassword1(){}
-    protected String getConfirmPassword(){}
+    protected String getPassword1(){
+        EditText password1 = (EditText) findViewById(R.id.txtPassword1);
+        return password1.getText().toString().trim();
+    }
+    protected String getConfirmPassword(){
+        EditText   password2 = (EditText) findViewById(R.id.txtPassword2);
+        return password2.getText().toString().trim();
+
+    }
     protected boolean isValidPassword(){}
     protected boolean isPasswordMatch(){}
 
