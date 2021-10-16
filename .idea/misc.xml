@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.11534651426091949" />
+        <entry key="app/src/main/res/layout/activity_tester.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_welcome_page.xml" value="0.1" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="corretto-11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.335" />
+      </ProjectState>
+    </option>
   </component>
 </project>
