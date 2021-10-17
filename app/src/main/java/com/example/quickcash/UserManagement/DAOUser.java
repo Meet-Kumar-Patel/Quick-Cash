@@ -1,4 +1,4 @@
-package com.example.quickcash.UserManegement;
+package com.example.quickcash.UserManagement;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;

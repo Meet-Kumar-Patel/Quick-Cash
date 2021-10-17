@@ -2,7 +2,6 @@ package com.example.quickcash;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
@@ -17,7 +16,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.intent.rule.IntentsTestRule;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -26,8 +25,8 @@ import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
 
-import com.example.quickcash.UserManegement.LoginActivity;
-import com.example.quickcash.UserManegement.SignUpActivity;
+import com.example.quickcash.UserManagement.LoginActivity;
+import com.example.quickcash.UserManagement.SignUpActivity;
 
 /**
  * Instrumented test, which will execute on an Android device.

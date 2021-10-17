@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import com.example.quickcash.UserManegement.SignUpActivity;
+import com.example.quickcash.UserManagement.SignUpActivity;
 
 /**
  * Example local unit test, which will execute on the development machine (host).

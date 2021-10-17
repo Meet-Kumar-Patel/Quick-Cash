@@ -1,4 +1,4 @@
-package com.example.quickcash.UserManegement;
+package com.example.quickcash.UserManagement;
 
 
 //[Reference: https://wajahatkarim.com/2018/08/encrypt-/-decrypt-strings-in-android/#aesutils-class]

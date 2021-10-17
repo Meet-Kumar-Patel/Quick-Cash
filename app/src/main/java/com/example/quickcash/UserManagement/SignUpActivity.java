@@ -1,4 +1,4 @@
-package com.example.quickcash.UserManegement;
+package com.example.quickcash.UserManagement;
 
 import android.content.Intent;
 import android.os.Bundle;
