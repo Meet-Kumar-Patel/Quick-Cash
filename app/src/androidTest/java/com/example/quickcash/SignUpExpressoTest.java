@@ -6,7 +6,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import android.content.Context;
-import android.provider.ContactsContract;
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -28,10 +27,10 @@ import com.example.quickcash.UserManegement.SignUpActivity;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
-public class ExampleInstrumentedTest {
+public class SignUpExpressoTest {
 
     @Rule
-    public ActivityScenarioRule<MainActivity> myRule = new ActivityScenarioRule<>(MainActivity.class);
+    public ActivityScenarioRule<SignUpActivity> myRule = new ActivityScenarioRule<>(SignUpActivity.class);
 
     @Test
     public void useAppContext() {
@@ -39,6 +38,19 @@ public class ExampleInstrumentedTest {
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         assertEquals("com.example.quickcash", appContext.getPackageName());
     }
+
+    @Test
+    public void checkIfRegistrationPageIsVisible() {
+        onView(withId(R.id.txtFirstName)).check(matches(withText("")));
+        onView(withId(R.id.txtLastName)).check(matches(withText("")));
+        onView(withId(R.id.txtEmail)).check(matches(withText("")));
+        onView(withId(R.id.txtUserEnteredPassword)).check(matches(withText("")));
+        onView(withId(R.id.txtLastName)).check(matches(withText("")));
+        onView(withId(R.id.txtPhone)).check(matches(withText("")));
+    }
+
+
+
 
 
     @AfterClass
