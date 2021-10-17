@@ -17,6 +17,7 @@ import com.example.quickcash.Home.EmployerHomeActivity;
 import com.example.quickcash.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -43,21 +44,24 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
      * The method returns the data snapshot from firebase and it calls the method responsible for checking the em
      * @return true always. The retrieval is done async
      */
+    boolean found = false;
     protected boolean retrieveDataFromFirebase(String email, String password) {
+        DatabaseReference userReference = db.getReference(User.class.getSimpleName());
 
-        db.getReference(User.class.getSimpleName()).addValueEventListener(new ValueEventListener() {
+         userReference.addValueEventListener(new ValueEventListener() {
 
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // When the data is received, verify the user credential
-                if(dataSnapshot.exists()) {
-                    verifyUserCredentials(dataSnapshot, email, password);
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    // When the data is received, verify the user credential
+                    if(dataSnapshot.exists()) {
+                        found = true;
+                        verifyUserCredentials(dataSnapshot, email, password);
+                    }
                 }
-            }
-            @Override
-            public void onCancelled (@NonNull DatabaseError error){
-                System.out.println("Could retrieve: " + error.getCode());
-            }
+                @Override
+                public void onCancelled (@NonNull DatabaseError error){
+                    System.out.println("Could retrieve: " + error.getCode());
+                }
 
         });
         return true;
