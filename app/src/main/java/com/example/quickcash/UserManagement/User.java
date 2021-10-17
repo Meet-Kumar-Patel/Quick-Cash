@@ -11,14 +11,14 @@ public class User {
     private String isEmployee; // Values y = yes, n= no.
 
     // Constructors
-    public User(String firstName, String lastName, String email, String phone, String password, String confirmPassword, String type) {
+    public User(String firstName, String lastName, String email, String phone, String password, String confirmPassword, String isEmployee) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
         this.password = password;
         this.confirmPassword = confirmPassword;
-        this.isEmployee = type;
+        this.isEmployee = isEmployee;
     }
 
     public User() {}

@@ -3,29 +3,31 @@ package com.example.quickcash.UserManagement;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.example.quickcash.R;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
 
-public class LogInActivity extends AppCompatActivity implements View.OnClickListener{
+
+public class LogInActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseDatabase db;
     private DatabaseReference databaseReference;
-    boolean found = false;
-    User user = new User();
+    static String[] arrayUserEmails = new String[10];
+    User loggedInUser = null;
 
 
     @Override
@@ -35,84 +37,103 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
         Button btnLogin = findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(this);
-        initializeFirebase();
+        //initializeFirebase();
     }
 
     protected void initializeFirebase() {
-        FirebaseApp.initializeApp(this);
         db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
-        databaseReference = db.getReference(User.class.getSimpleName());
 
     }
 
 
-    protected boolean isEmailEmpty(String email){
-            return email.trim().isEmpty();
+    protected boolean isEmailEmpty(String email) {
+        return email.trim().isEmpty();
     }
 
-    protected boolean isPasswordEmpty(String password){
+    protected boolean isPasswordEmpty(String password) {
         return password.trim().isEmpty();
     }
 
-    protected boolean findEmailInFirebase(String email) {
-        initializeFirebase();
+    static String found = "false";
 
-        found = false;
-        databaseReference.addValueEventListener(new ValueEventListener() {
+    protected User GetUser(String email) {
+        return new User();
+    }
+    DataSnapshot testSnapshot;
+    protected boolean retireveDataFromFirebase(String email) {
+        FirebaseDatabase databaseReference = FirebaseDatabase.getInstance();
+        List<User> userList = new ArrayList<>();
+        databaseReference.getReference(User.class.getSimpleName()).addValueEventListener(new ValueEventListener() {
+
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot: snapshot.getChildren()) {
-                    User userInFirebase = dataSnapshot.getValue(User.class);
-                    String storedEmail = userInFirebase.getEmail();
-                    if(storedEmail.equals(email)) {
-                        found = true;
-                        user = userInFirebase;
-                        return;
-                    }
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()) {
+                    isEmailInFirebase(dataSnapshot);
                 }
             }
-
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled (@NonNull DatabaseError error){
                 System.out.println("Could retrieve: " + error.getCode());
             }
-        });
 
-        return found;
+    });
+        return true;
+}
 
-    }
-
-    protected  boolean comparePassword(String password) {
-        if(user.getPassword().equals(password)) {
+    protected boolean comparePassword(String password) {
+        if (loggedInUser.getPassword().equals(password)) {
             return true;
         }
         return false;
     }
-
+    String emailInClass = "";
     @Override
     public void onClick(View loginPage) {
         String email = getEmail();
         String password = getPassword();
         String error = new String("");
         if (isEmailEmpty(email)) {
-            error = "Empty Email";
+            error = "Empty Email.";
+        } else if (isPasswordEmpty(password)) {
+            error = "Empty Password.";
         }
-        else if (isPasswordEmpty(password)) {
-            error = "Empty Password";
-        }
-        else if (!findEmailInFirebase(email)) {
-            error = "Email Not Found.";
+        if(error.equals("")) {
+            emailInClass = email;
+            retireveDataFromFirebase(email);
+            error = "Verifying credentials";
         }
 
-        else if (findEmailInFirebase(email)) {
-            error = "Email Found!";
-        }
 
 
         TextView etError = findViewById(R.id.etError);
         etError.setText(error);
 
     }
+
+    protected void isEmailInFirebase(DataSnapshot dataSnapshot) {
+        String error = new String("");
+        if (dataSnapshot == null) {
+            error = "Failed to connect to the database.";
+        } else {
+            for(DataSnapshot snapshot:dataSnapshot.getChildren()) {
+
+                User user = snapshot.getValue(User.class);
+                if(user.getEmail().equals(emailInClass))
+                    loggedInUser = new User(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPhone(), user.getPassword(),
+                            user.getConfirmPassword(), user.getIsEmployee());
+            }
+        }
+
+        if(loggedInUser == null) {
+            error = "Invalid Email or Password.";
+        }
+
+        TextView etError = findViewById(R.id.etError);
+        etError.setText(error);
+    }
+
+
+
 
     protected String getEmail() {
         EditText etEmail = findViewById(R.id.etEmail);

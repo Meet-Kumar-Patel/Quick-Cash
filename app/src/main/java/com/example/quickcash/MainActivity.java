@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
         DAOUser daoUser = new DAOUser();
         register.setOnClickListener( v -> {
-            User user = new User(firstName.getText().toString(), lastName.getText().toString());
+            User user = new User(firstName.getText().toString(), lastName.getText().toString() );
             daoUser.add(user).addOnSuccessListener(saved -> {
                 Toast.makeText(MainActivity.this, "Firebase Connected! Data Saved",
                         Toast.LENGTH_LONG).show();}).addOnFailureListener(failed -> {

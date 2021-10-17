@@ -25,7 +25,7 @@ public class LoginActivityEspressoTest {
     // Check if the email exist in the firebase
     // if the email E in the firebase => check if the password is valid
     @Test
-    public void checkIfEmailIsValid() {
+    public void checkIftheFirebaseIsConnecting() {
         // Fill the required
         onView(withId(R.id.etEmail)).perform(typeText("email@test.com"));
         onView(withId(R.id.etPassword)).perform((typeText("12345")));
@@ -34,22 +34,24 @@ public class LoginActivityEspressoTest {
         onView(withId(R.id.btnLogin)).perform(click());
 
         // Compare the result
-        onView(withId(R.id.etError)).check(matches(withText("Email Found!")));
+        onView(withId(R.id.etError)).check(matches(withText("Verifying credentials")));
     }
+
+
 
     // if the email does not E in the firebase => notify "Username/password invalid".
-    @Test
-    public void checkIfEmailIsInvalid() {
+    //@Test
+    //public void checkIfEmailIsInvalid() {
         // Fill the required
-        onView(withId(R.id.etEmail)).perform(typeText("wrong@test.com"));
-        onView(withId(R.id.etPassword)).perform((typeText("12345")));
+        //onView(withId(R.id.etEmail)).perform(typeText("wrong@test.com"));
+        //onView(withId(R.id.etPassword)).perform((typeText("12345")));
 
         // Click the registration Button
-        onView(withId(R.id.btnLogin)).perform(click());
+        //onView(withId(R.id.btnLogin)).perform(click());
 
         // Compare the result
-        onView(withId(R.id.etError)).check(matches(withText("Email Not Found.")));
+        //onView(withId(R.id.etError)).check(matches(withText("Invalid Email or Password.")));
 
-    }
+    //}
 
 }

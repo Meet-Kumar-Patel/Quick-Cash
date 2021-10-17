@@ -10,7 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuickCash">
         <activity
-            android:name=".MainActivity"
+            android:name=".UserManagement.LogInActivity"
+
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,7 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UserManagement.LogInActivity" ></activity>
+        <activity android:name=".MainActivity" ></activity>
 
     </application>
 
