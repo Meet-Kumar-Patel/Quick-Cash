@@ -188,6 +188,7 @@ public class SignUpExpressoTest {
 //        onView(withId(R.id.btnRegister)).perform(click()).perform(closeSoftKeyboard());
 //        onView(withId(R.id.statusLabel)).check(matches(withText("User Exists.")));
 //    }
+
     @AfterClass
     public static void tearDown() {
         System.gc();
