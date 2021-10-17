@@ -44,9 +44,9 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
      * The method returns the data snapshot from firebase and it calls the method responsible for checking the em
      * @return true always. The retrieval is done async
      */
-    boolean found = false;
+
     protected boolean retrieveDataFromFirebase(String email, String password) {
-        DatabaseReference userReference = db.getReference(User.class.getSimpleName());
+        DatabaseReference userReference = FirebaseDatabase.getInstance().getReference(User.class.getSimpleName());
 
          userReference.addValueEventListener(new ValueEventListener() {
 
@@ -54,7 +54,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     // When the data is received, verify the user credential
                     if(dataSnapshot.exists()) {
-                        found = true;
+
                         verifyUserCredentials(dataSnapshot, email, password);
                     }
                 }
@@ -110,8 +110,8 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         if (dataSnapshot == null) {
             statusMessage = "Failed to connect to the database.";
         } else {
-            // Find user with the given email.
-            userWithGivenEmail = getUserFromDataSnapshot(dataSnapshot, email);
+            // Find user with the given email and password.
+            userWithGivenEmail = getUserFromDataSnapshot(dataSnapshot, email, password);
 
             // If the user if found => switch to the proper homepage.
             if (userWithGivenEmail == null) {
@@ -120,6 +120,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
             else {
                 switchToHomePage(userWithGivenEmail.getIsEmployee().equals("y"), userWithGivenEmail);
             }
+
         }
 
         // Display Status.
@@ -133,11 +134,10 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
      * @param email, is the email of the user
      * @return User with the given email, if not user is not found => null.
      */
-    protected User getUserFromDataSnapshot(DataSnapshot dataSnapshot, String email) {
-        System.out.println(dataSnapshot.toString());
+    protected User getUserFromDataSnapshot(DataSnapshot dataSnapshot, String email,String password) {
         for(DataSnapshot snapshot:dataSnapshot.getChildren()) {
             User user = snapshot.getValue(User.class);
-            if(user.getEmail().equals(email)) {
+            if(user.getEmail().equals(email) && user.getPassword().equals(password)) {
                 return new User(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPhone(), user.getPassword(),
                         user.getConfirmPassword(), user.getIsEmployee());
             }

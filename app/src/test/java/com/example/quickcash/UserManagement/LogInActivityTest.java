@@ -12,7 +12,6 @@ import org.junit.Test;
 public class LogInActivityTest {
 
     static LogInActivity loginActivity;
-    //DataSnapshot snapshot = "{ key = User, value = {-MmA9hmCENabPS9xa8ce={firstName=Meet, lastName=Patel, isEmployee=n, password=12345, phone=9024423524, confirmPassword=12345, email=employer@test.com}, -MmBVPlm9GMD990G3Nnl={firstName=Meet, lastName=Patel, isEmployee=y, password=12345, phone=9024423524, confirmPassword=12345, email=email@test.com}, -MlqtjTxu90y4wz-BkFA={firstName=JobenOct12, lastName=Nothingoct12, isEmployee=y, password=12345, phone=9024423524, confirmPassword=12345, email=email@test.com}} }";
     @BeforeClass
     public static void setup() {
         loginActivity = new LogInActivity();

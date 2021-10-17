@@ -14,11 +14,17 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.junit.Assert.*;
 
+import android.widget.ScrollView;
+
+import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.intent.rule.IntentsTestRule;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.quickcash.Home.EmployeeHomeActivity;
 import com.example.quickcash.Home.EmployerHomeActivity;
+import com.example.quickcash.MainActivity;
 import com.example.quickcash.R;
 import com.example.quickcash.UserManagement.LogInActivity;
 
@@ -26,13 +32,20 @@ import com.example.quickcash.UserManagement.LogInActivity;
 public class LoginActivityEspressoTest {
     @Rule
     public ActivityScenarioRule<LogInActivity> loginRule = new ActivityScenarioRule<LogInActivity>(LogInActivity.class);
+    public IntentsTestRule<LogInActivity> myIntentRule = new IntentsTestRule<>(LogInActivity.class);
     static LogInActivity loginActivity;
+
+    @BeforeClass
+    public static void setup() {
+        Intents.init();
+    }
+
     // Check if the email exist in the firebase
     // if the email E in the firebase => check if the password is valid
     @Test
-    public void checkIftheFirebaseIsConnecting() {
+    public void checkIfFirebaseIsConnecting() {
         // Fill the required
-        onView(withId(R.id.etEmail)).perform(typeText("email@test.com"));
+        onView(withId(R.id.etEmail)).perform(typeText("email@test.com")).perform(closeSoftKeyboard());
         onView(withId(R.id.etPassword)).perform((typeText("12345"))).perform(closeSoftKeyboard());
 
         // Click the registration Button
@@ -45,7 +58,7 @@ public class LoginActivityEspressoTest {
     @Test
     public void checkIfProperEmail() {
         // Fill the required
-        onView(withId(R.id.etEmail)).perform(typeText("email.test.com"));
+        onView(withId(R.id.etEmail)).perform(typeText("email.test.com")).perform(closeSoftKeyboard());
         onView(withId(R.id.etPassword)).perform((typeText("12345"))).perform(closeSoftKeyboard());
 
         // Click the registration Button
@@ -57,20 +70,32 @@ public class LoginActivityEspressoTest {
 
     @Test
     public void checkIfEmployeeMovedToEmployeePage() {
-        onView(withId(R.id.etEmail)).perform(typeText("email@test.com"));
-        onView(withId(R.id.etPassword)).perform((typeText("12345")));
+        onView(withId(R.id.etEmail)).perform(typeText("email@test.com")).perform(closeSoftKeyboard());
+        onView(withId(R.id.etPassword)).perform((typeText("12345"))).perform(closeSoftKeyboard());
         onView(withId(R.id.btnLogin)).perform(click());
         intended(hasComponent(EmployeeHomeActivity.class.getName()));
     }
 
     @Test
     public void checkIfEmployerMovedToEmployerPage() {
-        onView(withId(R.id.etEmail)).perform(typeText("employer@test.com"));
-        onView(withId(R.id.etPassword)).perform((typeText("12345")));
+        onView(withId(R.id.etEmail)).perform(typeText("employer@test.com")).perform(closeSoftKeyboard());
+        onView(withId(R.id.etPassword)).perform((typeText("12345"))).perform(closeSoftKeyboard());
         onView(withId(R.id.btnLogin)).perform(click());
         intended(hasComponent(EmployerHomeActivity.class.getName()));
     }
 
+    @Test
+    public void checkIfIsInvalidEmail() {
+        // Fill the required
+        //loginActivity.retrieveDataFromFirebase("wrong@test.com", "wrong@test.com");
 
+        // Compare the result
+        //onView(withId(R.id.etError)).check(matches(withText("Verifying credentials")));
+    }
+
+    @AfterClass
+    public static void tearDown() {
+        System.gc();
+    }
 
 }
