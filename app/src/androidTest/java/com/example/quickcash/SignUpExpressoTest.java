@@ -33,13 +33,6 @@ public class SignUpExpressoTest {
     public ActivityScenarioRule<SignUpActivity> myRule = new ActivityScenarioRule<>(SignUpActivity.class);
 
     @Test
-    public void useAppContext() {
-        // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.quickcash", appContext.getPackageName());
-    }
-
-    @Test
     public void checkIfRegistrationPageIsVisible() {
         onView(withId(R.id.txtFirstName)).check(matches(withText("")));
         onView(withId(R.id.txtLastName)).check(matches(withText("")));
