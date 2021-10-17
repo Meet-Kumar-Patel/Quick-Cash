@@ -1,5 +1,6 @@
 package com.example.quickcash.UserManagement;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.example.quickcash.Home.EmployeeHomeActivity;
+import com.example.quickcash.Home.EmployerHomeActivity;
 import com.example.quickcash.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -118,22 +121,34 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
             for(DataSnapshot snapshot:dataSnapshot.getChildren()) {
 
                 User user = snapshot.getValue(User.class);
-                if(user.getEmail().equals(emailInClass))
+                if(user.getEmail().equals(emailInClass)) {
                     loggedInUser = new User(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPhone(), user.getPassword(),
                             user.getConfirmPassword(), user.getIsEmployee());
+
+                }
             }
         }
 
         if(loggedInUser == null) {
             error = "Invalid Email or Password.";
+        } else {
+            switchToHomePage(loggedInUser.getIsEmployee().equals("y"));
         }
 
         TextView etError = findViewById(R.id.etError);
         etError.setText(error);
     }
 
-
-
+    protected void switchToHomePage(boolean isEmployee) {
+        Intent homePageIntent;
+        if(isEmployee) {
+            homePageIntent = new Intent(this, EmployeeHomeActivity.class);
+        }
+        else {
+            homePageIntent = new Intent(this, EmployerHomeActivity.class);
+        }
+        startActivity(homePageIntent);
+    }
 
     protected String getEmail() {
         EditText etEmail = findViewById(R.id.etEmail);
