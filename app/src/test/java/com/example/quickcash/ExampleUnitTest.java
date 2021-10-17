@@ -99,5 +99,12 @@ public class ExampleUnitTest {
 
     }
 
+    @Test
+    public void checkIfEmailValid(){
+        assertTrue(signUpActivity.isEmailValid("mp@dal.ca"));
+        assertFalse(signUpActivity.isEmailValid("mp.12dal.ca"));
+
+    }
+
 
 }

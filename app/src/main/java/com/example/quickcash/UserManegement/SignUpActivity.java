@@ -98,7 +98,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         return phoneNumber.getText().toString().trim();
     }
 
-    protected boolean isEmailValid(String emailAddress) {
+    public boolean isEmailValid(String emailAddress) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
                 "[a-zA-Z0-9_+&*-]+)*@" +
                 "(?:[a-zA-Z0-9-]+\\.)+[a-z" +

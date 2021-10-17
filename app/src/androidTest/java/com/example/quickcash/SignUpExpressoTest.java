@@ -2,8 +2,11 @@ package com.example.quickcash;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
@@ -13,7 +16,8 @@ import static androidx.test.espresso.action.ViewActions.click;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-
+import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.intent.rule.IntentsTestRule;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -22,6 +26,7 @@ import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
 
+import com.example.quickcash.UserManegement.LoginActivity;
 import com.example.quickcash.UserManegement.SignUpActivity;
 
 /**
@@ -34,6 +39,11 @@ public class SignUpExpressoTest {
 
     @Rule
     public ActivityScenarioRule<SignUpActivity> myRule = new ActivityScenarioRule<>(SignUpActivity.class);
+
+    @BeforeClass
+    public static void setup() {
+        Intents.init();
+    }
 
     @Test
     public void useAppContext() {
@@ -176,18 +186,13 @@ public class SignUpExpressoTest {
         onView(withId(R.id.statusLabel)).check(matches(withText("Phone number should be atleast 10 digits")));
     }
 
-//    @Test
-//    public void checkIfUserExists() {
-//        onView(withId(R.id.txtFirstName)).perform(typeText("Meet")).perform(closeSoftKeyboard());
-//        onView(withId(R.id.txtLastName)).perform(typeText("Patel")).perform(closeSoftKeyboard());
-//        onView(withId(R.id.txtEmail)).perform(typeText("mp@dal.ca")).perform(closeSoftKeyboard());
-//        onView(withId(R.id.txtPhone)).perform(typeText("1234567890")).perform(closeSoftKeyboard());
-//        onView(withId(R.id.txtUserEnteredPassword)).perform(typeText("Mp@2001#")).perform(closeSoftKeyboard());
-//        onView(withId(R.id.txtConfirmPassword)).perform(typeText("Mp@2001#")).perform(closeSoftKeyboard());
-//        onView(withId(R.id.radioButton_Employer)).perform(click()).perform(closeSoftKeyboard());
-//        onView(withId(R.id.btnRegister)).perform(click()).perform(closeSoftKeyboard());
-//        onView(withId(R.id.statusLabel)).check(matches(withText("User Exists.")));
-//    }
+
+
+    @Test
+    public void moveToLogin(){
+        onView(withId(R.id.buttonLogin)).perform(closeSoftKeyboard()).perform(click());
+        intended(hasComponent(LoginActivity.class.getName()));
+    }
 
     @AfterClass
     public static void tearDown() {
