@@ -10,11 +10,15 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quickcash.MainActivity;
 import com.example.quickcash.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,6 +36,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private RadioButton employee;
     private RadioButton employer;
     private EditText phone;
+    static boolean userExists = false;
 
 
     @Override
@@ -43,7 +48,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         firstName = (EditText) findViewById(R.id.txtFirstName);
         lastName = (EditText) findViewById(R.id.txtLastName);
         email = (EditText) findViewById(R.id.txtEmail);
-        phone = (EditText)findViewById(R.id.txtPhone);
+        phone = (EditText) findViewById(R.id.txtPhone);
         password = (EditText) findViewById(R.id.txtUserEnteredPassword);
         confirmPassword = (EditText) findViewById(R.id.txtConfirmPassword);
         employee = (RadioButton) findViewById(R.id.radioButton_Employee);
@@ -73,7 +78,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         return emailBox.getText().toString().trim();
     }
 
-    protected String getPhoneNumber(){
+    protected String getPhoneNumber() {
         EditText phoneNumber = findViewById(R.id.txtPhone);
         return phoneNumber.getText().toString().trim();
     }
@@ -92,18 +97,16 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     // Implementation: Meet
-    protected RadioButton getSelectedRadioButton(){
+    protected RadioButton getSelectedRadioButton() {
 
         employer = findViewById(R.id.radioButton_Employer);
         employee = findViewById(R.id.radioButton_Employee);
 
-        if(employer.isChecked()){
+        if (employer.isChecked()) {
             return employer;
-        }
-        else if(employee.isChecked()){
+        } else if (employee.isChecked()) {
             return employee;
-        }
-        else{
+        } else {
             return null;
         }
     }
@@ -129,15 +132,17 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     // Implementation: Meet
-    public boolean isEmptyPhoneNumber(String phone){return phone.length() <= 0;}
+    public boolean isEmptyPhoneNumber(String phone) {
+        return phone.length() <= 0;
+    }
 
     // Implementation: Meet
-    protected boolean isEmptyConfirmPassword(String confirmPassword) {
+    public boolean isEmptyConfirmPassword(String confirmPassword) {
         return confirmPassword.length() <= 0;
     }
 
     // Implementation: Meet
-    protected boolean isValidPhoneNumber(String phone){
+    public boolean isValidPhoneNumber(String phone) {
         return phone.length() == 10;
     }
 
@@ -162,7 +167,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
 
-    protected boolean isPasswordMatch(String password1,String password2) {
+    protected boolean isPasswordMatch(String password1, String password2) {
         return password1.equals(password2);
 
     }
@@ -183,23 +188,23 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         // creates a connection to the database.
         DAOUser user = new DAOUser();
 
-            User user1 = new User(firstName.getText().toString(), lastName.getText().toString(),email.getText().toString(),phone.getText().toString(),password.getText().toString(),confirmPassword.getText().toString(),type);
+        User user1 = new User(firstName.getText().toString(), lastName.getText().toString(), email.getText().toString(), phone.getText().toString(), password.getText().toString(), confirmPassword.getText().toString(), type);
 
-            user.add(user1).addOnSuccessListener(saved -> {
+        user.add(user1).addOnSuccessListener(saved -> {
 
-                Toast.makeText(SignUpActivity.this, "Firebase Connected! Data Saved",
-                        Toast.LENGTH_LONG).show();}).addOnFailureListener(failed -> {
-                Toast.makeText(SignUpActivity.this, "Data not Saved",Toast.LENGTH_LONG).show();
+            Toast.makeText(SignUpActivity.this, "Firebase Connected! Data Saved",
+                    Toast.LENGTH_LONG).show();
+        }).addOnFailureListener(failed -> {
+            Toast.makeText(SignUpActivity.this, "Data not Saved", Toast.LENGTH_LONG).show();
 
-            });
+        });
 
-            switch2Login();
-        }
-
+        switch2Login();
+    }
 
 
     // Implementation: Meet
-    protected void setStatusMessage(String message){
+    protected void setStatusMessage(String message) {
         TextView statusLabel = findViewById(R.id.statusLabel);
         statusLabel.setText(message);
     }
@@ -226,99 +231,95 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         // Sign Up logic
 
-        for(int i = 0 ; i < 1; i++){
+        for (int i = 0; i < 1; i++) {
 
             // to check for empty first Name
-            if(isEmptyFirstName(firstName)){
+            if (isEmptyFirstName(firstName)) {
                 errorMessage = "Please Enter Your First Name";
                 break;
 
-            }
-            else{
+            } else {
                 errorMessage = "";
             }
 
             // to check for empty last name
-            if(isEmptyLastName(lastName)){
+            if (isEmptyLastName(lastName)) {
                 errorMessage = "Please Enter Your Last Name";
                 break;
 
-            }
-            else{
+            } else {
                 errorMessage = "";
             }
 
             // to check for email address
-            if(isEmptyEmail(emailAddress)){
+            if (isEmptyEmail(emailAddress)) {
                 errorMessage = "Please Enter your email address";
                 break;
 
-            }
-            else{
+            } else {
 
-                if(!isEmailValid(emailAddress)){
+                if (!isEmailValid(emailAddress)) {
                     errorMessage = "Please Enter valid email address";
                     break;
 
-                }
-
-                else{
+                } else {
                     errorMessage = "";
                 }
             }
 
-            if(isEmptyPhoneNumber(phone)){
+            if (isEmptyPhoneNumber(phone)) {
                 errorMessage = "Please enter your phone number";
                 break;
-            }
-            else{
-                if(!isValidPhoneNumber(phone)){
+            } else {
+                if (!isValidPhoneNumber(phone)) {
                     errorMessage = "Phone number should be atleast 10 digits";
                     break;
-                }
-                else{
+                } else {
                     errorMessage = "";
                 }
             }
 
             // to check the user Entered password
-            if(isEmptyPassword(userEnteredPassword)){
+            if (isEmptyPassword(userEnteredPassword)) {
                 errorMessage = "Please Enter your password";
                 break;
-            }
-            else{
+            } else {
 
-                if(isValidPassword(userEnteredPassword)){
+                if (isValidPassword(userEnteredPassword)) {
                     errorMessage = "";
-                }
-                else{
+                } else {
                     errorMessage = "Please Enter valid Password";
                     break;
                 }
             }
 
             // to check the confirm Password
-            if(isEmptyConfirmPassword(confirmPassword)){
+            if (isEmptyConfirmPassword(confirmPassword)) {
                 errorMessage = "Please Enter to confirm your password";
                 break;
-            }
-            else{
-                if(isPasswordMatch(userEnteredPassword,confirmPassword)){
-                    errorMessage="";
-                }
-                else{
+            } else {
+                if (isPasswordMatch(userEnteredPassword, confirmPassword)) {
+                    errorMessage = "";
+                } else {
                     errorMessage = "Passwords don't match. Please Enter again";
                     break;
                 }
             }
 
             // to see that the user has selected one of the two radio buttons
-            if(getSelectedRadioButton()==null){
+            if (getSelectedRadioButton() == null) {
                 errorMessage = "Please Select one of the two given options";
                 break;
-            }
-            else{
+            } else {
                 errorMessage = "";
+            }
+
+            checkUserExists(emailAddress);
+
+            if (userExists) {
+
+                errorMessage = "User already exists! Please login instead";
+
             }
 
         }
@@ -327,20 +328,45 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
 
         //if error message is empty, then create a new intent to move to main activity
-        if (errorMessage.equals("") ) {
+        if (errorMessage.equals("")) {
 
             String type = "";
-            if(employee.isChecked()){
-            type = "Y";
-            }
-
-            else if(employer.isChecked()){
-            type = "N";
+            if (employee.isChecked()) {
+                type = "Y";
+            } else if (employer.isChecked()) {
+                type = "N";
             }
 
             pushToDatabase(type);
 
         }
+    }
+
+    private void checkUserExists(String emailAddress) {
+
+        DAOUser daoUser = new DAOUser();
+        daoUser.getDatabaseReference().addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+
+                    if (dataSnapshot.child("email").toString().equals(emailAddress)) {
+                        userExists = true;
+                    }
+
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
 

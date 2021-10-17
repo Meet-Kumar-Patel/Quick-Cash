@@ -9,6 +9,10 @@ import java.util.HashMap;
 public class DAOUser {
     private DatabaseReference databaseReference;
 
+    public DatabaseReference getDatabaseReference() {
+        return databaseReference;
+    }
+
     public DAOUser() {
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         databaseReference = db.getReference(User.class.getSimpleName());

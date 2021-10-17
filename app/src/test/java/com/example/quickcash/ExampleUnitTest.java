@@ -59,4 +59,24 @@ public class ExampleUnitTest {
         assertFalse(signUpActivity.isEmptyPassword("****"));
     }
 
+    @Test
+    public void checkIfConfirmPasswordIsEmpty() {
+        assertTrue(signUpActivity.isEmptyConfirmPassword(""));
+        assertFalse(signUpActivity.isEmptyConfirmPassword("****"));
+    }
+
+    @Test
+    public void checkIfPhoneNumberIsEmpty() {
+        assertTrue(signUpActivity.isEmptyPhoneNumber(""));
+        assertFalse(signUpActivity.isEmptyPhoneNumber("123456"));
+    }
+
+    @Test
+    public void checkIfValidPhoneNumber(){
+        assertTrue(signUpActivity.isValidPhoneNumber("1234567890"));
+        assertFalse(signUpActivity.isValidPhoneNumber("21334"));
+    }
+
+
+
 }
