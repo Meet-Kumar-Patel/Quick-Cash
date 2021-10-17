@@ -21,24 +21,25 @@ public class LogInActivityTest {
     public static void tearDown() {
         System.gc();
     }
-    // All the fields must be filled
-        //Check if the email field is empty.
+
+
+    //Checks if isEmailEmpty method returns true when no email is given.
     @Test
     public void checkIfEmailEmpty(){
         assertTrue(loginActivity.isEmailEmpty(""));
-        assertFalse(loginActivity.isEmailEmpty("logan123"));
     }
 
+    //Checks if isProperEmailAddress returns true when given the correct email.
     @Test
     public void checkIfEmailIsAProperEmail() {
         assertTrue(loginActivity.isProperEmailAddress("abc123@dal.ca"));
     }
 
-    // If the password is empty then the user should prompt to fill it.
+
+    //Checks if isPasswordEmpty method returns true when no password is given.
     @Test
     public void checkIfPasswordEmpty() {
         assertTrue(loginActivity.isPasswordEmpty(""));
-        assertFalse(loginActivity.isPasswordEmpty("logan123"));
     }
 
     // Compare the password

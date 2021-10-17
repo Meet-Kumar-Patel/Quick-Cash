@@ -26,6 +26,10 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
     private FirebaseDatabase db;
 
+    /**
+     * Initialized the login page on load.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,15 +40,17 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         initializeFirebase();
     }
 
-    protected void initializeFirebase() {
+    private void initializeFirebase() {
         db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
     }
 
     /**
-     * The method returns the data snapshot from firebase and it calls the method responsible for checking the em
+     * The method returns the data snapshot from firebase and it calls the method responsible for
+     * checking the credentials.
+     * @param email - Email provided by the user.
+     * @param password - Password provided by the user.
      */
-
-    protected void retrieveDataFromFirebase(String email, String password) {
+    private void retrieveDataFromFirebase(String email, String password) {
         DatabaseReference userReference = FirebaseDatabase.getInstance().getReference(User.class.getSimpleName());
 
         userReference.addValueEventListener(new ValueEventListener() {
@@ -71,11 +77,11 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
      * If the user credentials match => user is redirected to the proper homepage.
      * If the user email or password do not match the user is informed that "Invalid Email or Password."
      *
-     * @param dataSnapshot, data from firebase
-     * @param email,        email given by the user
-     * @param password,     password given by the user
+     * @param dataSnapshot - data from firebase
+     * @param email - email given by the user
+     * @param password - password given by the user
      */
-    protected void verifyUserCredentials(DataSnapshot dataSnapshot, String email, String password) {
+    private void verifyUserCredentials(DataSnapshot dataSnapshot, String email, String password) {
 
         User userWithGivenEmail = null;
 
@@ -96,6 +102,10 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
+    /**
+     * Gets the email and password and calls other methods to ensure their validity.
+     * @param loginPage - login page view.
+     */
     @Override
     public void onClick(View loginPage) {
         String email = getEmail();
@@ -113,8 +123,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         }
 
     }
-
-    public void setStatusMessage(String statusMessage) {
+    private void setStatusMessage(String statusMessage) {
         TextView etError = findViewById(R.id.etError);
         etError.setText(statusMessage);
     }
@@ -122,10 +131,10 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     /**
      * Returns the user with given email.
      *
-     * @param dataSnapshot, is the data received from Firebase
-     * @param email,        is the email of the user
-     * @param password,     password of the user.
-     * @return User with the given email, if not user is not found => null.
+     * @param dataSnapshot - is the data received from Firebase
+     * @param email - is the email of the user
+     * @param password - password of the user.
+     * @return user with the given email, if not user is not found => null.
      */
     protected User getUserFromDataSnapshot(DataSnapshot dataSnapshot, String email, String password) {
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -142,7 +151,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     /**
      * Switches to the proper homepage
      *
-     * @param isEmployee, boolean used to determine which home page to open.
+     * @param isEmployee - boolean used to determine which home page to open.
      */
     protected void switchToHomePage(boolean isEmployee) {
         Intent homePageIntent;
@@ -173,7 +182,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         return password.trim().isEmpty();
     }
 
-    public boolean isProperEmailAddress(String emailAddress) {
+    protected boolean isProperEmailAddress(String emailAddress) {
         return emailAddress.trim().matches("..*@..*\\...*");
     }
 }

@@ -40,41 +40,22 @@ public class LoginActivityEspressoTest {
         Intents.init();
     }
 
-    // Check if the email exist in the firebase
-    // if the email E in the firebase => check if the password is valid
+    //Checks if proper message appears while waiting for information to be retrieved from the firebase.
     @Test
     public void checkIfFirebaseIsConnecting() {
-        // Fill the required
         onView(withId(R.id.etEmail)).perform(typeText("email@test.com")).perform(closeSoftKeyboard());
         onView(withId(R.id.etPassword)).perform((typeText("12345"))).perform(closeSoftKeyboard());
-
-        // Click the registration Button
         onView(withId(R.id.btnLogin)).perform(click());
-
-        // Compare the result
         onView(withId(R.id.etError)).check(matches(withText("Verifying credentials")));
     }
 
+    //Checks if the correct status message appears when improper email is entered.
     @Test
     public void checkIfProperEmail() {
-        // Fill the required
         onView(withId(R.id.etEmail)).perform(typeText("email.test.com")).perform(closeSoftKeyboard());
         onView(withId(R.id.etPassword)).perform((typeText("12345"))).perform(closeSoftKeyboard());
-
-        // Click the registration Button
         onView(withId(R.id.btnLogin)).perform(click());
-
-        // Compare the result
         onView(withId(R.id.etError)).check(matches(withText("Improper Email Address")));
-    }
-
-    @Test
-    public void checkIfIsInvalidEmail() {
-        // Fill the required
-        //loginActivity.retrieveDataFromFirebase("wrong@test.com", "wrong@test.com");
-
-        // Compare the result
-        //onView(withId(R.id.etError)).check(matches(withText("Verifying credentials")));
     }
 
     @AfterClass
