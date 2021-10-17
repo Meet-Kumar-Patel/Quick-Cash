@@ -175,6 +175,19 @@ public class SignUpExpressoTest {
         onView(withId(R.id.btnRegister)).perform(click()).perform(closeSoftKeyboard());
         onView(withId(R.id.statusLabel)).check(matches(withText("Phone number should be atleast 10 digits")));
     }
+
+//    @Test
+//    public void checkIfUserExists() {
+//        onView(withId(R.id.txtFirstName)).perform(typeText("Meet")).perform(closeSoftKeyboard());
+//        onView(withId(R.id.txtLastName)).perform(typeText("Patel")).perform(closeSoftKeyboard());
+//        onView(withId(R.id.txtEmail)).perform(typeText("mp@dal.ca")).perform(closeSoftKeyboard());
+//        onView(withId(R.id.txtPhone)).perform(typeText("1234567890")).perform(closeSoftKeyboard());
+//        onView(withId(R.id.txtUserEnteredPassword)).perform(typeText("Mp@2001#")).perform(closeSoftKeyboard());
+//        onView(withId(R.id.txtConfirmPassword)).perform(typeText("Mp@2001#")).perform(closeSoftKeyboard());
+//        onView(withId(R.id.radioButton_Employer)).perform(click()).perform(closeSoftKeyboard());
+//        onView(withId(R.id.btnRegister)).perform(click()).perform(closeSoftKeyboard());
+//        onView(withId(R.id.statusLabel)).check(matches(withText("User Exists.")));
+//    }
     @AfterClass
     public static void tearDown() {
         System.gc();

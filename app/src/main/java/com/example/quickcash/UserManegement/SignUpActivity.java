@@ -36,7 +36,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private RadioButton employee;
     private RadioButton employer;
     private EditText phone;
-    static boolean userExists = false;
+    static boolean userExists = true;
+    static FirebaseDatabase db;
+    String AES = "AES";
+
 
 
     @Override
@@ -53,6 +56,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         confirmPassword = (EditText) findViewById(R.id.txtConfirmPassword);
         employee = (RadioButton) findViewById(R.id.radioButton_Employee);
         employer = (RadioButton) findViewById(R.id.radioButton_Employer);
+
+         db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
+
 
         Toast.makeText(SignUpActivity.this, "Welcome to Signup", Toast.LENGTH_LONG).show();
 
@@ -175,7 +181,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     // Meet and Pranav :
 
     // Implementation: Meet
-    protected void pushToDatabase(String type) {
+    protected void pushToDatabase(String type) throws Exception {
 
         //initialize the database and the related references
         firstName = (EditText) findViewById(R.id.txtFirstName);
@@ -184,11 +190,14 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         password = (EditText) findViewById(R.id.txtUserEnteredPassword);
         confirmPassword = (EditText) findViewById(R.id.txtConfirmPassword);
 
+        String encryptedPassword = encrypt(password.getText().toString());
+        String encryptedConfirmPassword = encrypt(confirmPassword.getText().toString());
+
 
         // creates a connection to the database.
         DAOUser user = new DAOUser();
 
-        User user1 = new User(firstName.getText().toString(), lastName.getText().toString(), email.getText().toString(), phone.getText().toString(), password.getText().toString(), confirmPassword.getText().toString(), type);
+        User user1 = new User(firstName.getText().toString(), lastName.getText().toString(), email.getText().toString(), phone.getText().toString(), encryptedPassword, encryptedConfirmPassword, type);
 
         user.add(user1).addOnSuccessListener(saved -> {
 
@@ -314,13 +323,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 errorMessage = "";
             }
 
-            retrieveDataFromFirebase(emailAddress);
-
-            if (userExists) {
-
-                errorMessage = "User already exists! Please login instead";
-
-            }
 
         }
 
@@ -337,41 +339,14 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 type = "N";
             }
 
-            pushToDatabase(type);
+            retrieveDataFromFirebase(emailAddress,type);
 
         }
     }
 
-    private void checkUserExists(String emailAddress) {
 
-        DAOUser daoUser = new DAOUser();
-        daoUser.getDatabaseReference().addValueEventListener(new ValueEventListener() {
+    protected void retrieveDataFromFirebase(String email,String type) {
 
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-
-                    if (dataSnapshot.child("email").toString().equals(emailAddress)) {
-                        userExists = true;
-                    }
-
-                }
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-    }
-
-    protected boolean retrieveDataFromFirebase(String email) {
-
-        FirebaseDatabase db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
 
         DatabaseReference userReference = db.getReference(User.class.getSimpleName());
 
@@ -379,9 +354,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // When the data is received, verify the user credential
+
                 if(dataSnapshot.exists()) {
-                    verifyUserCredentials(dataSnapshot, email);
+                    try {
+                        verifyUserCredentials(dataSnapshot, getEmail(),type);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             @Override
@@ -390,24 +369,30 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             }
 
         });
-        return true;
+
     }
 
-    protected void verifyUserCredentials(DataSnapshot dataSnapshot, String email) {
+
+    protected void verifyUserCredentials(DataSnapshot dataSnapshot, String email,String type) throws Exception {
 
         String statusMessage = new String("");
         User userWithGivenEmail = null;
 
         if (dataSnapshot == null) {
             statusMessage = "Failed to connect to the database.";
+            setStatusMessage(statusMessage);
         } else {
-            // Find user with the given email.
+
             userWithGivenEmail = getUserFromDataSnapshot(dataSnapshot, email);
 
-            // If the user if found => switch to the proper homepage.
-            if (userWithGivenEmail != null) {
-                statusMessage = "User Exists! Please login";
-                switch2Login();
+            if (userWithGivenEmail == null) {
+                pushToDatabase(type);
+
+            }
+            else{
+
+               setStatusMessage("User Exists.");
+
             }
 
         }
@@ -429,6 +414,31 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
 
+    protected String encrypt(String password) throws Exception {
+
+        String encrypted = "";
+        try {
+            encrypted = AESUtils.encrypt(password);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return encrypted;
+    }
+
+//    protected String decrypt(String encrpted) throws Exception{
+//        String encrypted = encrpted;
+//
+//        String decrypted = "";
+//        try {
+//            decrypted = AESUtils.decrypt(encrypted);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        return decrypted;
+//    }
 
 
 
