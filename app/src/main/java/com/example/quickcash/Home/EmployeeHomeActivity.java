@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quickcash.R;
+import com.example.quickcash.UserManagement.SessionManager;
 
 public class EmployeeHomeActivity extends AppCompatActivity {
 
@@ -13,6 +14,12 @@ public class EmployeeHomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_home);
+
+
+        SessionManager sessionManager = new SessionManager(getApplicationContext());
+        sessionManager.checkLogin();
+
         Intent gotIntent = getIntent();
+
     }
 }

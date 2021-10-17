@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.quickcash.UserManagement.LogInActivity;
+import com.example.quickcash.UserManagement.SessionManager;
 import com.example.quickcash.UserManagement.SignUpActivity;
 import com.google.firebase.FirebaseApp;
 
@@ -20,6 +21,9 @@ private Button login;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_page);
 
+        SessionManager sessionManager = new SessionManager(getApplicationContext());
+        sessionManager.logoutUser();
+        sessionManager.checkLogin();
 //      Created two buttons: register and login and their respective event listeners to navigate to those pages
         register = (Button) findViewById(R.id.registerbutton);
         register.setOnClickListener(view -> {navigateToRegPage();});
