@@ -33,7 +33,7 @@ public class LoginActivityEspressoTest {
     public void checkIftheFirebaseIsConnecting() {
         // Fill the required
         onView(withId(R.id.etEmail)).perform(typeText("email@test.com"));
-        onView(withId(R.id.etPassword)).perform((typeText("12345")));
+        onView(withId(R.id.etPassword)).perform((typeText("12345"))).perform(closeSoftKeyboard());
 
         // Click the registration Button
         onView(withId(R.id.btnLogin)).perform(click());
