@@ -30,6 +30,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private EditText firstName;
     private EditText lastName;
     private Button register;
+    private Button login;
     private EditText email;
     private EditText password;
     private EditText confirmPassword;
@@ -57,13 +58,21 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         employee = (RadioButton) findViewById(R.id.radioButton_Employee);
         employer = (RadioButton) findViewById(R.id.radioButton_Employer);
 
-         db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
+        db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
 
 
         Toast.makeText(SignUpActivity.this, "Welcome to Signup", Toast.LENGTH_LONG).show();
 
         register = (Button) findViewById(R.id.btnRegister);
         register.setOnClickListener(this);
+
+        login = (Button) findViewById(R.id.buttonLogin);
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch2Login();
+            }
+        });
 
     }
 
