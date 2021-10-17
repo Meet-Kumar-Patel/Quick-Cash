@@ -7,8 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.quickcash.UserManegement.LoginActivity;
-import com.example.quickcash.UserManegement.SignUpActivity;
+import com.example.quickcash.UserManagement.LogInActivity;
+import com.example.quickcash.UserManagement.SignUpActivity;
+import com.google.firebase.FirebaseApp;
 
 public class WelcomePage extends AppCompatActivity {
 private Button register;
@@ -25,6 +26,8 @@ private Button login;
 
         login = (Button) findViewById(R.id.loginbutton);
         login.setOnClickListener(view ->{navigateToLoginPage();});
+
+        FirebaseApp.initializeApp(this);
     }
 
 
@@ -35,7 +38,7 @@ private Button login;
         }
 
         protected void navigateToLoginPage(){
-            Intent loginPageIntent = new Intent(this, LoginActivity.class);
+            Intent loginPageIntent = new Intent(this, LogInActivity.class);
             startActivity(loginPageIntent);
         }
 
