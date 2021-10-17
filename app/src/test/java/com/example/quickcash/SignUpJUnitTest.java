@@ -13,7 +13,7 @@ import com.example.quickcash.UserManegement.SignUpActivity;
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
-public class ExampleUnitTest {
+public class SignUpJUnitTest {
 
     static SignUpActivity signUpActivity;
 
