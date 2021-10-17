@@ -2,6 +2,8 @@ package com.example.quickcash.Home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,5 +23,12 @@ public class EmployeeHomeActivity extends AppCompatActivity {
 
         Intent gotIntent = getIntent();
 
+        Button btnLogOut = findViewById(R.id.btnLogOutEmployee);
+        btnLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sessionManager.logoutUser();
+            }
+        });
     }
 }

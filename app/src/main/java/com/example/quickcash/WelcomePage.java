@@ -22,8 +22,7 @@ private Button login;
         setContentView(R.layout.activity_welcome_page);
 
         SessionManager sessionManager = new SessionManager(getApplicationContext());
-        sessionManager.logoutUser();
-        sessionManager.checkLogin();
+
 //      Created two buttons: register and login and their respective event listeners to navigate to those pages
         register = (Button) findViewById(R.id.registerbutton);
         register.setOnClickListener(view -> {navigateToRegPage();});
