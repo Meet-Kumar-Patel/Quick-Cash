@@ -417,7 +417,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     // Reference: https://wajahatkarim.com/2018/08/encrypt-/-decrypt-strings-in-android/
     // The below given method was taken from the above mentioned url
     // Date accessed: 17 October,2021
-    protected String encrypt(String password) throws Exception {
+    public String encrypt(String password) throws Exception {
 
         String encrypted = "";
         try {
@@ -433,7 +433,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     // Reference: https://wajahatkarim.com/2018/08/encrypt-/-decrypt-strings-in-android/
     // The below given method was taken from the above mentioned url
     // Date accessed: 17 October,2021
-    protected String decrypt(String encrpted) throws Exception {
+    public String decrypt(String encrpted) throws Exception {
         String encrypted = encrpted;
 
         String decrypted = "";

@@ -92,7 +92,12 @@ public class ExampleUnitTest {
         assertFalse(signUpActivity.isPasswordMatch("Ab1!azasb2#2121","Ab1!azasb2#2122"));
         assertTrue(signUpActivity.isPasswordMatch("Ab1!azasb2#2121","Ab1!azasb2#2121"));
     }
+    @Test
+    public void checkIfEncryptionWorks() throws Exception {
+        String a = signUpActivity.encrypt("checking");
+        assertEquals("checking",signUpActivity.decrypt(a));
 
+    }
 
 
 }
