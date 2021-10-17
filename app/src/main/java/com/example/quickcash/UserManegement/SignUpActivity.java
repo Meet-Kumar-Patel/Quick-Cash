@@ -160,14 +160,14 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     //source for ragex : https://stackoverflow.com/questions/3802192/regexp-java-for-password-validation/3802238
-    protected boolean isValidPassword(String password1) {
+    public boolean isValidPassword(String password1) {
         Pattern p = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$");
         Matcher m = p.matcher(password1.trim());
         return m.find();
     }
 
 
-    protected boolean isPasswordMatch(String password1, String password2) {
+    public boolean isPasswordMatch(String password1, String password2) {
         return password1.equals(password2);
 
     }

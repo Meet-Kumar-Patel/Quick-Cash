@@ -77,6 +77,21 @@ public class ExampleUnitTest {
         assertFalse(signUpActivity.isValidPhoneNumber("21334"));
     }
 
+    @Test
+    public void checkIfPasswordIsValid() {
+        assertTrue(signUpActivity.isValidPassword("Ab1!azasb2#2121"));
+        assertFalse(signUpActivity.isValidPassword("AAAAAAAAAAAAA"));
+        assertFalse(signUpActivity.isValidPassword("1Azsxs"));
+        assertFalse(signUpActivity.isValidPassword("1A!z"));
+        assertFalse(signUpActivity.isValidPassword("Azazaxsdxs"));
+        assertFalse(signUpActivity.isValidPassword("dsdxccxsddsxs"));
+    }
+
+    @Test
+    public void checkIfPasswordIsMatching() {
+        assertFalse(signUpActivity.isPasswordMatch("Ab1!azasb2#2121","Ab1!azasb2#2122"));
+        assertTrue(signUpActivity.isPasswordMatch("Ab1!azasb2#2121","Ab1!azasb2#2121"));
+    }
 
 
 }

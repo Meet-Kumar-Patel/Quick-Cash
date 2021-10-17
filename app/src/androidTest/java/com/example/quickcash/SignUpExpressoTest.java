@@ -136,12 +136,49 @@ public class SignUpExpressoTest {
         onView(withId(R.id.btnRegister)).perform(click()).perform(closeSoftKeyboard());
         onView(withId(R.id.statusLabel)).check(matches(withText("Please Select one of the two given options")));
     }
+    @Test
+    public void checkIfPasswordIsValid() {
 
 
+        onView(withId(R.id.txtFirstName)).perform(typeText("Raham")).perform(closeSoftKeyboard());
+        onView(withId(R.id.txtLastName)).perform(typeText("moghaddam")).perform(closeSoftKeyboard());
+        onView(withId(R.id.txtEmail)).perform(typeText("abc.123@dal.ca")).perform(closeSoftKeyboard());
+        onView(withId(R.id.txtPhone)).perform(typeText("1234567890")).perform(closeSoftKeyboard());
+        onView(withId(R.id.txtUserEnteredPassword)).perform(typeText("AAAAAAAAAAAAA")).perform(closeSoftKeyboard());
+        onView(withId(R.id.txtConfirmPassword)).perform(typeText("AAAAAAAAAAAAA")).perform(closeSoftKeyboard());
+        onView(withId(R.id.btnRegister)).perform(click()).perform(closeSoftKeyboard());
+        onView(withId(R.id.statusLabel)).check(matches(withText("Please Enter valid Password")));
+    }
+
+
+    @Test
+    public void checkIfPasswordIsMatching() {
+        onView(withId(R.id.txtFirstName)).perform(typeText("Raham")).perform(closeSoftKeyboard());
+        onView(withId(R.id.txtLastName)).perform(typeText("moghaddam")).perform(closeSoftKeyboard());
+        onView(withId(R.id.txtEmail)).perform(typeText("abc.123@dal.ca")).perform(closeSoftKeyboard());
+        onView(withId(R.id.txtPhone)).perform(typeText("1234567890")).perform(closeSoftKeyboard());
+        onView(withId(R.id.txtUserEnteredPassword)).perform(typeText("Ab1!azasb2#2121")).perform(closeSoftKeyboard());
+        onView(withId(R.id.txtConfirmPassword)).perform(typeText("Ab1!azasb2#21212")).perform(closeSoftKeyboard());
+        onView(withId(R.id.btnRegister)).perform(click()).perform(closeSoftKeyboard());
+        onView(withId(R.id.statusLabel)).check(matches(withText("Passwords don't match. Please Enter again")));
+    }
+
+    @Test
+    public void checkIfPhoneNumberIsValid() {
+        onView(withId(R.id.txtFirstName)).perform(typeText("Meet")).perform(closeSoftKeyboard());
+        onView(withId(R.id.txtLastName)).perform(typeText("Patel")).perform(closeSoftKeyboard());
+        onView(withId(R.id.txtEmail)).perform(typeText("mp@dal.ca")).perform(closeSoftKeyboard());
+        onView(withId(R.id.txtPhone)).perform(typeText("123456")).perform(closeSoftKeyboard());
+        onView(withId(R.id.txtUserEnteredPassword)).perform(typeText("Mp@2001#")).perform(closeSoftKeyboard());
+        onView(withId(R.id.txtConfirmPassword)).perform(typeText("Mp@2001#")).perform(closeSoftKeyboard());
+        onView(withId(R.id.btnRegister)).perform(click()).perform(closeSoftKeyboard());
+        onView(withId(R.id.statusLabel)).check(matches(withText("Phone number should be atleast 10 digits")));
+    }
     @AfterClass
     public static void tearDown() {
         System.gc();
     }
+
 
 
 }
