@@ -1,5 +1,10 @@
 package com.example.quickcash.UserManegement;
 
+
+//[Reference: https://wajahatkarim.com/2018/08/encrypt-/-decrypt-strings-in-android/#aesutils-class]
+// This entire java class was taken from the above mentioned url
+// Date Accessed: 17 October,2021
+
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;

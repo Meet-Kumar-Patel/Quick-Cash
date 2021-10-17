@@ -391,7 +391,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             }
             else{
 
-               setStatusMessage("User Exists.");
+               setStatusMessage("User Exists. Please login");
 
             }
 
