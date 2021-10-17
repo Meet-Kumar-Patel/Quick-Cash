@@ -28,6 +28,11 @@ public class LogInActivityTest {
         assertFalse(loginActivity.isEmailEmpty("logan123"));
     }
 
+    @Test
+    public void checkIfEmailIsAProperEmail() {
+        assertTrue(loginActivity.isProperEmailAddress("abc123@dal.ca"));
+    }
+
     // If the password is empty then the user should prompt to fill it.
     @Test
     public void checkIfPasswordEmpty() {

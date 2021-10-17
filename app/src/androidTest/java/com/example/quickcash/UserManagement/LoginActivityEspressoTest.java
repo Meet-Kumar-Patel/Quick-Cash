@@ -4,6 +4,7 @@ import org.junit.*;
 import org.junit.runner.RunWith;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
@@ -39,6 +40,19 @@ public class LoginActivityEspressoTest {
 
         // Compare the result
         onView(withId(R.id.etError)).check(matches(withText("Verifying credentials")));
+    }
+
+    @Test
+    public void checkIfProperEmail() {
+        // Fill the required
+        onView(withId(R.id.etEmail)).perform(typeText("email.test.com"));
+        onView(withId(R.id.etPassword)).perform((typeText("12345"))).perform(closeSoftKeyboard());
+
+        // Click the registration Button
+        onView(withId(R.id.btnLogin)).perform(click());
+
+        // Compare the result
+        onView(withId(R.id.etError)).check(matches(withText("Improper Email Address")));
     }
 
     @Test

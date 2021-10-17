@@ -69,15 +69,16 @@
 
     <TextView
         android:id="@+id/etError"
-        android:layout_width="0dp"
-        android:layout_height="14dp"
-        android:layout_marginTop="444dp"
+        android:layout_width="376dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="44dp"
         app:layout_constraintBottom_toTopOf="@+id/btnLogin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/etPassword" />
 
     <TextView
         android:id="@+id/textView2"

@@ -99,8 +99,9 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
             error = "Empty Email.";
         } else if (isPasswordEmpty(password)) {
             error = "Empty Password.";
-        }
-        if(error.equals("")) {
+        } else if (!isProperEmailAddress(email)){
+            error = "Improper Email Address";
+        } else {
             emailInClass = email;
             retireveDataFromFirebase(email);
             error = "Verifying credentials";
@@ -158,5 +159,9 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     protected String getPassword() {
         EditText etPassword = findViewById(R.id.etPassword);
         return etPassword.getText().toString().trim();
+    }
+
+    public boolean isProperEmailAddress(String emailAddress) {
+        return emailAddress.trim().matches("..*@..*\\...*");
     }
 }
