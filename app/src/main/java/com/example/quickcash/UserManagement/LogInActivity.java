@@ -47,20 +47,21 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     protected void retrieveDataFromFirebase(String email, String password) {
         DatabaseReference userReference = FirebaseDatabase.getInstance().getReference(User.class.getSimpleName());
 
-         userReference.addValueEventListener(new ValueEventListener() {
+        userReference.addValueEventListener(new ValueEventListener() {
 
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    // When the data is received, verify the user credential
-                    if(dataSnapshot.exists()) {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // When the data is received, verify the user credential
+                if (dataSnapshot.exists()) {
 
-                        verifyUserCredentials(dataSnapshot, email, password);
-                    }
+                    verifyUserCredentials(dataSnapshot, email, password);
                 }
-                @Override
-                public void onCancelled (@NonNull DatabaseError error){
-                    System.out.println("Could retrieve: " + error.getCode());
-                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println("Could retrieve: " + error.getCode());
+            }
 
         });
     }
@@ -69,9 +70,10 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
      * Finds a user with the given email. If the user exists => checks the password.
      * If the user credentials match => user is redirected to the proper homepage.
      * If the user email or password do not match the user is informed that "Invalid Email or Password."
+     *
      * @param dataSnapshot, data from firebase
-     * @param email, email given by the user
-     * @param password, password given by the user
+     * @param email,        email given by the user
+     * @param password,     password given by the user
      */
     protected void verifyUserCredentials(DataSnapshot dataSnapshot, String email, String password) {
 
@@ -86,8 +88,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
             // If the user if found => switch to the proper homepage.
             if (userWithGivenEmail == null) {
                 setStatusMessage("Invalid Email or Password.");
-            }
-            else {
+            } else {
                 switchToHomePage(userWithGivenEmail.getIsEmployee().equals("y"));
             }
 
@@ -104,7 +105,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
             setStatusMessage("Empty Email.");
         } else if (isPasswordEmpty(password)) {
             setStatusMessage("Empty Password.");
-        } else if (!isProperEmailAddress(email)){
+        } else if (!isProperEmailAddress(email)) {
             setStatusMessage("Improper Email Address");
         } else {
             retrieveDataFromFirebase(email, password);
@@ -113,24 +114,25 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    public void setStatusMessage(String statusMessage){
+    public void setStatusMessage(String statusMessage) {
         TextView etError = findViewById(R.id.etError);
         etError.setText(statusMessage);
     }
 
     /**
      * Returns the user with given email.
+     *
      * @param dataSnapshot, is the data received from Firebase
-     * @param email, is the email of the user
-     * @param password, password of the user.
+     * @param email,        is the email of the user
+     * @param password,     password of the user.
      * @return User with the given email, if not user is not found => null.
      */
-    protected User getUserFromDataSnapshot(DataSnapshot dataSnapshot, String email,String password) {
-        for(DataSnapshot snapshot:dataSnapshot.getChildren()) {
+    protected User getUserFromDataSnapshot(DataSnapshot dataSnapshot, String email, String password) {
+        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
             User user = snapshot.getValue(User.class);
             boolean emailMatches = user.getEmail().equals(email);
             boolean passwordMatches = user.getPassword().equals(password);
-            if(emailMatches && passwordMatches) {
+            if (emailMatches && passwordMatches) {
                 return user;
             }
         }
@@ -139,14 +141,14 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
     /**
      * Switches to the proper homepage
+     *
      * @param isEmployee, boolean used to determine which home page to open.
      */
     protected void switchToHomePage(boolean isEmployee) {
         Intent homePageIntent;
-        if(isEmployee) {
+        if (isEmployee) {
             homePageIntent = new Intent(this, EmployeeHomeActivity.class);
-        }
-        else {
+        } else {
             homePageIntent = new Intent(this, EmployerHomeActivity.class);
         }
         startActivity(homePageIntent);

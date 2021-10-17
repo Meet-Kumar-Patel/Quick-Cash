@@ -69,22 +69,6 @@ public class LoginActivityEspressoTest {
     }
 
     @Test
-    public void checkIfEmployeeMovedToEmployeePage() {
-        onView(withId(R.id.etEmail)).perform(typeText("email@test.com")).perform(closeSoftKeyboard());
-        onView(withId(R.id.etPassword)).perform((typeText("12345"))).perform(closeSoftKeyboard());
-        onView(withId(R.id.btnLogin)).perform(click());
-        intended(hasComponent(EmployeeHomeActivity.class.getName()));
-    }
-
-    @Test
-    public void checkIfEmployerMovedToEmployerPage() {
-        onView(withId(R.id.etEmail)).perform(typeText("employer@test.com")).perform(closeSoftKeyboard());
-        onView(withId(R.id.etPassword)).perform((typeText("12345"))).perform(closeSoftKeyboard());
-        onView(withId(R.id.btnLogin)).perform(click());
-        intended(hasComponent(EmployerHomeActivity.class.getName()));
-    }
-
-    @Test
     public void checkIfIsInvalidEmail() {
         // Fill the required
         //loginActivity.retrieveDataFromFirebase("wrong@test.com", "wrong@test.com");
