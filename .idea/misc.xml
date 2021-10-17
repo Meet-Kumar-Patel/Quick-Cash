@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/joben/git/csci3130/csci3130_quickcash_group9/app/src/main/res/layout/activity_employee_home.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/joben/git/csci3130/csci3130_quickcash_group9/app/src/main/res/layout/activity_employer_home.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/joben/git/csci3130/csci3130_quickcash_group9/app/src/main/res/layout/activity_login.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/joben/git/csci3130/csci3130_quickcash_group9/app/src/main/res/layout/activity_main.xml" value="0.2" />
       </map>
     </option>
