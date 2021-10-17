@@ -119,7 +119,7 @@ public class SignUpExpressoTest {
         onView(withId(R.id.txtLastName)).perform(typeText("Patel")).perform(closeSoftKeyboard());
         onView(withId(R.id.txtEmail)).perform(typeText("mp@dal.ca")).perform(closeSoftKeyboard());
         onView(withId(R.id.txtPhone)).perform(typeText("1234567890")).perform(closeSoftKeyboard());
-        onView(withId(R.id.txtUserEnteredPassword)).perform(typeText("123456")).perform(closeSoftKeyboard());
+        onView(withId(R.id.txtUserEnteredPassword)).perform(typeText("Mp@2001#")).perform(closeSoftKeyboard());
         onView(withId(R.id.txtConfirmPassword)).perform(typeText("")).perform(closeSoftKeyboard());
         onView(withId(R.id.btnRegister)).perform(click()).perform(closeSoftKeyboard());
         onView(withId(R.id.statusLabel)).check(matches(withText("Please Enter to confirm your password")));
