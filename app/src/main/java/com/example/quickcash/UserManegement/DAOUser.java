@@ -14,7 +14,7 @@ public class DAOUser {
     }
 
     public DAOUser() {
-        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        FirebaseDatabase db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
         databaseReference = db.getReference(User.class.getSimpleName());
     }
 

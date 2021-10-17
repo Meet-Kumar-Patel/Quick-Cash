@@ -1,6 +1,5 @@
 package com.example.quickcash.UserManegement;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,16 +12,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.quickcash.MainActivity;
 import com.example.quickcash.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+// the one that works..
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
     // Make tests First. Follow TDD.
@@ -314,7 +314,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 errorMessage = "";
             }
 
-            checkUserExists(emailAddress);
+            retrieveDataFromFirebase(emailAddress);
 
             if (userExists) {
 
@@ -368,6 +368,68 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         });
 
     }
+
+    protected boolean retrieveDataFromFirebase(String email) {
+
+        FirebaseDatabase db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
+
+        DatabaseReference userReference = db.getReference(User.class.getSimpleName());
+
+        userReference.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // When the data is received, verify the user credential
+                if(dataSnapshot.exists()) {
+                    verifyUserCredentials(dataSnapshot, email);
+                }
+            }
+            @Override
+            public void onCancelled (@NonNull DatabaseError error){
+                System.out.println("Could retrieve: " + error.getCode());
+            }
+
+        });
+        return true;
+    }
+
+    protected void verifyUserCredentials(DataSnapshot dataSnapshot, String email) {
+
+        String statusMessage = new String("");
+        User userWithGivenEmail = null;
+
+        if (dataSnapshot == null) {
+            statusMessage = "Failed to connect to the database.";
+        } else {
+            // Find user with the given email.
+            userWithGivenEmail = getUserFromDataSnapshot(dataSnapshot, email);
+
+            // If the user if found => switch to the proper homepage.
+            if (userWithGivenEmail != null) {
+                statusMessage = "User Exists! Please login";
+                switch2Login();
+            }
+
+        }
+
+
+    }
+
+    protected User getUserFromDataSnapshot(DataSnapshot dataSnapshot, String email) {
+        System.out.println(dataSnapshot.toString());
+        for(DataSnapshot snapshot:dataSnapshot.getChildren()) {
+            User user = snapshot.getValue(User.class);
+            assert user != null;
+            if(user.getEmail().equals(email)) {
+                return new User(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPhone(), user.getPassword(),
+                        user.getConfirmPassword(), user.getIsEmployee());
+            }
+        }
+        return null;
+    }
+
+
+
 
 
 }
