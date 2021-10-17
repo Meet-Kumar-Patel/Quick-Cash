@@ -34,7 +34,12 @@ import com.example.quickcash.UserManegement.SignUpActivity;
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
+
 @RunWith(AndroidJUnit4.class)
+
+/**
+ * this class is resposinble for testing all the signup expresso tests
+ * */
 public class SignUpExpressoTest {
 
     @Rule
@@ -44,14 +49,18 @@ public class SignUpExpressoTest {
     public static void setup() {
         Intents.init();
     }
-
+    /**
+     *  this test check if it is the correct avtivity or not
+     *  */
     @Test
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         assertEquals("com.example.quickcash", appContext.getPackageName());
     }
-
+    /**
+     *this test check if Registration Page is visible
+     *  */
     @Test
     public void checkIfRegistrationPageIsVisible() {
         onView(withId(R.id.txtFirstName)).check(matches(withText("")));
@@ -61,7 +70,9 @@ public class SignUpExpressoTest {
         onView(withId(R.id.txtLastName)).check(matches(withText("")));
         onView(withId(R.id.txtPhone)).check(matches(withText("")));
     }
-
+    /**
+     * this test check if  first name is empty
+     *  */
     @Test
     public void checkIfFirstNameIsEmpty() {
         onView(withId(R.id.txtFirstName)).perform(typeText("")).perform(closeSoftKeyboard());
@@ -74,7 +85,9 @@ public class SignUpExpressoTest {
         onView(withId(R.id.statusLabel)).check(matches(withText("Please Enter Your First Name")));
     }
 
-
+    /**
+     *this test check if  last name is empty
+     *  */
     @Test
     public void checkIfLastNameIsEmpty() {
         onView(withId(R.id.txtFirstName)).perform(typeText("Meet")).perform(closeSoftKeyboard());
@@ -86,7 +99,9 @@ public class SignUpExpressoTest {
         onView(withId(R.id.btnRegister)).perform(click()).perform(closeSoftKeyboard());
         onView(withId(R.id.statusLabel)).check(matches(withText("Please Enter Your Last Name")));
     }
-
+    /**
+     *this test check if  email is empty
+     *  */
     @Test
     public void checkIfEmailIsEmpty() {
         onView(withId(R.id.txtFirstName)).perform(typeText("Meet")).perform(closeSoftKeyboard());
@@ -98,7 +113,9 @@ public class SignUpExpressoTest {
         onView(withId(R.id.btnRegister)).perform(click()).perform(closeSoftKeyboard());
         onView(withId(R.id.statusLabel)).check(matches(withText("Please Enter your email address")));
     }
-
+    /**
+     *this test check if  phone number is empty
+     *  */
     @Test
     public void checkIfPhoneNumberIsEmpty() {
         onView(withId(R.id.txtFirstName)).perform(typeText("Meet")).perform(closeSoftKeyboard());
@@ -110,7 +127,9 @@ public class SignUpExpressoTest {
         onView(withId(R.id.btnRegister)).perform(click()).perform(closeSoftKeyboard());
         onView(withId(R.id.statusLabel)).check(matches(withText("Please enter your phone number")));
     }
-
+    /**
+     * this test check if  password is empty
+     *  */
     @Test
     public void checkIfPasswordIsEmpty() {
         onView(withId(R.id.txtFirstName)).perform(typeText("Meet")).perform(closeSoftKeyboard());
@@ -122,7 +141,9 @@ public class SignUpExpressoTest {
         onView(withId(R.id.btnRegister)).perform(click()).perform(closeSoftKeyboard());
         onView(withId(R.id.statusLabel)).check(matches(withText("Please Enter your password")));
     }
-
+    /**
+     * this test check if  confirm password is empty
+     *  */
     @Test
     public void checkIfConfirmPasswordIsEmpty() {
         onView(withId(R.id.txtFirstName)).perform(typeText("Meet")).perform(closeSoftKeyboard());
@@ -134,7 +155,9 @@ public class SignUpExpressoTest {
         onView(withId(R.id.btnRegister)).perform(click()).perform(closeSoftKeyboard());
         onView(withId(R.id.statusLabel)).check(matches(withText("Please Enter to confirm your password")));
     }
-
+    /**
+     * this test check if  RadioButton is selected
+     *  */
     @Test
     public void checkIfRadioButtonIsSelected() {
         onView(withId(R.id.txtFirstName)).perform(typeText("Meet")).perform(closeSoftKeyboard());
@@ -146,7 +169,9 @@ public class SignUpExpressoTest {
         onView(withId(R.id.btnRegister)).perform(click()).perform(closeSoftKeyboard());
         onView(withId(R.id.statusLabel)).check(matches(withText("Please Select one of the two given options")));
     }
-
+    /**
+     *  this test check if password is valid
+     *  */
     @Test
     public void checkIfPasswordIsValid() {
 
@@ -161,7 +186,9 @@ public class SignUpExpressoTest {
         onView(withId(R.id.statusLabel)).check(matches(withText("Please Enter valid Password")));
     }
 
-
+    /**
+     *  this test check if passwords(password and confirm) are matching
+     *  */
     @Test
     public void checkIfPasswordIsMatching() {
         onView(withId(R.id.txtFirstName)).perform(typeText("Raham")).perform(closeSoftKeyboard());
@@ -173,7 +200,9 @@ public class SignUpExpressoTest {
         onView(withId(R.id.btnRegister)).perform(click()).perform(closeSoftKeyboard());
         onView(withId(R.id.statusLabel)).check(matches(withText("Passwords don't match. Please Enter again")));
     }
-
+    /**
+     *  this test check if phone number is valid
+     *  */
     @Test
     public void checkIfPhoneNumberIsValid() {
         onView(withId(R.id.txtFirstName)).perform(typeText("Meet")).perform(closeSoftKeyboard());
@@ -187,7 +216,9 @@ public class SignUpExpressoTest {
     }
 
 
-
+    /**
+     *  this test check if the login button moves to login page
+     *  */
     @Test
     public void moveToLogin(){
         onView(withId(R.id.buttonLogin)).perform(closeSoftKeyboard()).perform(click());
