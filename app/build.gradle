@@ -40,5 +40,12 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation 'com.google.firebase:firebase-database:20.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-intents:3.0.2'
+    androidTestImplementation 'androidx.test:runner:1.4.0'
+    androidTestImplementation 'androidx.test:rules:1.4.0'
+    implementation 'androidx.test.espresso:espresso-intents:3.4.0'
 }
+
 apply plugin: 'com.google.gms.google-services'
+
+
+
