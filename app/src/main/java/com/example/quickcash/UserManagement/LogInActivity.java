@@ -99,6 +99,10 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
             if (userWithGivenEmail == null) {
                 setStatusMessage("Invalid Email or Password.");
             } else {
+                // Creates login session
+                SessionManager sessionManager = new SessionManager(this);
+                sessionManager.createLoginSession(email, password);
+
                 switchToHomePage(userWithGivenEmail.getIsEmployee().equals("y"));
             }
 
@@ -190,6 +194,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         } else {
             homePageIntent = new Intent(this, EmployerHomeActivity.class);
         }
+
         startActivity(homePageIntent);
     }
 
