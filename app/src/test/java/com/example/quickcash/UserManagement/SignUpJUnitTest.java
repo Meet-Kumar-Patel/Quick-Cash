@@ -1,4 +1,4 @@
-package com.example.quickcash;
+package com.example.quickcash.UserManagement;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;

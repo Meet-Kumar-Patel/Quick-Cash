@@ -1,4 +1,4 @@
-package com.example.quickcash;
+package com.example.quickcash.UserManagement;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
@@ -12,6 +12,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import android.content.Context;
 import static androidx.test.espresso.action.ViewActions.click;
 
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -25,6 +26,7 @@ import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
 
+import com.example.quickcash.R;
 import com.example.quickcash.UserManagement.LogInActivity;
 import com.example.quickcash.UserManagement.SignUpActivity;
 
@@ -62,7 +64,7 @@ public class SignUpExpressoTest {
      *  */
     @Test
     public void checkIfRegistrationPageIsVisible() {
-        onView(withId(R.id.txtFirstName)).check(matches(withText("")));
+        onView(ViewMatchers.withId(R.id.txtFirstName)).check(matches(withText("")));
         onView(withId(R.id.txtLastName)).check(matches(withText("")));
         onView(withId(R.id.txtEmail)).check(matches(withText("")));
         onView(withId(R.id.txtUserEnteredPassword)).check(matches(withText("")));

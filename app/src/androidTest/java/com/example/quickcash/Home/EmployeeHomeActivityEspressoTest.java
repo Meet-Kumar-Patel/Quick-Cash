@@ -33,8 +33,8 @@ public class EmployeeHomeActivityEspressoTest {
     }
     @Test
     public void checkIfPageCreated() {
-        onView(withId(R.id.etEmail)).perform(typeText("email@test.com")).perform(closeSoftKeyboard());
-        onView(withId(R.id.etPassword)).perform((typeText("12345"))).perform(closeSoftKeyboard());
+        onView(withId(R.id.etEmail)).perform(typeText("lg@dal.ca")).perform(closeSoftKeyboard());
+        onView(withId(R.id.etPassword)).perform((typeText("Meet@2001x"))).perform(closeSoftKeyboard());
         onView(withId(R.id.btnLogin)).perform(click());
         onView(withId(R.id.etEmployeeMessage)).check(matches(withText("Welcome to Employee Home")));
     }
