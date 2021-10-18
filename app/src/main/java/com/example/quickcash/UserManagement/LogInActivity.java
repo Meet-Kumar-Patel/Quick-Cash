@@ -36,6 +36,15 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
 
         Button btnLogin = findViewById(R.id.btnLogin);
+        Button btnSignUp = findViewById(R.id.btnSignUp);
+        btnSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent signUpPageIntent = new Intent(LogInActivity.this, SignUpActivity.class);
+                startActivity(signUpPageIntent);
+            }
+        });
+
         btnLogin.setOnClickListener(this);
         initializeFirebase();
     }
