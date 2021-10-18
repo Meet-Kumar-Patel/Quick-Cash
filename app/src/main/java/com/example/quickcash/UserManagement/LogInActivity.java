@@ -2,15 +2,13 @@ package com.example.quickcash.UserManagement;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quickcash.Home.EmployeeHomeActivity;
 import com.example.quickcash.Home.EmployerHomeActivity;
@@ -28,13 +26,13 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
     /**
      * Initialized the login page on load.
+     *
      * @param savedInstanceState
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         Button btnLogin = findViewById(R.id.btnLogin);
         Button btnSignUp = findViewById(R.id.btnSignUp);
         btnSignUp.setOnClickListener(new View.OnClickListener() {
@@ -56,12 +54,12 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     /**
      * The method returns the data snapshot from firebase and it calls the method responsible for
      * checking the credentials.
-     * @param email - Email provided by the user.
+     *
+     * @param email    - Email provided by the user.
      * @param password - Password provided by the user.
      */
     private void retrieveDataFromFirebase(String email, String password) {
         DatabaseReference userReference = FirebaseDatabase.getInstance().getReference(User.class.getSimpleName());
-
         userReference.addValueEventListener(new ValueEventListener() {
 
             @Override
@@ -91,11 +89,10 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
      * If the user email or password do not match the user is informed that "Invalid Email or Password."
      *
      * @param dataSnapshot - data from firebase
-     * @param email - email given by the user
-     * @param password - password given by the user
+     * @param email        - email given by the user
+     * @param password     - password given by the user
      */
     private void verifyUserCredentials(DataSnapshot dataSnapshot, String email, String password) throws Exception {
-
         User userWithGivenEmail = null;
 
         if (dataSnapshot == null) {
@@ -103,7 +100,6 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         } else {
             // Find user with the given email and password.
             userWithGivenEmail = getUserFromDataSnapshot(dataSnapshot, email, password);
-
             // If the user if found => switch to the proper homepage.
             if (userWithGivenEmail == null) {
                 setStatusMessage("Invalid Email or Password.");
@@ -111,7 +107,6 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                 // Creates login session
                 SessionManager sessionManager = new SessionManager(this);
                 sessionManager.createLoginSession(email, password);
-
                 switchToHomePage(userWithGivenEmail.getIsEmployee().equals("y"));
             }
 
@@ -121,13 +116,13 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
     /**
      * Gets the email and password and calls other methods to ensure their validity.
+     *
      * @param loginPage - login page view.
      */
     @Override
     public void onClick(View loginPage) {
         String email = getEmail();
         String password = getPassword();
-
         if (isEmailEmpty(email)) {
             setStatusMessage("Empty Email.");
         } else if (isPasswordEmpty(password)) {
@@ -140,6 +135,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         }
 
     }
+
     private void setStatusMessage(String statusMessage) {
         TextView etError = findViewById(R.id.etError);
         etError.setText(statusMessage);
@@ -149,8 +145,8 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
      * Returns the user with given email.
      *
      * @param dataSnapshot - is the data received from Firebase
-     * @param email - is the email of the user
-     * @param password - password of the user.
+     * @param email        - is the email of the user
+     * @param password     - password of the user.
      * @return user with the given email, if not user is not found => null.
      */
     protected User getUserFromDataSnapshot(DataSnapshot dataSnapshot, String email, String password) throws Exception {
@@ -171,23 +167,19 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
     /**
      * This method is responsible for decrypting the encrypted password string
+     *
      * @param encrypted the encrypted password string
      * @return returns decrypted password string
      * @throws Exception To check for NullPointerException
      */
     public String decrypt(String encrypted) throws Exception {
-
         String decrypted = "";
-
         try {
-
             // decrypts the encrypted user password
             decrypted = AESUtils.decrypt(encrypted);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return decrypted;
     }
 
@@ -203,10 +195,8 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         } else {
             homePageIntent = new Intent(this, EmployerHomeActivity.class);
         }
-
         startActivity(homePageIntent);
     }
-
 
     protected String getEmail() {
         EditText etEmail = findViewById(R.id.etEmail);

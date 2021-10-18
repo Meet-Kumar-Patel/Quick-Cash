@@ -1,6 +1,5 @@
 package com.example.quickcash.Home;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,13 +15,8 @@ public class EmployeeHomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_home);
-
-
         SessionManager sessionManager = new SessionManager(getApplicationContext());
         sessionManager.checkLogin();
-
-        Intent gotIntent = getIntent();
-
         Button btnLogOut = findViewById(R.id.btnLogOutEmployee);
         btnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override

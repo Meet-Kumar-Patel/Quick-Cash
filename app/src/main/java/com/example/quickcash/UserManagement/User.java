@@ -1,4 +1,5 @@
 package com.example.quickcash.UserManagement;
+
 public class User {
 
     // Initialize Variables
@@ -21,16 +22,7 @@ public class User {
         this.isEmployee = isEmployee;
     }
 
-    public User() {}
-
-    public User(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = "email@test.com";
-        this.phone = "9024423524";
-        this.password = "12345";
-        this.confirmPassword = "12345";
-        this.isEmployee = "y";
+    public User() {
     }
 
     // Getters/Setters

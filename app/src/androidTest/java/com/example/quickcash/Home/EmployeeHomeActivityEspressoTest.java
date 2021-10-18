@@ -5,8 +5,6 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.intent.Intents.intended;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
@@ -15,7 +13,6 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.quickcash.R;
-import com.example.quickcash.UserManagement.LogInActivity;
 
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -31,12 +28,9 @@ public class EmployeeHomeActivityEspressoTest {
     public static void setup() {
         Intents.init();
     }
+
     @Test
     public void checkIfPageCreated() {
-        onView(withId(R.id.etEmail)).perform(typeText("lg@dal.ca")).perform(closeSoftKeyboard());
-        onView(withId(R.id.etPassword)).perform((typeText("Meet@2001x"))).perform(closeSoftKeyboard());
-        onView(withId(R.id.btnLogin)).perform(click());
         onView(withId(R.id.etEmployeeMessage)).check(matches(withText("Welcome to Employee Home")));
     }
-
 }
