@@ -604,18 +604,18 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     /**
      * This method is responsible for decrypting the encrypted password string
-     * @param encrpted the encrypted password string
+     * @param encrypted the encrypted password string
      * @return returns decrypted password string
      * @throws Exception To check for NullPointerException
      */
-    public String decrypt(String encrpted) throws Exception {
+    public String decrypt(String encrypted) throws Exception {
 
         String decrypted = "";
 
         try {
 
             // decrypts the encrypted user password
-            decrypted = AESUtils.decrypt(encrpted);
+            decrypted = AESUtils.decrypt(encrypted);
 
         } catch (Exception e) {
             e.printStackTrace();

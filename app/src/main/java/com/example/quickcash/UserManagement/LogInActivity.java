@@ -60,7 +60,11 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                 // When the data is received, verify the user credential
                 if (dataSnapshot.exists()) {
 
-                    verifyUserCredentials(dataSnapshot, email, password);
+                    try {
+                        verifyUserCredentials(dataSnapshot, email, password);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -81,7 +85,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
      * @param email - email given by the user
      * @param password - password given by the user
      */
-    private void verifyUserCredentials(DataSnapshot dataSnapshot, String email, String password) {
+    private void verifyUserCredentials(DataSnapshot dataSnapshot, String email, String password) throws Exception {
 
         User userWithGivenEmail = null;
 
@@ -136,16 +140,42 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
      * @param password - password of the user.
      * @return user with the given email, if not user is not found => null.
      */
-    protected User getUserFromDataSnapshot(DataSnapshot dataSnapshot, String email, String password) {
+    protected User getUserFromDataSnapshot(DataSnapshot dataSnapshot, String email, String password) throws Exception {
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
             User user = snapshot.getValue(User.class);
             boolean emailMatches = user.getEmail().equals(email);
-            boolean passwordMatches = user.getPassword().equals(password);
+            boolean passwordMatches = decrypt(user.getPassword()).equals(password);
             if (emailMatches && passwordMatches) {
                 return user;
             }
         }
         return null;
+    }
+
+    // Reference: https://wajahatkarim.com/2018/08/encrypt-/-decrypt-strings-in-android/
+    // The below given method was taken from the above mentioned url
+    // Date accessed: 17 October,2021
+
+    /**
+     * This method is responsible for decrypting the encrypted password string
+     * @param encrypted the encrypted password string
+     * @return returns decrypted password string
+     * @throws Exception To check for NullPointerException
+     */
+    public String decrypt(String encrypted) throws Exception {
+
+        String decrypted = "";
+
+        try {
+
+            // decrypts the encrypted user password
+            decrypted = AESUtils.decrypt(encrypted);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return decrypted;
     }
 
     /**
