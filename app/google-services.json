@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "949185417366",
+    "project_id": "quick-cash-registration-db",
+    "storage_bucket": "quick-cash-registration-db.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:949185417366:android:f7523b50102fdb2612f2b7",
+        "android_client_info": {
+          "package_name": "com.example.quickcash"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "949185417366-g42ovs1tpf4u5ohcp499r9f3td43caas.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZfsbOWQBh4sM84KX6QyGcY3X8dALmBdM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "949185417366-g42ovs1tpf4u5ohcp499r9f3td43caas.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
