@@ -1,6 +1,0 @@
-com/example/quickcash/ExampleUnitTest.java
- com.example.quickcash.ExampleUnitTest
-com/example/quickcash/UserManagement/LogInActivityTest.java
- com.example.quickcash.UserManagement.LogInActivityTest
-com/example/quickcash/UserManagement/LogOutActivityTest.java
- com.example.quickcash.UserManagement.LogOutActivityTest
