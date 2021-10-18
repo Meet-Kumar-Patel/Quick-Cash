@@ -25,7 +25,7 @@ import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
 
-import com.example.quickcash.UserManagement.LoginActivity;
+import com.example.quickcash.UserManagement.LogInActivity;
 import com.example.quickcash.UserManagement.SignUpActivity;
 
 /**
@@ -221,7 +221,7 @@ public class SignUpExpressoTest {
     @Test
     public void moveToLogin(){
         onView(withId(R.id.buttonLogin)).perform(closeSoftKeyboard()).perform(click());
-        intended(hasComponent(LoginActivity.class.getName()));
+        intended(hasComponent(LogInActivity.class.getName()));
     }
 
     @AfterClass
