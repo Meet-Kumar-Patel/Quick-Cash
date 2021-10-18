@@ -1,0 +1,21 @@
+com/example/quickcash/MainActivity.java
+ com.example.quickcash.MainActivity
+com/example/quickcash/UserManagement/SignUpActivity.java
+ com.example.quickcash.UserManagement.SignUpActivity
+com/example/quickcash/UserManagement/DAOUser.java
+ com.example.quickcash.UserManagement.DAOUser
+com/example/quickcash/Home/EmployerHomeActivity.java
+ com.example.quickcash.Home.EmployerHomeActivity
+com/example/quickcash/BuildConfig.java
+ com.example.quickcash.BuildConfig
+com/example/quickcash/Home/EmployeeHomeActivity.java
+ com.example.quickcash.Home.EmployeeHomeActivity
+com/example/quickcash/UserManagement/User.java
+ com.example.quickcash.UserManagement.User
+com/example/quickcash/UserManagement/SessionManager.java
+ com.example.quickcash.UserManagement.SessionManager
+com/example/quickcash/UserManagement/LogOutActivity.java
+ com.example.quickcash.UserManagement.LogOutActivity
+com/example/quickcash/UserManagement/LogInActivity.java
+ com.example.quickcash.UserManagement.LogInActivity
+ com.example.quickcash.UserManagement.LogInActivity$1

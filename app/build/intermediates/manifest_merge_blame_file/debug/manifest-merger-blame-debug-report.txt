@@ -1,0 +1,187 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.quickcash"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="21"
+8-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="31" />
+9-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml
+10
+11    <!-- Although the *SdkVersion is captured in gradle build files, this is required for non gradle builds -->
+12    <!-- <uses-sdk android:minSdkVersion="14"/> -->
+13    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+13-->[com.google.firebase:firebase-database:20.0.2] C:\Users\logan\.gradle\caches\transforms-3\6d7d02a988d24e94164623b7d8c07652\transformed\jetified-firebase-database-20.0.2\AndroidManifest.xml:25:5-79
+13-->[com.google.firebase:firebase-database:20.0.2] C:\Users\logan\.gradle\caches\transforms-3\6d7d02a988d24e94164623b7d8c07652\transformed\jetified-firebase-database-20.0.2\AndroidManifest.xml:25:22-76
+14    <uses-permission android:name="android.permission.INTERNET" />
+14-->[com.google.firebase:firebase-database:20.0.2] C:\Users\logan\.gradle\caches\transforms-3\6d7d02a988d24e94164623b7d8c07652\transformed\jetified-firebase-database-20.0.2\AndroidManifest.xml:26:5-67
+14-->[com.google.firebase:firebase-database:20.0.2] C:\Users\logan\.gradle\caches\transforms-3\6d7d02a988d24e94164623b7d8c07652\transformed\jetified-firebase-database-20.0.2\AndroidManifest.xml:26:22-64
+15    <uses-permission android:name="android.permission.REORDER_TASKS" />
+15-->[androidx.test:core:1.4.0] C:\Users\logan\.gradle\caches\transforms-3\1c6b89231c82a7ed12f1abb43bd9c426\transformed\jetified-core-1.4.0\AndroidManifest.xml:24:5-72
+15-->[androidx.test:core:1.4.0] C:\Users\logan\.gradle\caches\transforms-3\1c6b89231c82a7ed12f1abb43bd9c426\transformed\jetified-core-1.4.0\AndroidManifest.xml:24:22-69
+16
+17    <queries>
+17-->[androidx.test:runner:1.4.0] C:\Users\logan\.gradle\caches\transforms-3\cfd140c60481689a4297ec3eda396342\transformed\runner-1.4.0\AndroidManifest.xml:24:5-28:15
+18        <package android:name="androidx.test.orchestrator" />
+18-->[androidx.test:runner:1.4.0] C:\Users\logan\.gradle\caches\transforms-3\cfd140c60481689a4297ec3eda396342\transformed\runner-1.4.0\AndroidManifest.xml:25:9-62
+18-->[androidx.test:runner:1.4.0] C:\Users\logan\.gradle\caches\transforms-3\cfd140c60481689a4297ec3eda396342\transformed\runner-1.4.0\AndroidManifest.xml:25:18-59
+19        <package android:name="androidx.test.services" />
+19-->[androidx.test:runner:1.4.0] C:\Users\logan\.gradle\caches\transforms-3\cfd140c60481689a4297ec3eda396342\transformed\runner-1.4.0\AndroidManifest.xml:26:9-58
+19-->[androidx.test:runner:1.4.0] C:\Users\logan\.gradle\caches\transforms-3\cfd140c60481689a4297ec3eda396342\transformed\runner-1.4.0\AndroidManifest.xml:26:18-55
+20        <package android:name="com.google.android.apps.common.testing.services" />
+20-->[androidx.test:runner:1.4.0] C:\Users\logan\.gradle\caches\transforms-3\cfd140c60481689a4297ec3eda396342\transformed\runner-1.4.0\AndroidManifest.xml:27:9-83
+20-->[androidx.test:runner:1.4.0] C:\Users\logan\.gradle\caches\transforms-3\cfd140c60481689a4297ec3eda396342\transformed\runner-1.4.0\AndroidManifest.xml:27:18-80
+21    </queries>
+22
+23    <application
+23-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:5:5-30:19
+24        android:allowBackup="true"
+24-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:6:9-35
+25        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+25-->[androidx.core:core:1.5.0] C:\Users\logan\.gradle\caches\transforms-3\95e3a1f54439c1a7fe4f2a32a2dd3362\transformed\core-1.5.0\AndroidManifest.xml:24:18-86
+26        android:debuggable="true"
+27        android:icon="@mipmap/ic_launcher"
+27-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:7:9-43
+28        android:label="@string/app_name"
+28-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:8:9-41
+29        android:roundIcon="@mipmap/ic_launcher_round"
+29-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:9:9-54
+30        android:supportsRtl="true"
+30-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:10:9-35
+31        android:testOnly="true"
+32        android:theme="@style/Theme.QuickCash" >
+32-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:11:9-47
+33        <activity android:name="com.example.quickcash.UserManagement.LoginActivity" />
+33-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:12:9-75
+33-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:12:19-63
+34        <activity android:name="com.example.quickcash.UserManagement.SignUpActivity" />
+34-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:13:9-76
+34-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:13:19-64
+35        <activity
+35-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:14:9-23:20
+36            android:name="com.example.quickcash.WelcomePage"
+36-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:15:13-40
+37            android:exported="true" >
+37-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:17:13-36
+38            <intent-filter>
+38-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:18:13-22:29
+39                <action android:name="android.intent.action.MAIN" />
+39-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:19:17-69
+39-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:19:25-66
+40
+41                <category android:name="android.intent.category.LAUNCHER" />
+41-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:21:17-77
+41-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:21:27-74
+42            </intent-filter>
+43        </activity>
+44        <activity
+44-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:24:9-26:48
+45            android:name="com.example.quickcash.MainActivity"
+45-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:25:13-41
+46            android:exported="true" />
+46-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:26:13-36
+47        <activity android:name="com.example.quickcash.UserManagement.LogInActivity" />
+47-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:27:9-75
+47-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:27:19-63
+48        <activity android:name="com.example.quickcash.Home.EmployeeHomeActivity" />
+48-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:28:9-72
+48-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:28:19-60
+49        <activity android:name="com.example.quickcash.Home.EmployerHomeActivity" />
+49-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:29:9-72
+49-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:29:19-60
+50
+51        <service
+51-->[com.google.firebase:firebase-database:20.0.2] C:\Users\logan\.gradle\caches\transforms-3\6d7d02a988d24e94164623b7d8c07652\transformed\jetified-firebase-database-20.0.2\AndroidManifest.xml:29:9-35:19
+52            android:name="com.google.firebase.components.ComponentDiscoveryService"
+52-->[com.google.firebase:firebase-database:20.0.2] C:\Users\logan\.gradle\caches\transforms-3\6d7d02a988d24e94164623b7d8c07652\transformed\jetified-firebase-database-20.0.2\AndroidManifest.xml:30:13-84
+53            android:directBootAware="true"
+53-->[com.google.firebase:firebase-common:20.0.0] C:\Users\logan\.gradle\caches\transforms-3\68fa7a1f7feb4f6a0340325e528d66b9\transformed\jetified-firebase-common-20.0.0\AndroidManifest.xml:35:13-43
+54            android:exported="false" >
+54-->[com.google.firebase:firebase-database:20.0.2] C:\Users\logan\.gradle\caches\transforms-3\6d7d02a988d24e94164623b7d8c07652\transformed\jetified-firebase-database-20.0.2\AndroidManifest.xml:31:13-37
+55            <meta-data
+55-->[com.google.firebase:firebase-database:20.0.2] C:\Users\logan\.gradle\caches\transforms-3\6d7d02a988d24e94164623b7d8c07652\transformed\jetified-firebase-database-20.0.2\AndroidManifest.xml:32:13-34:85
+56                android:name="com.google.firebase.components:com.google.firebase.database.DatabaseRegistrar"
+56-->[com.google.firebase:firebase-database:20.0.2] C:\Users\logan\.gradle\caches\transforms-3\6d7d02a988d24e94164623b7d8c07652\transformed\jetified-firebase-database-20.0.2\AndroidManifest.xml:33:17-109
+57                android:value="com.google.firebase.components.ComponentRegistrar" />
+57-->[com.google.firebase:firebase-database:20.0.2] C:\Users\logan\.gradle\caches\transforms-3\6d7d02a988d24e94164623b7d8c07652\transformed\jetified-firebase-database-20.0.2\AndroidManifest.xml:34:17-82
+58        </service>
+59
+60        <provider
+60-->[com.google.firebase:firebase-common:20.0.0] C:\Users\logan\.gradle\caches\transforms-3\68fa7a1f7feb4f6a0340325e528d66b9\transformed\jetified-firebase-common-20.0.0\AndroidManifest.xml:26:9-31:39
+61            android:name="com.google.firebase.provider.FirebaseInitProvider"
+61-->[com.google.firebase:firebase-common:20.0.0] C:\Users\logan\.gradle\caches\transforms-3\68fa7a1f7feb4f6a0340325e528d66b9\transformed\jetified-firebase-common-20.0.0\AndroidManifest.xml:27:13-77
+62            android:authorities="com.example.quickcash.firebaseinitprovider"
+62-->[com.google.firebase:firebase-common:20.0.0] C:\Users\logan\.gradle\caches\transforms-3\68fa7a1f7feb4f6a0340325e528d66b9\transformed\jetified-firebase-common-20.0.0\AndroidManifest.xml:28:13-72
+63            android:directBootAware="true"
+63-->[com.google.firebase:firebase-common:20.0.0] C:\Users\logan\.gradle\caches\transforms-3\68fa7a1f7feb4f6a0340325e528d66b9\transformed\jetified-firebase-common-20.0.0\AndroidManifest.xml:29:13-43
+64            android:exported="false"
+64-->[com.google.firebase:firebase-common:20.0.0] C:\Users\logan\.gradle\caches\transforms-3\68fa7a1f7feb4f6a0340325e528d66b9\transformed\jetified-firebase-common-20.0.0\AndroidManifest.xml:30:13-37
+65            android:initOrder="100" />
+65-->[com.google.firebase:firebase-common:20.0.0] C:\Users\logan\.gradle\caches\transforms-3\68fa7a1f7feb4f6a0340325e528d66b9\transformed\jetified-firebase-common-20.0.0\AndroidManifest.xml:31:13-36
+66
+67        <activity
+67-->[com.google.android.gms:play-services-base:17.1.0] C:\Users\logan\.gradle\caches\transforms-3\3eca6d043a2c1be4211733092724b743\transformed\jetified-play-services-base-17.1.0\AndroidManifest.xml:23:9-26:75
+68            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+68-->[com.google.android.gms:play-services-base:17.1.0] C:\Users\logan\.gradle\caches\transforms-3\3eca6d043a2c1be4211733092724b743\transformed\jetified-play-services-base-17.1.0\AndroidManifest.xml:24:13-79
+69            android:exported="false"
+69-->[com.google.android.gms:play-services-base:17.1.0] C:\Users\logan\.gradle\caches\transforms-3\3eca6d043a2c1be4211733092724b743\transformed\jetified-play-services-base-17.1.0\AndroidManifest.xml:25:13-37
+70            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+70-->[com.google.android.gms:play-services-base:17.1.0] C:\Users\logan\.gradle\caches\transforms-3\3eca6d043a2c1be4211733092724b743\transformed\jetified-play-services-base-17.1.0\AndroidManifest.xml:26:13-72
+71
+72        <meta-data
+72-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\logan\.gradle\caches\transforms-3\2b77ce5e4027008316a3bb5e1e268f6e\transformed\jetified-play-services-basement-17.0.0\AndroidManifest.xml:23:9-25:69
+73            android:name="com.google.android.gms.version"
+73-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\logan\.gradle\caches\transforms-3\2b77ce5e4027008316a3bb5e1e268f6e\transformed\jetified-play-services-basement-17.0.0\AndroidManifest.xml:24:13-58
+74            android:value="@integer/google_play_services_version" />
+74-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\logan\.gradle\caches\transforms-3\2b77ce5e4027008316a3bb5e1e268f6e\transformed\jetified-play-services-basement-17.0.0\AndroidManifest.xml:25:13-66
+75
+76        <activity
+76-->[androidx.test:core:1.4.0] C:\Users\logan\.gradle\caches\transforms-3\1c6b89231c82a7ed12f1abb43bd9c426\transformed\jetified-core-1.4.0\AndroidManifest.xml:27:9-34:20
+77            android:name="androidx.test.core.app.InstrumentationActivityInvoker$BootstrapActivity"
+77-->[androidx.test:core:1.4.0] C:\Users\logan\.gradle\caches\transforms-3\1c6b89231c82a7ed12f1abb43bd9c426\transformed\jetified-core-1.4.0\AndroidManifest.xml:28:13-99
+78            android:exported="true"
+78-->[androidx.test:core:1.4.0] C:\Users\logan\.gradle\caches\transforms-3\1c6b89231c82a7ed12f1abb43bd9c426\transformed\jetified-core-1.4.0\AndroidManifest.xml:29:13-36
+79            android:theme="@android:style/Theme" >
+79-->[androidx.test:core:1.4.0] C:\Users\logan\.gradle\caches\transforms-3\1c6b89231c82a7ed12f1abb43bd9c426\transformed\jetified-core-1.4.0\AndroidManifest.xml:30:13-49
+80            <intent-filter>
+80-->[androidx.test:core:1.4.0] C:\Users\logan\.gradle\caches\transforms-3\1c6b89231c82a7ed12f1abb43bd9c426\transformed\jetified-core-1.4.0\AndroidManifest.xml:31:13-33:29
+81                <action android:name="android.intent.action.MAIN" />
+81-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:19:17-69
+81-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:19:25-66
+82            </intent-filter>
+83        </activity>
+84        <activity
+84-->[androidx.test:core:1.4.0] C:\Users\logan\.gradle\caches\transforms-3\1c6b89231c82a7ed12f1abb43bd9c426\transformed\jetified-core-1.4.0\AndroidManifest.xml:35:9-42:20
+85            android:name="androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity"
+85-->[androidx.test:core:1.4.0] C:\Users\logan\.gradle\caches\transforms-3\1c6b89231c82a7ed12f1abb43bd9c426\transformed\jetified-core-1.4.0\AndroidManifest.xml:36:13-95
+86            android:exported="true"
+86-->[androidx.test:core:1.4.0] C:\Users\logan\.gradle\caches\transforms-3\1c6b89231c82a7ed12f1abb43bd9c426\transformed\jetified-core-1.4.0\AndroidManifest.xml:37:13-36
+87            android:theme="@android:style/Theme" >
+87-->[androidx.test:core:1.4.0] C:\Users\logan\.gradle\caches\transforms-3\1c6b89231c82a7ed12f1abb43bd9c426\transformed\jetified-core-1.4.0\AndroidManifest.xml:38:13-49
+88            <intent-filter>
+88-->[androidx.test:core:1.4.0] C:\Users\logan\.gradle\caches\transforms-3\1c6b89231c82a7ed12f1abb43bd9c426\transformed\jetified-core-1.4.0\AndroidManifest.xml:31:13-33:29
+89                <action android:name="android.intent.action.MAIN" />
+89-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:19:17-69
+89-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:19:25-66
+90            </intent-filter>
+91        </activity>
+92        <activity
+92-->[androidx.test:core:1.4.0] C:\Users\logan\.gradle\caches\transforms-3\1c6b89231c82a7ed12f1abb43bd9c426\transformed\jetified-core-1.4.0\AndroidManifest.xml:43:9-50:20
+93            android:name="androidx.test.core.app.InstrumentationActivityInvoker$EmptyFloatingActivity"
+93-->[androidx.test:core:1.4.0] C:\Users\logan\.gradle\caches\transforms-3\1c6b89231c82a7ed12f1abb43bd9c426\transformed\jetified-core-1.4.0\AndroidManifest.xml:44:13-103
+94            android:exported="true"
+94-->[androidx.test:core:1.4.0] C:\Users\logan\.gradle\caches\transforms-3\1c6b89231c82a7ed12f1abb43bd9c426\transformed\jetified-core-1.4.0\AndroidManifest.xml:45:13-36
+95            android:theme="@android:style/Theme.Dialog" >
+95-->[androidx.test:core:1.4.0] C:\Users\logan\.gradle\caches\transforms-3\1c6b89231c82a7ed12f1abb43bd9c426\transformed\jetified-core-1.4.0\AndroidManifest.xml:46:13-56
+96            <intent-filter>
+96-->[androidx.test:core:1.4.0] C:\Users\logan\.gradle\caches\transforms-3\1c6b89231c82a7ed12f1abb43bd9c426\transformed\jetified-core-1.4.0\AndroidManifest.xml:31:13-33:29
+97                <action android:name="android.intent.action.MAIN" />
+97-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:19:17-69
+97-->D:\Schoolwork\Current\CSCI3130\00_QuickCash\csci3130_quickcash_group9\app\src\main\AndroidManifest.xml:19:25-66
+98            </intent-filter>
+99        </activity>
+100    </application>
+101
+102</manifest>
