@@ -23,6 +23,6 @@
         <activity android:name=".UserManagement.LogInActivity"></activity>
         <activity android:name=".Home.EmployeeHomeActivity"></activity>
         <activity android:name=".Home.EmployerHomeActivity"></activity>
-        <activity android:name=".JobPosting.TaskDetails"></activity>
+        <activity android:name=".JobPosting.JobPostingDetailsActivity"></activity>
     </application>
 </manifest>
