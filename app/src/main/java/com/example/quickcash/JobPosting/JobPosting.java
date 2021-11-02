@@ -1,6 +1,5 @@
 package com.example.quickcash.JobPosting;
 import java.util.UUID;
-import java.util.UUID.*;
 import java.util.ArrayList;
 
 
@@ -9,24 +8,29 @@ public class JobPosting {
     // Variables
     private String jobPostingId;
     private String jobTitle;
+    private int jobType;
     private int duration;
     private String location;
     private double wage;
-    private int createdById;
-    private boolean isTaskComplete;
-    private ArrayList lstAppliedByIds;
-    private int acceptedId;
+    private String createdBy;
 
-    public JobPosting(String jobTitle, int duration, String location, double wage, int createdById, boolean isTaskComplete, ArrayList lstAppliedByIds, int acceptedId) {
+
+
+    private boolean isTaskComplete;
+    private ArrayList<String> lstAppliedBy;
+    private String accepted;
+
+    public JobPosting(String jobTitle, int type, int duration, String location, double wage, String createdBy) {
         this.jobPostingId = UUID.randomUUID().toString();
         this.jobTitle = jobTitle;
+        this.jobType = type;
         this.duration = duration;
         this.location = location;
         this.wage = wage;
-        this.createdById = createdById;
-        this.isTaskComplete = isTaskComplete;
-        this.lstAppliedByIds = lstAppliedByIds;
-        this.acceptedId = acceptedId;
+        this.createdBy = createdBy;
+        this.isTaskComplete = false;
+        this.lstAppliedBy = new ArrayList();
+        accepted = null;
     }
 
     public String getJobPostingId() {
@@ -70,12 +74,12 @@ public class JobPosting {
         this.wage = wage;
     }
 
-    public int getCreatedById() {
-        return createdById;
+    public String getCreatedBy() {
+        return createdBy;
     }
 
-    public void setCreatedById(int createdById) {
-        this.createdById = createdById;
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 
     public boolean isTaskComplete() {
@@ -86,19 +90,28 @@ public class JobPosting {
         isTaskComplete = taskComplete;
     }
 
-    public ArrayList getLstAppliedByIds() {
-        return lstAppliedByIds;
+    public ArrayList getLstAppliedBy() {
+        return lstAppliedBy;
     }
 
-    public void setLstAppliedByIds(ArrayList lstAppliedByIds) {
-        this.lstAppliedByIds = lstAppliedByIds;
+    public void setLstAppliedBy(ArrayList<String> lstAppliedBy) {
+        this.lstAppliedBy = lstAppliedBy;
     }
 
-    public int getAcceptedId() {
-        return acceptedId;
+    public String getAccepted() {
+        return accepted;
     }
 
-    public void setAcceptedId(int acceptedId) {
-        this.acceptedId = acceptedId;
+    public void setAccepted(String accepted) {
+        this.accepted = accepted;
     }
+
+    public int getJobType() {
+        return jobType;
+    }
+
+    public void setJobType(int jobType) {
+        this.jobType = jobType;
+    }
+
 }

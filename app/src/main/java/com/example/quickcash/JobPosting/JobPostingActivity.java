@@ -8,23 +8,21 @@ import com.example.quickcash.R;
 
 import java.util.ArrayList;
 
-public class JobPostingDetailsActivity extends AppCompatActivity {
+
+public class JobPostingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_job_posting_details);
+        setContentView(R.layout.activity_job_posting);
 
         DAOJobPosting daoJobPosting = new DAOJobPosting();
-        ArrayList <String> lstIds = new ArrayList<>();
+        ArrayList<String> lstIds = new ArrayList<>();
         lstIds.add("employee@test.com");
         lstIds.add("employee2@test.com");
 
-        JobPosting jobPosting = new JobPosting("Repairing Asus", 0, 12,"Halifax",25.55,"employer@test.com");
-        jobPosting.setAccepted("employee@test.com");
+        JobPosting jobPosting = new JobPosting("Take care Children", 4, 2,"Dartmouth",79.55,"employer@test.com");
+        jobPosting.setAccepted("employee2@test.com");
         jobPosting.setLstAppliedBy(lstIds);
         daoJobPosting.add(jobPosting);
     }
-
-
-
 }
