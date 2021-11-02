@@ -23,6 +23,11 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         jobPosting.setAccepted("employee@test.com");
         jobPosting.setLstAppliedBy(lstIds);
         daoJobPosting.add(jobPosting);
+
+        // Job Posting Status: Apply now (Btn) (add name to lstApplied), Pending (txt), Accepted or Rejected
+        // Apply Now should change to Applied (disabled) when the user has applied or hide.
+
+
     }
 
 
