@@ -33,6 +33,9 @@ public class JobPosting {
         accepted = null;
     }
 
+    public JobPosting(){
+    }
+
     public String getJobPostingId() {
         return jobPostingId;
     }
