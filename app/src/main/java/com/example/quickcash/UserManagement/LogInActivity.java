@@ -106,7 +106,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
             } else {
                 // Creates login session
                 SessionManager sessionManager = new SessionManager(this);
-                sessionManager.createLoginSession(email, password);
+                sessionManager.createLoginSession(email, password, userWithGivenEmail.getFirstName() + " " + userWithGivenEmail.getLastName());
                 switchToHomePage(userWithGivenEmail.getIsEmployee().equals("y"));
             }
 

@@ -141,20 +141,6 @@
         app:layout_constraintTop_toBottomOf="@+id/etJPTitle"
         app:layout_constraintVertical_bias="0.035" />
 
-    <EditText
-        android:id="@+id/etJPType"
-        android:layout_width="335dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="448dp"
-        android:ems="10"
-        android:inputType="textShortMessage"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.603"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtJPType"
-        app:layout_constraintVertical_bias="0.162" />
-
     <TextView
         android:id="@+id/txtCreateJPTitle"
         android:layout_width="wrap_content"
@@ -189,5 +175,19 @@
         android:id="@+id/group2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    <Spinner
+        android:id="@+id/etJPType"
+        android:layout_width="335dp"
+        android:ems="10"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.603"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtJPType"
+        app:layout_constraintVertical_bias="0.162"
+        android:layout_marginBottom="448dp"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
