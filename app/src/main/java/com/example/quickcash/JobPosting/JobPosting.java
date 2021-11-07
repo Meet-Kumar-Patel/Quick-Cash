@@ -1,4 +1,6 @@
 package com.example.quickcash.JobPosting;
+import com.example.quickcash.UserManagement.SessionManager;
+
 import java.util.UUID;
 import java.util.ArrayList;
 
@@ -11,16 +13,15 @@ public class JobPosting {
     private int jobType;
     private int duration;
     private String location;
-    private double wage;
+    private int wage;
     private String createdBy;
-
-
-
     private boolean isTaskComplete;
     private ArrayList<String> lstAppliedBy;
     private String accepted;
 
-    public JobPosting(String jobTitle, int type, int duration, String location, double wage, String createdBy) {
+    private String createdByName;
+
+    public JobPosting(String jobTitle, int type, int duration, String location, int wage, String createdBy, String createdByName) {
         this.jobPostingId = UUID.randomUUID().toString();
         this.jobTitle = jobTitle;
         this.jobType = type;
@@ -30,8 +31,11 @@ public class JobPosting {
         this.createdBy = createdBy;
         this.isTaskComplete = false;
         this.lstAppliedBy = new ArrayList();
-        accepted = null;
+        this.accepted = "";
+        this.createdByName = createdByName;
     }
+
+    public JobPosting() {}
 
     public String getJobPostingId() {
         return jobPostingId;
@@ -66,11 +70,11 @@ public class JobPosting {
         this.location = location;
     }
 
-    public double getWage() {
+    public int getWage() {
         return wage;
     }
 
-    public void setWage(double wage) {
+    public void setWage(int wage) {
         this.wage = wage;
     }
 
@@ -112,6 +116,14 @@ public class JobPosting {
 
     public void setJobType(int jobType) {
         this.jobType = jobType;
+    }
+
+    public String getCreatedByName() {
+        return createdByName;
+    }
+
+    public void setCreatedByName(String createdByName) {
+        this.createdByName = createdByName;
     }
 
 }
