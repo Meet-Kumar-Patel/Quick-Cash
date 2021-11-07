@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
+
 public class LogInActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseDatabase db;

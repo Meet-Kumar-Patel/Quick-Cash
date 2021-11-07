@@ -107,6 +107,28 @@ public class preferencePage extends AppCompatActivity implements AdapterView.OnI
         startActivity(intent);
     }
 
+    public boolean isEmptyDuration(String duration) {
+        return duration.length() <= 0;
+    }
+
+
+    public boolean isEmptyWage(String wage) {
+        return wage.length() <= 0;
+    }
+
+
+
+
+    public boolean isDurationLessThanone(int duration) {
+        return duration < 1;
+    }
+
+
+    public boolean isWageLessThan15(int wage) {
+        return wage < 15 ;
+    }
+
+
     protected void createNewPreference() {
 
 
@@ -114,10 +136,10 @@ public class preferencePage extends AppCompatActivity implements AdapterView.OnI
         int duration = getDuration();
         int wage = getWage();
 
-        if(duration < 1) {
+        if(isDurationLessThanone(duration)) {
             setStatusMessage("Duration of a task must be greator than one day");
         }
-        else if(wage < 15) {
+        else if(isWageLessThan15(wage)) {
             setStatusMessage("Wage must be greator or equal $15.");
         }
         else {
