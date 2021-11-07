@@ -27,7 +27,9 @@ public class Preference {
     public String getPreferenceId() {
         return preferenceId;
     }
-
+    public String getemployeeName() {
+        return employeeName;
+    }
     public void setPreferenceId(String preferenceId) {
         this.preferenceId = preferenceId;
     }
