@@ -15,6 +15,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quickcash.JobPosting.JobPosting;
+import com.example.quickcash.JobPosting.JobPostingActivity;
 import com.example.quickcash.JobPosting.JobPostingDetailsActivity;
 import com.example.quickcash.R;
 
@@ -46,6 +47,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             @Override
             public void onClick(View view) {
                 Intent jobDetailIntent = new Intent(context, JobPostingDetailsActivity.class);
+                jobDetailIntent.putExtra(JobPostingActivity.EXTRA_MESSAGE, jobPosting.getJobPostingId());
                 context.startActivity(jobDetailIntent);
             }
         });

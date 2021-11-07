@@ -11,6 +11,8 @@ import com.example.quickcash.UserManagement.SessionManager;
 
 public class EmployerHomeActivity extends AppCompatActivity {
 
+    public static final String EXTRA_MESSAGE = "Location";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

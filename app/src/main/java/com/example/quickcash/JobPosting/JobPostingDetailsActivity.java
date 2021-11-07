@@ -11,14 +11,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.quickcash.Home.EmployerHomeActivity;
 import com.example.quickcash.R;
 import com.example.quickcash.UserManagement.SessionManager;
-import com.example.quickcash.UserManagement.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.junit.runner.Computer;
 
 import java.util.ArrayList;
 
@@ -52,7 +49,7 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         //Received location from map and show to the user
-        String jobID = intent.getStringExtra(JobPostingActivity.EXTRA_MESSAGE).toString();
+        String jobID = intent.getStringExtra(JobPostingActivity.EXTRA_MESSAGE);
 
         // get the JP
         retrieveDataFromFirebase(jobID);
@@ -164,11 +161,10 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         SessionManager sessionManager = new SessionManager(getApplicationContext());
         String userEmail = sessionManager.getKeyEmail();
         ArrayList arrayList = jobPostingOBJ.getLstAppliedBy();
-        if(arrayList == null) {
+        if (arrayList == null) {
             arrayList = new ArrayList();
             arrayList.add(userEmail);
-        }
-        else if(!arrayList.contains(userEmail)) {
+        } else if (!arrayList.contains(userEmail)) {
             arrayList.add(userEmail);
         }
 

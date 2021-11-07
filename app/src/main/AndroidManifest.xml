@@ -10,7 +10,7 @@
         android:theme="@style/Theme.QuickCash">
         <activity android:name=".UserManagement.SignUpActivity"></activity>
         <activity
-            android:name=".TaskList.TaskListActivity"
+            android:name=".WelcomePage"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,6 +25,6 @@
         <activity android:name=".Home.EmployerHomeActivity"></activity>
         <activity android:name=".JobPosting.JobPostingDetailsActivity"></activity>
         <activity android:name=".JobPosting.JobPostingActivity"></activity>
-<!--        <activity android:name=".TaskList.TaskListActivity"></activity>-->
+        <activity android:name=".TaskList.TaskListActivity"></activity>
     </application>
 </manifest>

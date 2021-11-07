@@ -206,7 +206,7 @@ public class JobPostingActivity extends AppCompatActivity implements AdapterView
         etError.setText(statusMessage);
     }
 
-    protected void switchToJPDetails(String  jobTypeId) {
+    protected void switchToJPDetails(String jobTypeId) {
         Intent testIntent = new Intent(this, JobPostingDetailsActivity.class);
         testIntent.putExtra(EXTRA_MESSAGE, jobTypeId);
         startActivity(testIntent);
