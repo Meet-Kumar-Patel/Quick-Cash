@@ -1,6 +1,9 @@
 package com.example.quickcash.TaskList;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quickcash.JobPosting.JobPosting;
+import com.example.quickcash.JobPosting.JobPostingDetailsActivity;
 import com.example.quickcash.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,7 +24,7 @@ import java.util.ArrayList;
 
 public class TaskListActivity extends AppCompatActivity {
 
-    ArrayList<String> titlesArrayList = new ArrayList<>();
+    ArrayList<JobPosting> jobPostingArrayList = new ArrayList<JobPosting>();
     private RecyclerView recyclerView;
     FirebaseDatabase db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
 
@@ -29,21 +33,15 @@ public class TaskListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_list);
         recyclerView = findViewById(R.id.recyclerview);
-
         getJobPostingsFromFirebase();
-
     }
 
     private void setAdapter() {
-        RecyclerAdapter adapter = new RecyclerAdapter(titlesArrayList);
+        RecyclerAdapter adapter = new RecyclerAdapter(this, jobPostingArrayList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-    }
-
-    public void setJobTitle(String name) {
-        titlesArrayList.add(name);
     }
 
     private void getJobPostingsFromFirebase() {
@@ -53,7 +51,7 @@ public class TaskListActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot adSnapshot: dataSnapshot.getChildren()){
                     JobPosting jp = adSnapshot.getValue(JobPosting.class);
-                    setJobTitle(jp.getJobTitle());
+                    jobPostingArrayList.add(jp);
                 }
                 setAdapter();
             }

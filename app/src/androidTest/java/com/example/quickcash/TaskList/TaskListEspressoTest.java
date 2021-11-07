@@ -1,7 +1,11 @@
 package com.example.quickcash.TaskList;
 
+import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -17,6 +21,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 
+import com.example.quickcash.JobPosting.JobPostingDetailsActivity;
 import com.example.quickcash.R;
 
 import org.junit.AfterClass;
@@ -48,7 +53,7 @@ public class TaskListEspressoTest {
 
     @Test
     public void checkIfTaskListPageIsVisible() {
-        onView(ViewMatchers.withId(R.id.recyclerview)).perform(RecyclerViewActions.scrollTo(hasDescendant(withText("Mow Lawn"))));
+        onView(ViewMatchers.withId(R.id.job_title_text));
     }
 
 }
