@@ -7,22 +7,29 @@
 
     <TextView
         android:id="@+id/textView6"
-        android:layout_width="345dp"
-        android:layout_height="55dp"
-        android:text="DashBoard"
+        android:layout_width="300dp"
+        android:layout_height="51dp"
+        android:text=" Employer DashBoard"
+        android:textSize="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.079" />
+        app:layout_constraintVertical_bias="0.173" />
 
-    <LinearLayout
-        android:layout_width="323dp"
-        android:layout_height="437dp"
-        android:orientation="vertical"
+    <EditText
+        android:id="@+id/employerMultiLine"
+        android:layout_width="334dp"
+        android:layout_height="426dp"
+        android:layout_marginTop="180dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.744"></LinearLayout>
+        app:layout_constraintVertical_bias="0.426" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

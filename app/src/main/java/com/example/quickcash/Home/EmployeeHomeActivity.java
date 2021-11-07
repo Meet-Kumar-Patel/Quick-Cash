@@ -1,15 +1,23 @@
 package com.example.quickcash.Home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quickcash.JobPosting.JobPosting;
 import com.example.quickcash.R;
+import com.example.quickcash.UserManagement.EmployeeDashboardActivity;
+import com.example.quickcash.UserManagement.LogInActivity;
 import com.example.quickcash.UserManagement.SessionManager;
+import com.example.quickcash.UserManagement.SignUpActivity;
 import com.example.quickcash.UserManagement.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,6 +36,7 @@ public class EmployeeHomeActivity extends AppCompatActivity {
         SessionManager sessionManager = new SessionManager(getApplicationContext());
         sessionManager.checkLogin();
         Button btnLogOut = findViewById(R.id.btnLogOutEmployee);
+        Button btnEmployeeDashBoard = findViewById(R.id.employeeDashButton);
         btnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -35,46 +44,15 @@ public class EmployeeHomeActivity extends AppCompatActivity {
             }
         });
 
-        retrieveDataFromFirebase(com.example.quickcash.UserManagement.SessionManager.KEY_EMAIL);
-    }
-
-    private void retrieveDataFromFirebase(String email) {
-        DatabaseReference jobReference = FirebaseDatabase.getInstance().getReference(JobPosting.class.getSimpleName());
-        jobReference.addValueEventListener(new ValueEventListener() {
-
+        btnEmployeeDashBoard.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // When the data is received, verify the user credential
-                if (dataSnapshot.exists()) {
-
-                    try {
-                        //verifyUserCredentials(dataSnapshot, email);
-                        JobPosting jobPosting = getJobPosting(dataSnapshot, email);
-                        System.out.println(jobPosting);
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
+            public void onClick(View view) {
+                Intent dashboardPageIntent = new Intent(String.valueOf(EmployeeDashboardActivity.class));
+                startActivity(dashboardPageIntent);
             }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                System.out.println("Could retrieve: " + error.getCode());
-            }
-
         });
-    }
 
-    protected JobPosting getJobPosting(DataSnapshot dataSnapshot, String email) throws Exception {
-        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-            JobPosting jobPosting = snapshot.getValue(JobPosting.class);
-            boolean emailMatches = jobPosting.getAccepted().equals(email);
-            if (emailMatches) {
-                return jobPosting;
-            }
-        }
-        return null;
+        //retrieveDataFromFirebase(com.example.quickcash.UserManagement.SessionManager.KEY_EMAIL);
     }
 
 }

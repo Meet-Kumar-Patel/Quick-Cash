@@ -1,5 +1,6 @@
 package com.example.quickcash.UserManagement;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import com.example.quickcash.Home.EmployeeHomeActivity;
@@ -13,7 +14,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.Silent.class)
-public class EmployeeHomeActivityJUnitTest {
+public class EmployeeDashboardActivityJUnitTest {
 
     static JobPosting mockedPosting = null;
 
@@ -27,8 +28,8 @@ public class EmployeeHomeActivityJUnitTest {
     @Test
     public void testRetrieveDataFromFirebase()
     {
-        EmployeeHomeActivity employeeHomeActivity = new EmployeeHomeActivity();
-        employeeHomeActivity.retrieveDataFromFirebase("");
-        assertTrue(employeeHomeActivity.getStatusMessage().equals(""));
+        EmployeeDashboardActivity employeeDashboardActivity = new EmployeeDashboardActivity();
+        employeeDashboardActivity.retrieveDataFromFirebase("");
+        assertEquals("", employeeDashboardActivity.getStatusMessage());
     }
 }
