@@ -65,6 +65,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         register = (Button) findViewById(R.id.btnRegister);
         // calling the onClick method whenever the register button is clicked.
         register.setOnClickListener(this);
+
         login = (Button) findViewById(R.id.buttonLogin);
         // if the login button is clicked instead, the user is transferred to the login page
         login.setOnClickListener(new View.OnClickListener() {
@@ -305,7 +306,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
      * To switch from this Activity to Login Activity
      */
     protected void switch2Login() {
-        Intent intent = new Intent(this, LogInActivity.class);
+        Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
 

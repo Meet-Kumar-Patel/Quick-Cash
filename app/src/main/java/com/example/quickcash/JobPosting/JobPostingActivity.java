@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.quickcash.Home.EmployerHomeActivity;
 import com.example.quickcash.MainActivity;
 import com.example.quickcash.R;
+import com.example.quickcash.TaskList.TaskListActivity;
 import com.example.quickcash.UserManagement.LogInActivity;
 import com.example.quickcash.UserManagement.SessionManager;
 import com.example.quickcash.UserManagement.User;

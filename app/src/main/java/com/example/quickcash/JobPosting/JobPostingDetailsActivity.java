@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quickcash.Home.EmployerHomeActivity;
 import com.example.quickcash.R;
+import com.example.quickcash.TaskList.TaskListActivity;
 import com.example.quickcash.UserManagement.SessionManager;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -152,7 +153,7 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
 
     protected void returnToSearch() {
         // Needs to be changed to search page
-        Intent intent = new Intent(this, EmployerHomeActivity.class);
+        Intent intent = new Intent(this, TaskListActivity.class);
         startActivity(intent);
     }
 

@@ -1,5 +1,4 @@
 package com.example.quickcash.UserManagement;
-
 import java.util.UUID;
 
 
@@ -11,31 +10,36 @@ public class Preference {
 
     private int wage;
     private String employeeName;
+    private String employeeEmail;
 
 
-    public Preference(int type, int duration, int wage, String employeeName) {
+
+    public Preference( String employeeEmail, int type, int duration, int wage,String employeeName) {
         this.preferenceId = UUID.randomUUID().toString();
         this.jobType = type;
         this.duration = duration;
 
         this.wage = wage;
         this.employeeName = employeeName;
+        this.employeeEmail = employeeEmail;
     }
 
-    public Preference() {
-    }
+    public Preference() {}
 
     public String getPreferenceId() {
         return preferenceId;
     }
-
+    public String getemployeeName() {
+        return employeeName;
+    }
+    public String getemployeeEmail() {
+        return employeeEmail;
+    }
     public void setPreferenceId(String preferenceId) {
         this.preferenceId = preferenceId;
     }
 
-    public String getemployeeName() {
-        return employeeName;
-    }
+
 
     public int getDuration() {
         return duration;
@@ -55,6 +59,9 @@ public class Preference {
     }
 
 
+
+
+
     public int getJobType() {
         return jobType;
     }
@@ -62,6 +69,7 @@ public class Preference {
     public void setJobType(int jobType) {
         this.jobType = jobType;
     }
+
 
 
 }

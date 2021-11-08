@@ -1,4 +1,6 @@
 package com.example.quickcash.JobPosting;
+import com.example.quickcash.UserManagement.SessionManager;
+
 import java.util.UUID;
 import java.util.ArrayList;
 
@@ -33,8 +35,7 @@ public class JobPosting {
         this.createdByName = createdByName;
     }
 
-    public JobPosting() {
-    }
+    public JobPosting() {}
 
     public String getJobPostingId() {
         return jobPostingId;
@@ -116,4 +117,14 @@ public class JobPosting {
     public void setJobType(int jobType) {
         this.jobType = jobType;
     }
+
+    public String getCreatedByName() {
+        return createdByName;
+    }
+
+    public void setCreatedByName(String createdByName) {
+        this.createdByName = createdByName;
+    }
+
 }
+
