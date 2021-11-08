@@ -7,6 +7,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.quickcash.JobPosting.JobPostingActivity;
 import com.example.quickcash.R;
 import com.example.quickcash.TaskList.TaskListActivity;
 import com.example.quickcash.UserManagement.SessionManager;
@@ -18,7 +19,7 @@ public class EmployerHomeActivity extends AppCompatActivity {
 
     // Created intents for navigating to the pages
     protected void navigateToCreateTasksPage() {
-        Intent createTasksPageIntent = new Intent(this, TaskListActivity.class);
+        Intent createTasksPageIntent = new Intent(this, JobPostingActivity.class);
         startActivity(createTasksPageIntent);
     }
 
@@ -26,7 +27,6 @@ public class EmployerHomeActivity extends AppCompatActivity {
         Intent dashboardPageIntent = new Intent(this, TaskListActivity.class);
         startActivity(dashboardPageIntent);
     }
-
 
     public static final String EXTRA_MESSAGE = "Location";
 
