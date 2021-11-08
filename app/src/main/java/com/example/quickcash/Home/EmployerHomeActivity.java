@@ -16,7 +16,6 @@ public class EmployerHomeActivity extends AppCompatActivity {
     private Button createTasks;
     private Button dashboard;
 
-
     // Created intents for navigating to the pages
     protected void navigateToCreateTasksPage() {
         Intent createTasksPageIntent = new Intent(this, TaskListActivity.class);
@@ -58,7 +57,6 @@ public class EmployerHomeActivity extends AppCompatActivity {
                 sessionManager.logoutUser();
             }
         });
-
     }
 }
 

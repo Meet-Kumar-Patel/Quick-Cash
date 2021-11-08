@@ -68,9 +68,7 @@ private Button searchByPref;
             }
         });
 
-
     }
-
 
 }
 

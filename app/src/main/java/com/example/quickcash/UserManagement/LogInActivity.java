@@ -93,7 +93,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
      * @param password     - password given by the user
      */
     private void verifyUserCredentials(DataSnapshot dataSnapshot, String email, String password) throws Exception {
-        User userWithGivenEmail = null;
+        User userWithGivenEmail;
 
         if (dataSnapshot == null) {
             setStatusMessage("Failed to connect to the database.");

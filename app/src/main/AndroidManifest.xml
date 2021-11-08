@@ -27,7 +27,9 @@
         <activity android:name=".Home.EmployerHomeActivity" />
         <activity android:name=".JobPosting.JobPostingDetailsActivity"></activity>
         <activity android:name=".JobPosting.JobPostingActivity"></activity>
-<!--        <activity android:name=".TaskList.TaskListActivity"></activity>-->
+        <activity android:name=".TaskList.TaskListActivity"></activity>
+        <activity android:name=".UserManagement.preferencePage"></activity>
+
     </application>
 
 </manifest>
