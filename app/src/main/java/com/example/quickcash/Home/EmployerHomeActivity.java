@@ -8,6 +8,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quickcash.R;
+import com.example.quickcash.TaskList.TaskListActivity;
 import com.example.quickcash.UserManagement.SessionManager;
 import com.google.firebase.FirebaseApp;
 
@@ -23,7 +24,7 @@ public class EmployerHomeActivity extends AppCompatActivity {
     }
 
     protected void navigateToDashboardPage() {
-        Intent dashboardPageIntent = new Intent(this, test.class);
+        Intent dashboardPageIntent = new Intent(this, TaskListActivity.class);
         startActivity(dashboardPageIntent);
     }
 

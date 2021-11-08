@@ -8,6 +8,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quickcash.R;
+import com.example.quickcash.TaskList.TaskListActivity;
 import com.example.quickcash.UserManagement.SessionManager;
 import com.google.firebase.FirebaseApp;
 
@@ -23,12 +24,12 @@ private Button searchByPref;
     }
 
     protected void navigateToDashboardPage() {
-        Intent dashboardPageIntent = new Intent(this, test.class);
+        Intent dashboardPageIntent = new Intent(this, TaskListActivity.class);
         startActivity(dashboardPageIntent);
     }
 
     protected void navigateToSearchPrefPage() {
-        Intent searchTasksPageIntent = new Intent(this, PreferencePage.class);
+        Intent searchTasksPageIntent = new Intent(this, TaskListActivity.class);
         startActivity(searchTasksPageIntent);
     }
 
@@ -58,6 +59,7 @@ private Button searchByPref;
         FirebaseApp.initializeApp(this);
 
         Button btnLogOut = findViewById(R.id.btnLogOutEmployee);
+
         btnLogOut.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -65,6 +67,8 @@ private Button searchByPref;
                 sessionManager.logoutUser();
             }
         });
+
+
     }
 
 

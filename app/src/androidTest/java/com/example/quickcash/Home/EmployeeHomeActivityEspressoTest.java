@@ -13,7 +13,9 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.quickcash.R;
+import com.example.quickcash.TaskList.TaskListActivity;
 
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -31,6 +33,11 @@ public class EmployeeHomeActivityEspressoTest {
         Intents.init();
     }
 
+    @AfterClass
+    public static void tearDown() {
+        System.gc();
+    }
+
     @Test
     public void checkIfPageCreated() {
         onView(withId(R.id.etEmployeeMessage)).check(matches(withText("Welcome to Employee Home")));
@@ -39,7 +46,7 @@ public class EmployeeHomeActivityEspressoTest {
     @Test
     public void checkIfMoved2SearchTasksPage() {
         onView(withId(R.id.btnCreateTasksEmployerPage)).perform(click());
-        intended(hasComponent(EmployeeHomeActivity.class.getName()));
+        intended(hasComponent(TaskListActivity.class.getName()));
     }
 
     @Test

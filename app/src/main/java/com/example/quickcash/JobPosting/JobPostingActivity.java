@@ -57,8 +57,8 @@ public class JobPostingActivity extends AppCompatActivity implements AdapterView
         setContentView(R.layout.activity_job_posting);
 
         // Ensure that the user is logged in
-        SessionManager sessionManager = new SessionManager(getApplicationContext());
-        sessionManager.checkLogin();
+        //SessionManager sessionManager = new SessionManager(getApplicationContext());
+        //sessionManager.checkLogin();
 
         //access the intents & show the welcome message
         Intent intent = getIntent();

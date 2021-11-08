@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.quickcash.JobPosting.JobPosting;
 import com.example.quickcash.JobPosting.JobPostingDetailsActivity;
 import com.example.quickcash.R;
+import com.example.quickcash.UserManagement.SessionManager;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,11 +33,12 @@ public class TaskListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_list);
+        SessionManager sessionManager = new SessionManager(getApplicationContext());
         recyclerView = findViewById(R.id.recyclerview);
         getJobPostingsFromFirebase();
     }
 
-    private void setAdapter() {
+    protected void setAdapter() {
         RecyclerAdapter adapter = new RecyclerAdapter(this, jobPostingArrayList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -44,7 +46,7 @@ public class TaskListActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    private void getJobPostingsFromFirebase() {
+    protected void getJobPostingsFromFirebase() {
         DatabaseReference jobPostingReference = db.getReference("JobPosting");;
         jobPostingReference.addValueEventListener(new ValueEventListener() {
             @Override
