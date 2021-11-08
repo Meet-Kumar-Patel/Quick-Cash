@@ -22,11 +22,11 @@ public class EmployerDashboardActivityJUnitTest {
         Mockito.when(mockedPosting.getJobTitle()).thenReturn("");
     }
 
-    @Test
+    /*@Test
     public void testRetrieveDataFromFirebase()
     {
         EmployeeDashboardActivity employeeDashboardActivity = new EmployeeDashboardActivity();
         employeeDashboardActivity.retrieveDataFromFirebase("");
         assertEquals("", employeeDashboardActivity.getStatusMessage());
-    }
+    }*/
 }

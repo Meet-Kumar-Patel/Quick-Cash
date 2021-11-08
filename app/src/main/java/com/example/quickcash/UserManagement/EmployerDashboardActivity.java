@@ -42,9 +42,8 @@ public class EmployerDashboardActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
 
                     try {
-                        //verifyUserCredentials(dataSnapshot, email);
                         JobPosting jobPosting = getJobPosting(dataSnapshot, email);
-                        System.out.println(jobPosting);
+                        System.out.println(jobPosting.getJobTitle());
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -60,12 +59,14 @@ public class EmployerDashboardActivity extends AppCompatActivity {
         });
     }
 
-    private JobPosting getJobPosting(DataSnapshot dataSnapshot, String email) throws Exception {
+    private JobPosting getJobPosting(DataSnapshot dataSnapshot, String email) {
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
             JobPosting jobPosting = snapshot.getValue(JobPosting.class);
-            boolean emailMatches = jobPosting.getAccepted().equals(email);
-            if (emailMatches) {
-                return jobPosting;
+            if(jobPosting != null) {
+                boolean emailMatches = jobPosting.getCreatedByName().equals(email);
+                if (emailMatches) {
+                    return jobPosting;
+                }
             }
         }
         return null;

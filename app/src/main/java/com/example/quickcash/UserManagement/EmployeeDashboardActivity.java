@@ -17,7 +17,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class EmployeeDashboardActivity extends AppCompatActivity {
 
-    private FirebaseDatabase db;
+    private static FirebaseDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,18 +29,20 @@ public class EmployeeDashboardActivity extends AppCompatActivity {
         initializeFirebase();
     }
 
-    private void initializeFirebase() {
+    private static void initializeFirebase() {
         db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
     }
 
     String statusMessage = "ERROR";
-    public void retrieveDataFromFirebase(String email) {
-        DatabaseReference jobReference = FirebaseDatabase.getInstance().getReference(JobPosting.class.getSimpleName());
+    private void retrieveDataFromFirebase(String email) {
+        //db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
+        //initializeFirebase();
+        DatabaseReference jobReference = db.getReference(JobPosting.class.getSimpleName());
         jobReference.addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // When the data is received, verify the user credential
+                // When the data is received, check the job applied by employee
                 if (dataSnapshot.exists()) {
 
                     try {
@@ -62,12 +64,14 @@ public class EmployeeDashboardActivity extends AppCompatActivity {
         });
     }
 
-    protected JobPosting getJobPosting(DataSnapshot dataSnapshot, String email) throws Exception {
+    public JobPosting getJobPosting(DataSnapshot dataSnapshot, String email) {
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
             JobPosting jobPosting = snapshot.getValue(JobPosting.class);
-            boolean emailMatches = jobPosting.getAccepted().equals(email);
-            if (emailMatches) {
-                return jobPosting;
+            if(jobPosting != null) {
+                boolean emailMatches = jobPosting.getAccepted().equals(email);
+                if (emailMatches) {
+                    return jobPosting;
+                }
             }
         }
         return null;
@@ -78,7 +82,7 @@ public class EmployeeDashboardActivity extends AppCompatActivity {
         etError.setText(statusMessage);
     }
 
-    public String getStatusMessage() {
+    /*public String getStatusMessage() {
         return statusMessage;
-    }
+    }*/
 }
