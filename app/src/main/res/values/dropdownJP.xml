@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="planets_array">
+        <item name="0">Repairing Computer</item>
+        <item name="1">Mowing The Lawn</item>
+        <item name="2">Design Website</item>
+        <item name="3">Walking A Dog</item>
+        <item name="4">Hourly Babysitting</item>
+        <item name="5">Picking Up Grocery</item>
+    </string-array>
+
+</resources>
+

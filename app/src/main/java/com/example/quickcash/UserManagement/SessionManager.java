@@ -19,6 +19,8 @@ public class SessionManager {
     private static final String PREF_NAME = "SessionManagerFile";
     // All Shared Preferences Keys
     private static final String IS_LOGIN = "IsLoggedIn";
+
+    private static final String KEY_NAME = "userName";
     // Shared Preferences
     SharedPreferences pref;
     // Editor for Shared preferences
@@ -39,13 +41,15 @@ public class SessionManager {
     /**
      * Create login session
      */
-    public void createLoginSession(String email, String password) {
+    public void createLoginSession(String email, String password, String name) {
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
         // Storing email
         editor.putString(KEY_EMAIL, email);
         // Storing Password
         editor.putString(KEY_PASSWORD, password);
+        //Put name
+        editor.putString(KEY_NAME, name);
         // commit changes
         editor.commit();
     }
@@ -79,6 +83,8 @@ public class SessionManager {
         user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
         // password
         user.put(KEY_PASSWORD, pref.getString(KEY_PASSWORD, null));
+        // password
+        user.put(KEY_PASSWORD, pref.getString(KEY_NAME, null));
         // return user
         return user;
     }
@@ -106,6 +112,14 @@ public class SessionManager {
     // Get Login State
     public boolean isLoggedIn() {
         return pref.getBoolean(IS_LOGIN, false);
+    }
+
+    public String getKeyName() {
+        return pref.getString(KEY_NAME, "Not Exist");
+    }
+
+    public String getKeyEmail() {
+        return pref.getString(KEY_EMAIL, "Not Exist");
     }
 
 }
