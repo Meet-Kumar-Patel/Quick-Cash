@@ -9,13 +9,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quickcash.JobPosting.JobPostingActivity;
 import com.example.quickcash.R;
-import com.example.quickcash.TaskList.TaskListActivity;
+import com.example.quickcash.UserManagement.EmployerDashboardActivity;
 import com.example.quickcash.UserManagement.SessionManager;
 import com.google.firebase.FirebaseApp;
 
 public class EmployerHomeActivity extends AppCompatActivity {
+    public static final String EXTRA_MESSAGE = "KK";
     private Button createTasks;
     private Button dashboard;
+
 
     // Created intents for navigating to the pages
     protected void navigateToCreateTasksPage() {
@@ -24,11 +26,10 @@ public class EmployerHomeActivity extends AppCompatActivity {
     }
 
     protected void navigateToDashboardPage() {
-        Intent dashboardPageIntent = new Intent(this, TaskListActivity.class);
+        Intent dashboardPageIntent = new Intent(this, EmployerDashboardActivity.class);
         startActivity(dashboardPageIntent);
     }
 
-    public static final String EXTRA_MESSAGE = "Location";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +58,7 @@ public class EmployerHomeActivity extends AppCompatActivity {
                 sessionManager.logoutUser();
             }
         });
+
     }
 }
-
 
