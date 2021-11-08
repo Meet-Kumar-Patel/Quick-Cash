@@ -22,9 +22,12 @@ import org.junit.runner.RunWith;
 //Citations: The format of the tests below are taken from the tests in Assignment 2
 
 @RunWith(AndroidJUnit4.class)
-public class EmployeeHomeActivityEspressoTest {
+public class EmployerHomeActivityEspressoTest {
+
     @Rule
-    public ActivityScenarioRule<EmployeeHomeActivity> loginRule = new ActivityScenarioRule<EmployeeHomeActivity>(EmployeeHomeActivity.class);
+    public ActivityScenarioRule<EmployerHomeActivity> loginRule = new ActivityScenarioRule<EmployerHomeActivity>(EmployerHomeActivity.class);
+    //public IntentsTestRule<EmployerHomeActivity> myIntentRule = new IntentsTestRule<>(EmployeeHomeActivity.class);
+
 
     @BeforeClass
     public static void setup() {
@@ -33,29 +36,29 @@ public class EmployeeHomeActivityEspressoTest {
 
     @Test
     public void checkIfPageCreated() {
-        onView(withId(R.id.etEmployeeMessage)).check(matches(withText("Welcome to Employee Home")));
+        onView(withId(R.id.etEmployeeMessage)).check(matches(withText("Welcome to Employer Home")));
+
     }
 
     @Test
-    public void checkIfMoved2SearchTasksPage() {
+    public void checkIfMoved2CreateTasksPage() {
         onView(withId(R.id.btnCreateTasksEmployerPage)).perform(click());
-        intended(hasComponent(EmployeeHomeActivity.class.getName()));
+        intended(hasComponent(EmployerHomeActivity.class.getName()));
     }
 
     @Test
     public void checkIfMoved2DashboardPage() {
         onView(withId(R.id.btnDashboardEmployerPage)).perform(click());
-        intended(hasComponent(EmployeeHomeActivity.class.getName()));
+        intended(hasComponent(EmployerHomeActivity.class.getName()));
     }
 
     @Test
-    public void checkIfMoved2SearchByPrefPage() {
-        onView(withId(R.id.btnSearchByPrefEmployeePage)).perform(click());
-        intended(hasComponent(EmployeeHomeActivity.class.getName()));
-    }
-    @Test
     public void checkIfLogOut() {
-        onView(withId(R.id.btnLogOutEmployee)).perform(click());
-        intended(hasComponent(EmployeeHomeActivity.class.getName()));
+        onView(withId(R.id.btnLogOutEmployer)).perform(click());
+        intended(hasComponent(EmployerHomeActivity.class.getName()));
     }
+
 }
+
+
+
