@@ -42,7 +42,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         JobPosting jobPosting = jobPostingArrayList.get(position);
         String title = jobPosting.getJobTitle();
+        String location = jobPosting.getLocation();
+        int jobTypeInt = jobPosting.getJobType();
+        String jobTypeString = JobTypeStringGetter.getJobType(jobTypeInt);
         holder.nameText.setText(title);
+        holder.locationText.setText(location);
+        holder.jobTypeText.setText(jobTypeString);
         holder.viewJobButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,13 +63,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         return jobPostingArrayList.size();
     }
 
+    //Refactor, move to new class
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView nameText;
+        private TextView locationText;
+        private TextView jobTypeText;
         Button viewJobButton;
 
         public MyViewHolder(final View view) {
             super(view);
             nameText = view.findViewById(R.id.titletext);
+            locationText = view.findViewById(R.id.location);
+            jobTypeText = view.findViewById(R.id.jobtype);
             viewJobButton = view.findViewById(R.id.viewjobbutton);
 
         }

@@ -53,7 +53,7 @@ public class TaskListActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot adSnapshot: dataSnapshot.getChildren()){
                     JobPosting jp = adSnapshot.getValue(JobPosting.class);
-                    jobPostingArrayList.add(jp);
+                    addJobPostingToArray(jp);
                 }
                 setAdapter();
             }
@@ -64,6 +64,10 @@ public class TaskListActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void addJobPostingToArray(JobPosting jobPosting) {
+        jobPostingArrayList.add(jobPosting);
     }
 
 }
