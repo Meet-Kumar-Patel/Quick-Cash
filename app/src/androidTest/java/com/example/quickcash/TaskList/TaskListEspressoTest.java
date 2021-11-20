@@ -52,9 +52,4 @@ public class TaskListEspressoTest {
         assertEquals("com.example.quickcash", appContext.getPackageName());
     }
 
-    @Test
-    public void checkIfTaskListPageIsVisible() {
-        onView(ViewMatchers.withId(R.id.job_title_text));
-    }
-
 }

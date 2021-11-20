@@ -68,7 +68,7 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
     }
 
     private void retrieveDataFromFirebase(String id) {
-        DatabaseReference jpDatabase = FirebaseDatabase.getInstance().getReference(JobPosting.class.getSimpleName());
+        DatabaseReference jpDatabase = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/").getReference(JobPosting.class.getSimpleName());
         jpDatabase.addValueEventListener(new ValueEventListener() {
 
             @Override
