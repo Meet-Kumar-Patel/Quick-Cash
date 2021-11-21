@@ -31,6 +31,7 @@ public class TaskListActivity extends AppCompatActivity {
     ArrayList<JobPosting> jobPostingArrayList = new ArrayList<JobPosting>();
     FirebaseDatabase db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
     String city;
+
     private RecyclerView recyclerView;
 
     @Override
@@ -66,24 +67,34 @@ public class TaskListActivity extends AppCompatActivity {
         });
     }
 
-    protected void setAdapter() {
-        adapter = new RecyclerAdapter(this, jobPostingArrayList);
+    public void setAdapter(RecyclerAdapter adapter) {
+        this.adapter = adapter;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
     }
 
-    protected void getJobPostingsFromFirebase() {
+    public RecyclerAdapter getAdapter() {
+        return adapter;
+    }
+
+    public void getJobPostingsFromFirebase() {
         DatabaseReference jobPostingReference = db.getReference("JobPosting");
         jobPostingReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot adSnapshot : dataSnapshot.getChildren()) {
                     JobPosting jp = adSnapshot.getValue(JobPosting.class);
-                    addJobPostingToArray(jp);
+                    if (city != null) {
+                        if (jp != null && jp.getLocation().equals(city)) {
+                            addJobPostingToArray(jp);
+                        }
+                    } else {
+                        addJobPostingToArray(jp);
+                    }
                 }
-                setAdapter();
+                setAdapter(new RecyclerAdapter(getApplicationContext(), jobPostingArrayList));
             }
 
             @Override
@@ -91,11 +102,13 @@ public class TaskListActivity extends AppCompatActivity {
                 return;
             }
         });
-
     }
 
     public void addJobPostingToArray(JobPosting jobPosting) {
         jobPostingArrayList.add(jobPosting);
     }
 
+    public ArrayList<JobPosting> getJobPostingArrayList() {
+        return jobPostingArrayList;
+    }
 }

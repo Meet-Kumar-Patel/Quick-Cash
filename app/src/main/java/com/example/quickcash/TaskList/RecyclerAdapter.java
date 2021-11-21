@@ -56,6 +56,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         }
     };
 
+    public ArrayList<JobPosting> getJobPostingArrayList() {
+        return jobPostingArrayList;
+    }
+
     public RecyclerAdapter(Context context, ArrayList<JobPosting> jobPostingArrayList) {
         this.jobPostingArrayList = jobPostingArrayList;
         jobPostingArrayListFull = new ArrayList<>(jobPostingArrayList);
