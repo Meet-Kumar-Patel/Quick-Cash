@@ -214,16 +214,12 @@ public class JobPostingActivity extends AppCompatActivity implements AdapterView
     }
 
     // Referred to: https://developer.android.com/guide/topics/ui/controls/spinner
-
     public void onItemSelected(AdapterView<?> parent, View view,
                                int pos, long id) {
         // An item was selected. You can retrieve the selected item using
         //Message spinnerItem = (Message) parent.getItemAtPosition(pos);
 
         switch (pos) {
-            case 0:
-                jobTypeId = 0;
-                break;
             case 1:
                 jobTypeId = 1;
                 break;

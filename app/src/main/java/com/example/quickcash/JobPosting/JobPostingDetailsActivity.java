@@ -2,6 +2,7 @@ package com.example.quickcash.JobPosting;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -34,8 +35,10 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
     // Btns
     private Button btnApply;
     private Button btnSearchMore;
-
     private JobPosting jobPostingOBJ;
+
+    // Logged user info
+    private String userEmail = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,8 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         // Ensure that the user is logged in
         SessionManager sessionManager = new SessionManager(getApplicationContext());
         sessionManager.checkLogin();
+        // Get user email from Session Manager
+        userEmail = sessionManager.getKeyEmail();
 
         //access the intents & show the welcome message
         Intent intent = getIntent();
@@ -57,7 +62,9 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
 
         // Add functionality to the btns
         btnApply = (Button) findViewById(R.id.btnJPDApplyNow);
-        btnApply.setOnClickListener(view -> addApplicant());
+        btnApply.setOnClickListener(view -> addApplicant(userEmail));
+        // Setting Default visibility to invisible. If the applicant is not the employer => the btn will become visible.
+        btnApply.setVisibility(View.INVISIBLE);
 
         btnSearchMore = (Button) findViewById(R.id.btnJPDReturnToSearch);
         btnSearchMore.setOnClickListener(view -> returnToSearch());
@@ -122,14 +129,32 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         location.setText(jobPosting.getLocation());
         wage.setText(jobPosting.getWage() + " ");
         employer.setText(jobPosting.getCreatedByName());
+
+        // if the employer accesses the app then he will not see the btn
+        if(!jobPosting.getCreatedBy().equals(userEmail)) {
+            btnApply.setVisibility(View.VISIBLE);
+        }
+
+        // If the user has already applied to the job => show applied.
+        if(jobPosting.getLstAppliedBy().size() > 0 && jobPosting.getLstAppliedBy().contains(userEmail)) {
+            if(jobPosting.getLstAppliedBy().contains(userEmail)) {
+                btnApply.setText("Applied");
+            }
+            if(jobPosting.getAccepted() != null && jobPosting.getAccepted().equals(userEmail)) {
+                btnApply.setText("Accepted");
+            }
+            else if(jobPosting.getAccepted() != null && !jobPosting.getAccepted().trim().isEmpty() && !jobPosting.getAccepted().equals(userEmail)) {
+                btnApply.setText("Sorry Rejected");
+            }
+            btnApply.setClickable(false);
+        }
+
+
     }
 
     protected String convertJPType(int id) {
         String type = "";
         switch (id) {
-            case 0:
-                type = "Repairing Computer";
-                break;
             case 1:
                 type = "Mowing The Lawn";
                 break;
@@ -157,10 +182,8 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    protected void addApplicant() {
-        // Get user email from Session Manager
-        SessionManager sessionManager = new SessionManager(getApplicationContext());
-        String userEmail = sessionManager.getKeyEmail();
+    protected void addApplicant(String userEmail) {
+
         ArrayList arrayList = jobPostingOBJ.getLstAppliedBy();
         if (arrayList == null) {
             arrayList = new ArrayList();
@@ -171,11 +194,13 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
 
         jobPostingOBJ.setLstAppliedBy(arrayList);
         DAOJobPosting daoJobPosting = new DAOJobPosting();
-        daoJobPosting.add(jobPostingOBJ);
+        daoJobPosting.update(jobPostingOBJ);
 
         // Show confirmation message
         setStatusMessage("Your application was send successfully!");
 
+        // Change btn text.
+        btnApply.setText("Applied");
     }
 
     private void setStatusMessage(String statusMessage) {

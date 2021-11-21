@@ -5,7 +5,7 @@ import java.util.UUID;
 import java.util.ArrayList;
 
 
-public class JobPosting {
+public class JobPosting extends Object {
 
     // Variables
     private String jobPostingId;
