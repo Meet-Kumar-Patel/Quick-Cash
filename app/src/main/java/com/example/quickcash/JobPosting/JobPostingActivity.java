@@ -65,7 +65,7 @@ public class JobPostingActivity extends AppCompatActivity implements AdapterView
         Intent intent = getIntent();
 
         //Received location from map and show to the user
-        locationStr = intent.getStringExtra(EmployerHomeActivity.EXTRA_MESSAGE).toString();
+        locationStr = intent.getStringExtra(EmployerHomeActivity.EXTRA_MESSAGE);
         location = findViewById(R.id.etLocation);
         location.setText(locationStr);
 

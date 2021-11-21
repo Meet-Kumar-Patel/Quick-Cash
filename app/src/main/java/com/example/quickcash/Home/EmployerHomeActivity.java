@@ -14,7 +14,7 @@ import com.example.quickcash.UserManagement.SessionManager;
 import com.google.firebase.FirebaseApp;
 
 public class EmployerHomeActivity extends AppCompatActivity {
-    public static final String EXTRA_MESSAGE = "KK";
+    public static final String EXTRA_MESSAGE = "locationOfEmployer";
     private Button createTasks;
     private Button dashboard;
 
@@ -22,6 +22,7 @@ public class EmployerHomeActivity extends AppCompatActivity {
     // Created intents for navigating to the pages
     protected void navigateToCreateTasksPage() {
         Intent createTasksPageIntent = new Intent(this, JobPostingActivity.class);
+        createTasksPageIntent.putExtra(EXTRA_MESSAGE, "Not Given. Please Enter.");
         startActivity(createTasksPageIntent);
     }
 
