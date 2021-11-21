@@ -31,6 +31,7 @@ public class TaskListActivity extends AppCompatActivity {
     ArrayList<JobPosting> jobPostingArrayList = new ArrayList<JobPosting>();
     FirebaseDatabase db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
     String city;
+    FirebaseTasks firebaseTasks = new FirebaseTasks();
 
     private RecyclerView recyclerView;
 
@@ -42,7 +43,7 @@ public class TaskListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_task_list);
         SessionManager sessionManager = new SessionManager(getApplicationContext());
         recyclerView = findViewById(R.id.recyclerview);
-        getJobPostingsFromFirebase();
+        firebaseTasks.getJobPostingsFromFirebase(this, city);
         SearchView jobSearchView = findViewById(R.id.jobsearch);
         jobSearchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
         jobSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -77,31 +78,6 @@ public class TaskListActivity extends AppCompatActivity {
 
     public RecyclerAdapter getAdapter() {
         return adapter;
-    }
-
-    public void getJobPostingsFromFirebase() {
-        DatabaseReference jobPostingReference = db.getReference("JobPosting");
-        jobPostingReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot adSnapshot : dataSnapshot.getChildren()) {
-                    JobPosting jp = adSnapshot.getValue(JobPosting.class);
-                    if (city != null) {
-                        if (jp != null && jp.getLocation().equals(city)) {
-                            addJobPostingToArray(jp);
-                        }
-                    } else {
-                        addJobPostingToArray(jp);
-                    }
-                }
-                setAdapter(new RecyclerAdapter(getApplicationContext(), jobPostingArrayList));
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                return;
-            }
-        });
     }
 
     public void addJobPostingToArray(JobPosting jobPosting) {

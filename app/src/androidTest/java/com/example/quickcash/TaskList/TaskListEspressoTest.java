@@ -37,32 +37,12 @@ import java.util.ArrayList;
 
 public class TaskListEspressoTest {
 
-    TaskListActivity taskListActivity;
-    RecyclerAdapter recyclerAdapter;
-    SessionManager sessionManager = new SessionManager(getApplicationContext());
-    ArrayList<JobPosting> jobPostingArrayList;
-    JobPosting dummyJobPosting = new JobPosting("Test Job", 0, 20, "Halifax", 20, "logan@test.com", "Logan");
-
     @Rule
     public ActivityScenarioRule<TaskListActivity> myRule = new ActivityScenarioRule<>(TaskListActivity.class);
-
-    @Before
-    public void initTaskListActivity() {
-        taskListActivity = new TaskListActivity();
-    }
-
-    @Before
-    public void initRecyclerAdapter() {
-        jobPostingArrayList = new ArrayList<>();
-        jobPostingArrayList.add(dummyJobPosting);
-        recyclerAdapter = new RecyclerAdapter(getApplicationContext(), jobPostingArrayList);
-        taskListActivity.setAdapter(recyclerAdapter);
-    }
 
     @BeforeClass
     public static void setup() {
         Intents.init();
-        Looper.prepare();
     }
 
     @AfterClass
@@ -82,11 +62,6 @@ public class TaskListEspressoTest {
         onView(ViewMatchers.withId(R.id.recyclerview));
         onView(ViewMatchers.withId(R.id.resetbutton));
         onView(ViewMatchers.withId(R.id.jobsearch));
-    }
-
-    @Test
-    public void checkForRecyclerViewElement() {
-        onView(ViewMatchers.withId(R.id.recyclerview)).perform(RecyclerViewActions.scrollTo(hasDescendant(withText("Test Job"))));
     }
 
 }

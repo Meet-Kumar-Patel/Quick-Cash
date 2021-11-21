@@ -30,19 +30,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     private Filter jobFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            ArrayList<JobPosting> filteredJobList = new ArrayList<>();
-            if (constraint == null || constraint.length() == 0) {
-                filteredJobList.addAll(jobPostingArrayListFull);
-            } else {
-                String filterPattern = constraint.toString().toLowerCase().trim();
-                for (JobPosting jobPosting : jobPostingArrayListFull) {
-                    String jobTitle = jobPosting.getJobTitle().toLowerCase();
-                    String jobType = JobTypeStringGetter.getJobType(jobPosting.getJobType()).toLowerCase();
-                    if (jobTitle.contains(filterPattern) || jobType.contains(filterPattern)) {
-                        filteredJobList.add(jobPosting);
-                    }
-                }
-            }
+            ArrayList<JobPosting> filteredJobList = JobFilter.filter(jobPostingArrayListFull, constraint);
             FilterResults results = new FilterResults();
             results.values = filteredJobList;
             return results;
@@ -60,10 +48,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         return jobPostingArrayList;
     }
 
+    public void setJobPostingArrayList(ArrayList<JobPosting> jobPostingArrayList) {
+        this.jobPostingArrayList = jobPostingArrayList;
+    }
+
     public RecyclerAdapter(Context context, ArrayList<JobPosting> jobPostingArrayList) {
         this.jobPostingArrayList = jobPostingArrayList;
         jobPostingArrayListFull = new ArrayList<>(jobPostingArrayList);
         this.context = context;
+    }
+
+    public RecyclerAdapter() {
     }
 
     @NonNull

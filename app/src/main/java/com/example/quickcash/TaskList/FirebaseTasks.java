@@ -1,5 +1,7 @@
 package com.example.quickcash.TaskList;
 
+import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
+
 import androidx.annotation.NonNull;
 
 import com.example.quickcash.JobPosting.JobPosting;
@@ -27,6 +29,7 @@ public class FirebaseTasks {
                         taskListActivity.addJobPostingToArray(jp);
                     }
                 }
+                taskListActivity.setAdapter(new RecyclerAdapter(taskListActivity, taskListActivity.getJobPostingArrayList()));
             }
 
             @Override
