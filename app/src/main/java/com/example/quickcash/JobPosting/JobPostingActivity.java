@@ -141,7 +141,12 @@ public class JobPostingActivity extends AppCompatActivity implements AdapterView
 
     protected int getDuration() {
         duration = findViewById(R.id.etDuration);
-        return Integer.parseInt(duration.getText().toString().trim());
+        String durationString = duration.getText().toString();
+        if(durationString.isEmpty()) {
+            return 0;
+        }
+        return Integer.parseInt(durationString.trim());
+
     }
 
     protected String getLocation() {
@@ -151,7 +156,9 @@ public class JobPostingActivity extends AppCompatActivity implements AdapterView
 
     protected int getWage() {
         wage = findViewById(R.id.etWage);
-        return Integer.parseInt(wage.getText().toString().trim());
+        String WageString = wage.getText().toString();
+        if(WageString.isEmpty()) return 0;
+        return Integer.parseInt(WageString.trim());
     }
 
     protected void returnToHomePage() {
@@ -174,6 +181,9 @@ public class JobPostingActivity extends AppCompatActivity implements AdapterView
         }
         else if (titleList.contains(jobTitle)){
             setStatusMessage("Job Title Already Taken.");
+        }
+        else if(location.equals("Not Given.PLease Enter.") || location.isEmpty()) {
+            setStatusMessage("Please Enter The Location.");
         }
         else if(duration < 1) {
             setStatusMessage("Duration 1 day or longer is required.");

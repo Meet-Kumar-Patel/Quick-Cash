@@ -1,11 +1,13 @@
 package com.example.quickcash.JobPosting;
-
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.intending;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.toPackage;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -13,7 +15,11 @@ import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertEquals;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+
+import android.app.Instrumentation.ActivityResult;
 
 import androidx.core.app.ComponentActivity;
 import androidx.test.espresso.intent.Intents;
@@ -22,6 +28,7 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import com.example.quickcash.Home.EmployerHomeActivity;
 import com.example.quickcash.MainActivity;
 import com.example.quickcash.R;
 
@@ -33,23 +40,23 @@ import org.junit.Test;
 public class JobPostingActivityEspressoTest {
     @Rule
     public ActivityScenarioRule<JobPostingActivity> myRule = new ActivityScenarioRule<>(JobPostingActivity.class);
-    public IntentsTestRule<MainActivity> myIntentRule = new IntentsTestRule<>(MainActivity.class);
 
     @Test
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+
         assertEquals("com.example.quickcash", appContext.getPackageName());
     }
 
     @BeforeClass
     public static void setup() {
         Intents.init();
-
     }
 
     @Test
     public void checkIfCreateJPTitleISVisible() {
+
         onView(withId(R.id.txtCreateJPTitle)).check(matches(withText("Create Job Posting")));
     }
 
@@ -83,64 +90,43 @@ public class JobPostingActivityEspressoTest {
 
     @Test
     public void checkIfJobTitleIsEmpty() {
-        onView(withId(R.id.etJPTitle)).perform(typeText("")).perform(closeSoftKeyboard());
+        onView(withId(R.id.etJPTitle)).perform(closeSoftKeyboard());
         onView(withId(R.id.btnCreateJP)).perform(click());
         onView(withId(R.id.etErrorJP)).check(matches(withText("Job title is required.")));
     }
-//
-//    /*** UAT-III**/
-//    @Test
-//    public void checkIfBannerIDIsValid() {
-//        onView(withId(R.id.emailAddress)).perform(typeText("abc.123@dal.ca"));
-//        onView(withId(R.id.bannerID)).perform(typeText("B00123456"));
-//        onView(withId(R.id.registerButton)).perform(click());
-//        onView(withId(R.id.statusLabel)).check(matches(withText(R.string.EMPTY_STRING)));
-//    }
-//
-//    /*** UAT-III**/
-//    @Test
-//    public void checkIfBannerIDIsInvalid() {
-//        onView(withId(R.id.emailAddress)).perform(typeText("abc.123@dal.ca"));
-//        onView(withId(R.id.bannerID)).perform(typeText("4512*bn!"));
-//        onView(withId(R.id.registerButton)).perform(click());
-//        onView(withId(R.id.statusLabel)).check(matches(withText(R.string.INVALID_BANNER_ID)));
-//    }
-//
-//    /*** UAT-IV**/
-//    @Test
-//    public void checkIfEmailIsValid() {
-//        onView(withId(R.id.bannerID)).perform(typeText("B00123456"));
-//        onView(withId(R.id.emailAddress)).perform(typeText("abc.123@dal.ca"));
-//        onView(withId(R.id.registerButton)).perform(click());
-//        onView(withId(R.id.statusLabel)).check(matches(withText(R.string.EMPTY_STRING)));
-//    }
-//
-//    /*** UAT-IV**/
-//    @Test
-//    public void checkIfEmailIsInvalid() {
-//        onView(withId(R.id.bannerID)).perform(typeText("B00123896"));
-//        onView(withId(R.id.emailAddress)).perform(typeText("abc123.dal.ca"));
-//        onView(withId(R.id.registerButton)).perform(click());
-//        onView(withId(R.id.statusLabel)).check(matches(withText(R.string.INVALID_EMAIL_ADDRESS)));
-//    }
-//
-//    /*** UAT-IV**/
-//    @Test
-//    public void checkIfEmailIsNotDALEmail() {
-//        onView(withId(R.id.bannerID)).perform(typeText("B00123896"));
-//        onView(withId(R.id.emailAddress)).perform(typeText("abc123@usask.ca"));
-//        onView(withId(R.id.registerButton)).perform(click());
-//        onView(withId(R.id.statusLabel)).check(matches(withText(R.string.INVALID_DAL_EMAIL)));
-//    }
-//
-//    /***UAT-V**/
-//    @Test
-//    public void checkIfMoved2WelcomePage() {
-//        onView(withId(R.id.bannerID)).perform(typeText("B00456236"));
-//        onView(withId(R.id.emailAddress)).perform(typeText("abc123@dal.ca"));
-//        onView(withId(R.id.registerButton)).perform(click());
-//        intended(hasComponent(WelcomeActivity.class.getName()));
-//    }
+
+
+    @Test
+    public void checkIfDurationIsEmpty() {
+        onView(withId(R.id.etJPTitle)).perform(typeText("Evening Pet Care")).perform(closeSoftKeyboard());
+        onView(withId(R.id.etJPType)).perform(click());
+        onData(anything()).atPosition(3).perform(click());
+
+        onView(withId(R.id.btnCreateJP)).perform(click());
+        onView(withId(R.id.etErrorJP)).check(matches(withText("Duration 1 day or longer is required.")));
+    }
+
+    @Test
+    public void checkIfWageIsEmpty() {
+        onView(withId(R.id.etJPTitle)).perform(typeText("Evening Pet Care")).perform(closeSoftKeyboard());
+        onView(withId(R.id.etJPType)).perform(click());
+        onData(anything()).atPosition(3).perform(click());
+        onView(withId(R.id.etDuration)).perform(typeText("2")).perform(closeSoftKeyboard());
+        onView(withId(R.id.etLocation)).perform(clearText()).perform(closeSoftKeyboard());
+        onView(withId(R.id.etLocation)).perform(typeText("Halifax")).perform(closeSoftKeyboard());
+        onView(withId(R.id.btnCreateJP)).perform(click());
+        onView(withId(R.id.etErrorJP)).check(matches(withText("Wage less than $15 are not accepted.")));
+    }
+
+    @Test
+    public void checkIfLocation() {
+        onView(withId(R.id.etJPTitle)).perform(typeText("Evening Pet Care")).perform(closeSoftKeyboard());
+        onView(withId(R.id.etJPType)).perform(click());
+        onData(anything()).atPosition(3).perform(click());
+        onView(withId(R.id.etDuration)).perform(typeText("2")).perform(closeSoftKeyboard());
+        onView(withId(R.id.btnCreateJP)).perform(click());
+        onView(withId(R.id.etErrorJP)).check(matches(withText("Please Enter The Location.")));
+    }
 
     @AfterClass
     public static void tearDown() {
