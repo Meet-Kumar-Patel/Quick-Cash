@@ -95,6 +95,9 @@ public class JobPosting extends Object {
     }
 
     public ArrayList getLstAppliedBy() {
+        if(lstAppliedBy == null) {
+            return new ArrayList<String> ();
+        }
         return lstAppliedBy;
     }
 
