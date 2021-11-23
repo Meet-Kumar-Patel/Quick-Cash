@@ -2,24 +2,35 @@ package com.example.quickcash.JobPosting;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.init;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.junit.Assert.assertEquals;
-
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 
+import androidx.test.core.app.ActivityScenario;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.action.Press;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import com.example.quickcash.MainActivity;
 import com.example.quickcash.R;
 import com.example.quickcash.TaskList.TaskListActivity;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 public class JobPostingDetailsActivityEspressoTest {
+
     @Rule
     public ActivityScenarioRule<JobPostingDetailsActivity> myRule = new ActivityScenarioRule<>(JobPostingDetailsActivity.class);
 
@@ -37,6 +48,43 @@ public class JobPostingDetailsActivityEspressoTest {
 
     @Test
     public void checkIfCreateJPTitleISVisible() {
-        onView(withId(R.id.txtJPDType)).check(matches(withText("Something")));
+        onView(withId(R.id.txtJobTitle)).check(matches(withText("Job Title")));
     }
+
+    @Test
+    public void checkIfTypeIsVisible() {
+        onView(withId(R.id.txtJPDTypeValue)).check(matches(withText("Job Type")));
+    }
+
+    @Test
+    public void checkIfEmployerIsVisible() {
+        onView(withId(R.id.txtJDPCreatedByValue)).check(matches(withText("Employer")));
+    }
+
+    @Test
+    public void checkIfDurationIsVisible() {
+        onView(withId(R.id.txtJPDDurationValue)).check(matches(withText("Duration")));
+    }
+
+    @Test
+    public void checkIfWageIsVisible() {
+        onView(withId(R.id.txtJPDWageValue)).check(matches(withText("Wage")));
+    }
+
+    @Test
+    public void checkIfLocationIsVisible() {
+        onView(withId(R.id.txtJDPLocationValue)).check(matches(withText("Location")));
+    }
+
+    @Test
+    public void checkIfStatusIsVisible() {
+        onView(withId(R.id.txtJPDStatusValue)).check(matches(withText("Press 'Apply Now' to register")));
+    }
+
+    @Test
+    public void checkIfSearchMoreIsVisible() {
+        onView(withId(R.id.btnJPDReturnToSearch)).check(matches(withText("SEARCH MORE")));
+    }
+
+
 }
