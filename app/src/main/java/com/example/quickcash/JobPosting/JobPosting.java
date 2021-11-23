@@ -5,7 +5,7 @@ import java.util.UUID;
 import java.util.ArrayList;
 
 
-public class JobPosting {
+public class JobPosting extends Object {
 
     // Variables
     private String jobPostingId;
@@ -95,6 +95,9 @@ public class JobPosting {
     }
 
     public ArrayList getLstAppliedBy() {
+        if(lstAppliedBy == null) {
+            return new ArrayList<String> ();
+        }
         return lstAppliedBy;
     }
 
