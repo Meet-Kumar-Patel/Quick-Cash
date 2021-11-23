@@ -13,12 +13,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="36dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginBottom="3dp"
         android:text="JobTitle"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/jobtype"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,9 +26,9 @@
         android:id="@+id/viewjobbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="26dp"
         android:text="Details"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,38 +38,24 @@
         android:id="@+id/jobtype"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="13dp"
-        android:layout_marginEnd="42dp"
-        android:layout_marginBottom="6dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/location"
-        app:layout_constraintEnd_toStartOf="@+id/viewjobbutton"
-        app:layout_constraintStart_toEndOf="@+id/titletext"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="16dp"
+        android:text="JobType"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titletext" />
 
     <TextView
         android:id="@+id/location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="42dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="52dp"
         android:layout_marginBottom="16dp"
-        android:text="TextView"
+        android:text="City"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/viewjobbutton"
-        app:layout_constraintStart_toEndOf="@+id/titletext"
-        app:layout_constraintTop_toBottomOf="@+id/jobtype" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="15dp"
-        android:background="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/jobtype"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/jobtype"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
