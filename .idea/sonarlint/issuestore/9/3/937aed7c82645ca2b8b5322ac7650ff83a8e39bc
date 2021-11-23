@@ -1,0 +1,12 @@
+
+]
+java:S1854,"BRemove this useless assignment to local variable "sessionManager".(Â°ÕÄûÿÿÿÿ
+N
+java:S1481,"3Remove this unused "sessionManager" local variable.(Â°ÕÄûÿÿÿÿ
+t
+java:S2293"YReplace the type specification in this constructor call with the diamond operator ("<>").(›ùù£ýÿÿÿÿ
+
+java:S1319W"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(ú®”‘8üü¼ŸÔ/
+>
+java:S1604>"(Make this anonymous inner class a lambda(‚úé¯
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ªÐ€¦øÿÿÿÿ

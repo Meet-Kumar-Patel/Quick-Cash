@@ -74,6 +74,7 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         // Apply Now should change to Applied (disabled) when the user has applied or hide.
     }
 
+
     protected void retrieveDataFromFirebase(String id) {
         DatabaseReference jpDatabase = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/").getReference(JobPosting.class.getSimpleName());
         jpDatabase.addValueEventListener(new ValueEventListener() {
