@@ -59,4 +59,7 @@ public class JobPostingDetailsActivityJUnitTest {
         Assert.assertEquals(jobPostingDetailsActivity.convertJPType(5), "Picking Up Grocery");
     }
 
+
+
+
 }

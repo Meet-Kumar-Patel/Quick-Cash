@@ -9,7 +9,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.quickcash.Home.EmployerHomeActivity;
 import com.example.quickcash.R;
 import com.example.quickcash.TaskList.TaskListActivity;
 import com.example.quickcash.UserManagement.SessionManager;
@@ -35,6 +34,7 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
     // Btns
     private Button btnApply;
     private Button btnSearchMore;
+    private Button btnTaskCompleted;
     private JobPosting jobPostingOBJ;
 
     // Logged user info
@@ -69,6 +69,10 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
 
         btnSearchMore = (Button) findViewById(R.id.btnJPDReturnToSearch);
         btnSearchMore.setOnClickListener(view -> returnToSearch());
+
+        btnTaskCompleted = (Button) findViewById(R.id.btnJPDMarkCompleted);
+        btnTaskCompleted.setOnClickListener(view -> markCompleted());
+        btnTaskCompleted.setVisibility(View.INVISIBLE);
 
         // Job Posting Status: Apply now (Btn) (add name to lstApplied), Pending (txt), Accepted or Rejected
         // Apply Now should change to Applied (disabled) when the user has applied or hide.
@@ -123,6 +127,8 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         wage = (TextView) findViewById(R.id.txtJPDWageValue);
         employer = (TextView) findViewById(R.id.txtJDPCreatedByValue);
         status = (TextView) findViewById(R.id.txtJPDStatusValue);
+        btnTaskCompleted = (Button) findViewById(R.id.btnJPDMarkCompleted);
+
 
         // Set values
         jobTitle.setText(jobPosting.getJobTitle());
@@ -131,12 +137,7 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         location.setText(jobPosting.getLocation());
         wage.setText(jobPosting.getWage() + " ");
         employer.setText(jobPosting.getCreatedByName());
-        if(jobPosting.isTaskComplete()) {
-            status.setText("Task Completed");
-        }
-        else {
-            status.setText("Task Not Completed");
-        }
+        changeCompletedStatus(jobPosting);
 
 
         // if the employer accesses the app then he will not see the btn
@@ -164,6 +165,17 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
                 btnApply.setText("Candidate Already Selected");
                 btnApply.setClickable(false);
             }
+        }
+    }
+
+    private void changeCompletedStatus(JobPosting jobPosting) {
+        if(jobPosting.isTaskComplete()) {
+            status.setText("Task Completed");
+            btnTaskCompleted.setVisibility(View.INVISIBLE);
+        }
+        else {
+            status.setText("Task Not Completed");
+            btnTaskCompleted.setVisibility(View.VISIBLE);
         }
     }
 
@@ -195,6 +207,15 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         // Needs to be changed to search page
         Intent intent = new Intent(this, TaskListActivity.class);
         startActivity(intent);
+    }
+
+    protected void markCompleted() {
+        // Needs to be changed to search page
+        jobPostingOBJ.setTaskComplete(true);
+        changeCompletedStatus(jobPostingOBJ);
+        DAOJobPosting daoJobPosting = new DAOJobPosting();
+        daoJobPosting.update(jobPostingOBJ, snapshotKey);
+
     }
 
     protected void addApplicant(String userEmail) {

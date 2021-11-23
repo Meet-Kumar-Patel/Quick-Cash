@@ -86,5 +86,4 @@ public class JobPostingDetailsActivityEspressoTest {
         onView(withId(R.id.btnJPDReturnToSearch)).check(matches(withText("SEARCH MORE")));
     }
 
-
 }
