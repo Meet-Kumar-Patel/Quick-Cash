@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.quickcash.Home.EmployeeHomeActivity;
 import com.example.quickcash.JobPosting.JobPosting;
 import com.example.quickcash.R;
 import com.example.quickcash.UserManagement.MapsActivity;
@@ -35,6 +36,7 @@ public class TaskListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
 
+    //Refactoring needed, move search, and button init to new methods.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +66,15 @@ public class TaskListActivity extends AppCompatActivity {
             public void onClick(View view) {
                 jobSearchView.setQuery("", false);
                 jobSearchView.clearFocus();
+            }
+        });
+        Button homeButton = findViewById(R.id.homebutton);
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Change this to switch between employee and employer.
+                Intent homeIntent = new Intent(TaskListActivity.this, EmployeeHomeActivity.class);
+                startActivity(homeIntent);
             }
         });
     }

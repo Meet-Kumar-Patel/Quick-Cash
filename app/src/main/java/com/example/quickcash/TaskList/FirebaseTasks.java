@@ -21,12 +21,14 @@ public class FirebaseTasks {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot adSnapshot : dataSnapshot.getChildren()) {
                     JobPosting jp = adSnapshot.getValue(JobPosting.class);
-                    if (city != null) {
-                        if (jp != null && jp.getLocation().equals(city)) {
+                    if(jp.getAccepted().equals("")) {
+                        if (city != null) {
+                            if (jp != null && jp.getLocation().equals(city)) {
+                                taskListActivity.addJobPostingToArray(jp);
+                            }
+                        } else {
                             taskListActivity.addJobPostingToArray(jp);
                         }
-                    } else {
-                        taskListActivity.addJobPostingToArray(jp);
                     }
                 }
                 taskListActivity.setAdapter(new RecyclerAdapter(taskListActivity, taskListActivity.getJobPostingArrayList()));
