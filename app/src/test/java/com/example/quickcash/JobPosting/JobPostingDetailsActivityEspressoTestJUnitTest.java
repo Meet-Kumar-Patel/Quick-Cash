@@ -1,4 +1,4 @@
-package com.example.quickcash.UserManagement.JobPosting;
+package com.example.quickcash.JobPosting;
 
 import android.content.Intent;
 import androidx.test.rule.ActivityTestRule;
@@ -15,7 +15,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.Silent.class)
-public class JobPostingDetailsActivityJUnitTest {
+public class JobPostingDetailsActivityEspressoTestJUnitTest {
     private static JobPostingActivity jobPostingActivity;
 
     @Test

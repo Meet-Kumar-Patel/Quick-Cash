@@ -45,7 +45,6 @@ public class JobPostingActivityEspressoTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-
         assertEquals("com.example.quickcash", appContext.getPackageName());
     }
 
@@ -56,7 +55,7 @@ public class JobPostingActivityEspressoTest {
 
     @Test
     public void checkIfCreateJPTitleISVisible() {
-
+        JobPostingActivity jobPostingActivity = new JobPostingActivity();
         onView(withId(R.id.txtCreateJPTitle)).check(matches(withText("Create Job Posting")));
     }
 
