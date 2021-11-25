@@ -152,11 +152,13 @@ public class preferencePage extends AppCompatActivity implements AdapterView.OnI
 
 
             Preference preference = new Preference( employeeEmail,jobTypeId, duration, wage, employeeName,EmployeeId);
+            employeePreferenceIDs.add(preference.getPreferenceId());
+
 
             DPPreference dbPreference = new DPPreference();
 
             dbPreference.add(preference);
-            employeePreferenceIDs.add(jobTypeId);
+
 
 
 
