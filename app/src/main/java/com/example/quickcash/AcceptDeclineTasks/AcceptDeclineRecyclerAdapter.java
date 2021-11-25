@@ -1,7 +1,6 @@
 package com.example.quickcash.AcceptDeclineTasks;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,30 +11,27 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quickcash.JobPosting.JobPosting;
-import com.example.quickcash.JobPosting.JobPostingActivity;
-import com.example.quickcash.JobPosting.JobPostingDetailsActivity;
 import com.example.quickcash.R;
+import com.example.quickcash.UserManagement.User;
 
 import java.util.ArrayList;
 
 public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDeclineRecyclerAdapter.MyViewHolder> {
 
-    private ArrayList<JobPosting> jobPostingArrayList;
-    private ArrayList<JobPosting> jobPostingArrayListFull;
+    private ArrayList<User> userArrayList;
     private Context context;
     //Code adapted from https://www.youtube.com/watch?v=sJ-Z9G0SDhc
 
-    public ArrayList<JobPosting> getJobPostingArrayList() {
-        return jobPostingArrayList;
+    public ArrayList<User> getUserArrayList() {
+        return userArrayList;
     }
 
-    public void setJobPostingArrayList(ArrayList<JobPosting> jobPostingArrayList) {
-        this.jobPostingArrayList = jobPostingArrayList;
+    public void setUserArrayList(ArrayList<User> userArrayList) {
+        this.userArrayList = userArrayList;
     }
 
-    public AcceptDeclineRecyclerAdapter(Context context, ArrayList<JobPosting> jobPostingArrayList) {
-        this.jobPostingArrayList = jobPostingArrayList;
-        jobPostingArrayListFull = new ArrayList<>(jobPostingArrayList);
+    public AcceptDeclineRecyclerAdapter(Context context, ArrayList<User> jobPostingArrayList) {
+        this.userArrayList = jobPostingArrayList;
         this.context = context;
     }
 
@@ -51,11 +47,9 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        JobPosting jobPosting = jobPostingArrayList.get(position);
-        String title = jobPosting.getJobTitle();
-        String location = jobPosting.getLocation();
-        int jobTypeInt = jobPosting.getJobType();
-        holder.employeeName.setText(title);
+        User user = userArrayList.get(position);
+        String getnamefromuser = user.getFirstName() + " " + user.getLastName();
+        holder.employeeName.setText(getnamefromuser);
         holder.acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,7 +72,7 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
 
     @Override
     public int getItemCount() {
-        return jobPostingArrayList.size();
+        return userArrayList.size();
     }
 
     //Refactor, move to new class

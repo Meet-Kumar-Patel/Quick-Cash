@@ -2,7 +2,6 @@ package com.example.quickcash.JobPosting;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,12 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quickcash.Home.EmployerHomeActivity;
-import com.example.quickcash.MainActivity;
 import com.example.quickcash.R;
-import com.example.quickcash.TaskList.TaskListActivity;
-import com.example.quickcash.UserManagement.LogInActivity;
 import com.example.quickcash.UserManagement.SessionManager;
-import com.example.quickcash.UserManagement.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -115,7 +110,7 @@ public class JobPostingActivity extends AppCompatActivity implements AdapterView
         });
     }
 
-    protected User getAllTitles(DataSnapshot dataSnapshot) {
+    protected com.example.quickcash.UserManagement.User getAllTitles(DataSnapshot dataSnapshot) {
 
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
             // get all the titles

@@ -1,7 +1,5 @@
 package com.example.quickcash.TaskList;
 
-import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
-
 import androidx.annotation.NonNull;
 
 import com.example.quickcash.JobPosting.JobPosting;

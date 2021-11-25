@@ -20,11 +20,11 @@ public class AcceptDeclineFirebaseTasks {
                 for (DataSnapshot adSnapshot : dataSnapshot.getChildren()) {
                     JobPosting jp = adSnapshot.getValue(JobPosting.class);
                     if(jp.getCreatedBy().equals(createdByEmail)) {
-                        acceptDeclineTasks.addJobPostingToArray(jp);
+                        acceptDeclineTasks.addUserToArray(jp);
                     }
 
                 }
-                acceptDeclineTasks.setAdapter(new AcceptDeclineRecyclerAdapter(acceptDeclineTasks, acceptDeclineTasks.getJobPostingArrayList()));
+                acceptDeclineTasks.setAdapter(new AcceptDeclineRecyclerAdapter(acceptDeclineTasks, acceptDeclineTasks.getUserArrayList()));
             }
 
             @Override

@@ -4,18 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.quickcash.JobPosting.JobPosting;
 import com.example.quickcash.R;
 import com.example.quickcash.TaskList.TaskListActivity;
-import com.example.quickcash.UserManagement.MapsActivity;
 import com.example.quickcash.UserManagement.SessionManager;
 import com.example.quickcash.UserManagement.preferencePage;
 import com.google.firebase.FirebaseApp;

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.quickcash.JobPosting.JobPosting;
 import com.example.quickcash.R;
 import com.example.quickcash.UserManagement.SessionManager;
+import com.example.quickcash.UserManagement.User;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 public class AcceptDeclineTasks extends AppCompatActivity {
 
     AcceptDeclineRecyclerAdapter adapter;
-    ArrayList<JobPosting> jobPostingArrayList = new ArrayList<JobPosting>();
+    ArrayList<User> userArrayList = new ArrayList<User>();
     FirebaseDatabase db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
     String city;
     AcceptDeclineFirebaseTasks acceptDeclineFirebaseTasks = new AcceptDeclineFirebaseTasks();
@@ -51,11 +52,13 @@ public class AcceptDeclineTasks extends AppCompatActivity {
         return adapter;
     }
 
-    public void addJobPostingToArray(JobPosting jobPosting) {
-        jobPostingArrayList.add(jobPosting);
+    public void addUserToArray(JobPosting jobPosting) {
+        ArrayList <User> user = jobPosting.getLstAppliedBy();
+        userArrayList.addAll(user);
+
     }
 
-    public ArrayList<JobPosting> getJobPostingArrayList() {
-        return jobPostingArrayList;
+    public ArrayList<User> getUserArrayList() {
+        return userArrayList;
     }
 }
