@@ -29,7 +29,7 @@ private Button searchByPref;
 
 // Created intents for navigating to the pages
     protected void navigateToSearchTasksPage() {
-        Intent searchTasksPageIntent = new Intent(this, TaskListActivity.class);
+        Intent searchTasksPageIntent = new Intent(this, MapsActivity.class);
         startActivity(searchTasksPageIntent);
     }
 

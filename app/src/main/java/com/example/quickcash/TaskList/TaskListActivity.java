@@ -7,7 +7,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.SearchView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,15 +16,10 @@ import com.example.quickcash.Home.EmployeeHomeActivity;
 import com.example.quickcash.Home.EmployerHomeActivity;
 import com.example.quickcash.JobPosting.JobPosting;
 import com.example.quickcash.R;
-import com.example.quickcash.UserManagement.MapsActivity;
 import com.example.quickcash.UserManagement.SessionManager;
 import com.example.quickcash.UserManagement.SessionManagerFirebaseUser;
 import com.example.quickcash.UserManagement.User;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -34,9 +28,11 @@ public class TaskListActivity extends AppCompatActivity {
     RecyclerAdapter adapter;
     ArrayList<JobPosting> jobPostingArrayList = new ArrayList<JobPosting>();
     FirebaseDatabase db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
-    String city;
+    String city = "Halifax";
+    boolean searchByPreference;
     FirebaseTasks firebaseTasks = new FirebaseTasks();
     SessionManager sessionManager;
+    SearchView jobSearchView;
     private RecyclerView recyclerView;
 
     //Refactoring needed, move search, and button init to new methods.
@@ -44,12 +40,16 @@ public class TaskListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        city = intent.getStringExtra("City");
+        //city = intent.getStringExtra("City");
+        searchByPreference = intent.getBooleanExtra("Preference", false);
         setContentView(R.layout.activity_task_list);
         sessionManager = new SessionManager(getApplicationContext());
         recyclerView = findViewById(R.id.recyclerview);
         firebaseTasks.getJobPostingsFromFirebase(this, city);
-        SearchView jobSearchView = findViewById(R.id.jobsearch);
+        if (searchByPreference) {
+            firebaseTasks.getUserPreferenceFromFirebase(this, sessionManager.getKeyEmail());
+        }
+        jobSearchView = findViewById(R.id.jobsearch);
         jobSearchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
         jobSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -79,7 +79,7 @@ public class TaskListActivity extends AppCompatActivity {
                 SessionManagerFirebaseUser sessionManagerFirebaseUser = sessionManager.getSessionManagerFirebaseUser();
                 User user = sessionManagerFirebaseUser.getLoggedInUser();
                 Intent homeIntent;
-                if(user.getIsEmployee().equals("y")) {
+                if (user.getIsEmployee().equals("y")) {
                     homeIntent = new Intent(TaskListActivity.this, EmployeeHomeActivity.class);
                 } else {
                     homeIntent = new Intent(TaskListActivity.this, EmployerHomeActivity.class);
@@ -87,6 +87,10 @@ public class TaskListActivity extends AppCompatActivity {
                 startActivity(homeIntent);
             }
         });
+    }
+
+    public RecyclerAdapter getAdapter() {
+        return adapter;
     }
 
     public void setAdapter(RecyclerAdapter adapter) {
@@ -97,15 +101,15 @@ public class TaskListActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    public RecyclerAdapter getAdapter() {
-        return adapter;
-    }
-
     public void addJobPostingToArray(JobPosting jobPosting) {
         jobPostingArrayList.add(jobPosting);
     }
 
     public ArrayList<JobPosting> getJobPostingArrayList() {
         return jobPostingArrayList;
+    }
+
+    public void setSearchQuery(String query) {
+        jobSearchView.setQuery(query, false);
     }
 }
