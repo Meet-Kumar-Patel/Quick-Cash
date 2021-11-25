@@ -11,6 +11,7 @@ public class Preference {
     private int wage;
     private String employeeName;
     private String employeeEmail;
+    private String EmployeeId;
 
 
 
@@ -39,8 +40,12 @@ public class Preference {
         this.preferenceId = preferenceId;
     }
 
-
-
+public void setEmployeeId(String EmployeeId){
+        this.EmployeeId = EmployeeId;
+}
+    public String getEmployeeId(){
+        return EmployeeId;
+    }
     public int getDuration() {
         return duration;
     }
