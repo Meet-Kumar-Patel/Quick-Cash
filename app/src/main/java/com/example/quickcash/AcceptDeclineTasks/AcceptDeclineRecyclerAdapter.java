@@ -6,8 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,30 +17,13 @@ import com.example.quickcash.JobPosting.JobPostingDetailsActivity;
 import com.example.quickcash.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> implements Filterable {
+public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDeclineRecyclerAdapter.MyViewHolder> {
 
     private ArrayList<JobPosting> jobPostingArrayList;
     private ArrayList<JobPosting> jobPostingArrayListFull;
     private Context context;
     //Code adapted from https://www.youtube.com/watch?v=sJ-Z9G0SDhc
-    private Filter jobFilter = new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            ArrayList<JobPosting> filteredJobList = JobFilter.filter(jobPostingArrayListFull, constraint);
-            FilterResults results = new FilterResults();
-            results.values = filteredJobList;
-            return results;
-        }
-
-        @Override
-        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            jobPostingArrayList.clear();
-            jobPostingArrayList.addAll((List) filterResults.values);
-            notifyDataSetChanged();
-        }
-    };
 
     public ArrayList<JobPosting> getJobPostingArrayList() {
         return jobPostingArrayList;
@@ -52,13 +33,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         this.jobPostingArrayList = jobPostingArrayList;
     }
 
-    public RecyclerAdapter(Context context, ArrayList<JobPosting> jobPostingArrayList) {
+    public AcceptDeclineRecyclerAdapter(Context context, ArrayList<JobPosting> jobPostingArrayList) {
         this.jobPostingArrayList = jobPostingArrayList;
         jobPostingArrayListFull = new ArrayList<>(jobPostingArrayList);
         this.context = context;
     }
 
-    public RecyclerAdapter() {
+    public AcceptDeclineRecyclerAdapter() {
     }
 
     @NonNull
@@ -74,16 +55,23 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         String title = jobPosting.getJobTitle();
         String location = jobPosting.getLocation();
         int jobTypeInt = jobPosting.getJobType();
-        String jobTypeString = JobTypeStringGetter.getJobType(jobTypeInt);
-        holder.nameText.setText(title);
-        holder.locationText.setText(location);
-        holder.jobTypeText.setText(jobTypeString);
-        holder.viewJobButton.setOnClickListener(new View.OnClickListener() {
+        holder.employeeName.setText(title);
+        holder.acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent jobDetailIntent = new Intent(context, JobPostingDetailsActivity.class);
-                jobDetailIntent.putExtra(JobPostingActivity.EXTRA_MESSAGE, jobPosting.getJobPostingId());
-                context.startActivity(jobDetailIntent);
+
+            }
+        });
+        holder.declineButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        holder.ratingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
     }
@@ -93,24 +81,19 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         return jobPostingArrayList.size();
     }
 
-    @Override
-    public Filter getFilter() {
-        return jobFilter;
-    }
-
     //Refactor, move to new class
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        Button viewJobButton;
-        private TextView nameText;
-        private TextView locationText;
-        private TextView jobTypeText;
+        Button acceptButton;
+        Button declineButton;
+        Button ratingsButton;
+        private TextView employeeName;
 
         public MyViewHolder(final View view) {
             super(view);
-            nameText = view.findViewById(R.id.titletext);
-            locationText = view.findViewById(R.id.location);
-            jobTypeText = view.findViewById(R.id.jobtype);
-            viewJobButton = view.findViewById(R.id.viewjobbutton);
+            employeeName = view.findViewById(R.id.employeename);
+            ratingsButton = view.findViewById(R.id.location);
+            acceptButton = view.findViewById(R.id.jobtype);
+            declineButton = view.findViewById(R.id.viewjobbutton);
 
         }
 

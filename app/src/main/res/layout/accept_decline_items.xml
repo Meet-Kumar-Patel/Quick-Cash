@@ -9,7 +9,7 @@
     android:focusable="true">
 
     <Button
-        android:id="@+id/viewjobbutton2"
+        android:id="@+id/ratingsbutton"
         android:layout_width="150dp"
         android:layout_height="35dp"
         android:layout_marginStart="77dp"
@@ -17,36 +17,36 @@
         android:text="ratings"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/titletext"
-        app:layout_constraintTop_toBottomOf="@+id/viewjobbutton3" />
+        app:layout_constraintStart_toEndOf="@+id/employeename"
+        app:layout_constraintTop_toBottomOf="@+id/declinebutton" />
 
     <Button
-        android:id="@+id/viewjobbutton3"
+        android:id="@+id/declinebutton"
         android:layout_width="150dp"
         android:layout_height="35dp"
         android:layout_marginStart="77dp"
         android:layout_marginEnd="4dp"
         android:text="decline"
-        app:layout_constraintBottom_toTopOf="@+id/viewjobbutton2"
+        app:layout_constraintBottom_toTopOf="@+id/ratingsbutton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/titletext"
-        app:layout_constraintTop_toBottomOf="@+id/viewjobbutton4" />
+        app:layout_constraintStart_toEndOf="@+id/employeename"
+        app:layout_constraintTop_toBottomOf="@+id/acceptbutton" />
 
     <Button
-        android:id="@+id/viewjobbutton4"
+        android:id="@+id/acceptbutton"
         android:layout_width="150dp"
         android:layout_height="35dp"
         android:layout_marginStart="77dp"
         android:layout_marginEnd="4dp"
         android:text="Accept"
-        app:layout_constraintBottom_toTopOf="@+id/viewjobbutton3"
+        app:layout_constraintBottom_toTopOf="@+id/declinebutton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/titletext"
+        app:layout_constraintStart_toEndOf="@+id/employeename"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/titletext"
+        android:id="@+id/employeename"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
@@ -56,7 +56,7 @@
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/viewjobbutton3"
+        app:layout_constraintEnd_toStartOf="@+id/declinebutton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
