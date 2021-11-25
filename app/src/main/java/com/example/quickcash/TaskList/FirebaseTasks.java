@@ -5,6 +5,8 @@ import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import androidx.annotation.NonNull;
 
 import com.example.quickcash.JobPosting.JobPosting;
+import com.example.quickcash.UserManagement.Preference;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,6 +39,28 @@ public class FirebaseTasks {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 return;
+            }
+        });
+    }
+
+    public void getUserPreferenceFromFirebase(TaskListActivity taskListActivity, String email){
+        DatabaseReference preferenceReference = db.getReference("Preference");
+        preferenceReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot adSnapshot : dataSnapshot.getChildren()) {
+                    Preference pref = adSnapshot.getValue(Preference.class);
+                    if(pref.getemployeeEmail() != null && pref.getemployeeEmail().equals(email)) {
+                        int taskPrefType = pref.getJobType();
+                        String taskPref = JobTypeStringGetter.getJobType(taskPrefType);
+                        taskListActivity.setSearchQuery(taskPref);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }
