@@ -22,6 +22,9 @@ import com.example.quickcash.R;
 import com.example.quickcash.WelcomePage;
 
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+
 public class preferencePage extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     static FirebaseDatabase db;
@@ -143,6 +146,8 @@ public class preferencePage extends AppCompatActivity implements AdapterView.OnI
             String employeeName = sessionManager.getKeyName();
             String employeeEmail = sessionManager.getKeyEmail();
             String EmployeeId = sessionManager.getKeyEmployeeId();
+            ArrayList<String> employeePreferenceIDs = sessionManager.getKeyemployeePreferenceIDs();
+
 
 
 
@@ -151,6 +156,7 @@ public class preferencePage extends AppCompatActivity implements AdapterView.OnI
             DPPreference dbPreference = new DPPreference();
 
             dbPreference.add(preference);
+            employeePreferenceIDs.add(jobTypeId);
 
 
 
