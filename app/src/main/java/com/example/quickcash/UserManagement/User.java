@@ -1,4 +1,5 @@
 package com.example.quickcash.UserManagement;
+import java.util.ArrayList;
 
 public class User {
 
@@ -10,6 +11,8 @@ public class User {
     private String password;
     private String confirmPassword;
     private String isEmployee; // Values y = yes, n= no.
+    ArrayList<String> employeePreferenceIDs = new ArrayList<String>();
+
 
     // Constructors
     public User(String firstName, String lastName, String email, String phone, String password, String confirmPassword, String isEmployee) {
@@ -24,7 +27,20 @@ public class User {
 
     public User() {
     }
-
+    public void setEmployeePreferenceID(String employeePreferenceID){
+        if(isEmployee.equals("y")){
+            employeePreferenceIDs.add(employeePreferenceID);
+        }
+        else{System.out.println("The user is not an Employee");}
+    }
+    public ArrayList<String> getEmployeePreferenceID(){
+        if(isEmployee.equals("y")){
+            return employeePreferenceIDs;
+        }
+        else{System.out.println("The user is not an Employee");
+        return null;
+        }
+    }
     // Getters/Setters
     public String getFirstName() {
         return firstName;
