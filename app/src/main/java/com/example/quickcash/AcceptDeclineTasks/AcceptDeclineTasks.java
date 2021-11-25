@@ -74,7 +74,7 @@ public class AcceptDeclineTasks extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Change this to switch between employee and employer.
-                Intent homeIntent = new Intent(TaskListActivity.this, EmployeeHomeActivity.class);
+                Intent homeIntent = new Intent(AcceptDeclineTasks.this, EmployeeHomeActivity.class);
                 startActivity(homeIntent);
             }
         });
