@@ -31,7 +31,6 @@ public class EmployerHomeActivity extends AppCompatActivity {
         startActivity(dashboardPageIntent);
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
