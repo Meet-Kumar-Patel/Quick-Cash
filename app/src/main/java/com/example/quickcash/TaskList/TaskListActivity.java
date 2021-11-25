@@ -14,10 +14,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quickcash.Home.EmployeeHomeActivity;
+import com.example.quickcash.Home.EmployerHomeActivity;
 import com.example.quickcash.JobPosting.JobPosting;
 import com.example.quickcash.R;
 import com.example.quickcash.UserManagement.MapsActivity;
 import com.example.quickcash.UserManagement.SessionManager;
+import com.example.quickcash.UserManagement.SessionManagerFirebaseUser;
+import com.example.quickcash.UserManagement.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,7 +36,7 @@ public class TaskListActivity extends AppCompatActivity {
     FirebaseDatabase db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
     String city;
     FirebaseTasks firebaseTasks = new FirebaseTasks();
-
+    SessionManager sessionManager;
     private RecyclerView recyclerView;
 
     //Refactoring needed, move search, and button init to new methods.
@@ -43,7 +46,7 @@ public class TaskListActivity extends AppCompatActivity {
         Intent intent = getIntent();
         city = intent.getStringExtra("City");
         setContentView(R.layout.activity_task_list);
-        SessionManager sessionManager = new SessionManager(getApplicationContext());
+        sessionManager = new SessionManager(getApplicationContext());
         recyclerView = findViewById(R.id.recyclerview);
         firebaseTasks.getJobPostingsFromFirebase(this, city);
         SearchView jobSearchView = findViewById(R.id.jobsearch);
@@ -73,7 +76,14 @@ public class TaskListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Change this to switch between employee and employer.
-                Intent homeIntent = new Intent(TaskListActivity.this, EmployeeHomeActivity.class);
+                SessionManagerFirebaseUser sessionManagerFirebaseUser = sessionManager.getSessionManagerFirebaseUser();
+                User user = sessionManagerFirebaseUser.getLoggedInUser();
+                Intent homeIntent;
+                if(user.getIsEmployee().equals("y")) {
+                    homeIntent = new Intent(TaskListActivity.this, EmployeeHomeActivity.class);
+                } else {
+                    homeIntent = new Intent(TaskListActivity.this, EmployerHomeActivity.class);
+                }
                 startActivity(homeIntent);
             }
         });
