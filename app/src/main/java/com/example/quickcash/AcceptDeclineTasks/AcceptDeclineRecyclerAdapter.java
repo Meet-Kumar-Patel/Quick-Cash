@@ -10,27 +10,25 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.quickcash.JobPosting.JobPosting;
 import com.example.quickcash.R;
-import com.example.quickcash.UserManagement.User;
 
 import java.util.ArrayList;
 
 public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDeclineRecyclerAdapter.MyViewHolder> {
 
-    private ArrayList<User> userArrayList;
+    private ArrayList<String> userArrayList;
     private Context context;
     //Code adapted from https://www.youtube.com/watch?v=sJ-Z9G0SDhc
 
-    public ArrayList<User> getUserArrayList() {
+    public ArrayList<String> getUserArrayList() {
         return userArrayList;
     }
 
-    public void setUserArrayList(ArrayList<User> userArrayList) {
+    public void setUserArrayList(ArrayList<String> userArrayList) {
         this.userArrayList = userArrayList;
     }
 
-    public AcceptDeclineRecyclerAdapter(Context context, ArrayList<User> jobPostingArrayList) {
+    public AcceptDeclineRecyclerAdapter(Context context, ArrayList<String> jobPostingArrayList) {
         this.userArrayList = jobPostingArrayList;
         this.context = context;
     }
@@ -41,15 +39,15 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_items, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.accept_decline_items, parent, false);
         return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        User user = userArrayList.get(position);
-        String getnamefromuser = user.getFirstName() + " " + user.getLastName();
-        holder.employeeName.setText(getnamefromuser);
+        String user = userArrayList.get(position);
+        String nameFromUser = user;
+        holder.employeeName.setText(nameFromUser);
         holder.acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,9 +83,9 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
         public MyViewHolder(final View view) {
             super(view);
             employeeName = view.findViewById(R.id.employeename);
-            ratingsButton = view.findViewById(R.id.location);
-            acceptButton = view.findViewById(R.id.jobtype);
-            declineButton = view.findViewById(R.id.viewjobbutton);
+            ratingsButton = view.findViewById(R.id.ratingsbutton);
+            acceptButton = view.findViewById(R.id.acceptbutton);
+            declineButton = view.findViewById(R.id.declinebutton);
 
         }
 

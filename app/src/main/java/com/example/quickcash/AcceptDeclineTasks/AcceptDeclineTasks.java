@@ -11,17 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.quickcash.JobPosting.JobPosting;
 import com.example.quickcash.R;
 import com.example.quickcash.UserManagement.SessionManager;
-import com.example.quickcash.UserManagement.User;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
 public class AcceptDeclineTasks extends AppCompatActivity {
 
     AcceptDeclineRecyclerAdapter adapter;
-    ArrayList<User> userArrayList = new ArrayList<User>();
-    FirebaseDatabase db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
-    String city;
+    ArrayList<String> userArrayList = new ArrayList<String>();
     AcceptDeclineFirebaseTasks acceptDeclineFirebaseTasks = new AcceptDeclineFirebaseTasks();
     String employerEmail = "jo@test.com";
 
@@ -32,7 +28,6 @@ public class AcceptDeclineTasks extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        city = intent.getStringExtra("City");
         setContentView(R.layout.activity_task_list);
         SessionManager sessionManager = new SessionManager(getApplicationContext());
         recyclerView = findViewById(R.id.recyclerview);
@@ -53,12 +48,12 @@ public class AcceptDeclineTasks extends AppCompatActivity {
     }
 
     public void addUserToArray(JobPosting jobPosting) {
-        ArrayList <User> user = jobPosting.getLstAppliedBy();
+        ArrayList<String> user = jobPosting.getLstAppliedBy();
         userArrayList.addAll(user);
 
     }
 
-    public ArrayList<User> getUserArrayList() {
+    public ArrayList<String> getUserArrayList() {
         return userArrayList;
     }
 }
