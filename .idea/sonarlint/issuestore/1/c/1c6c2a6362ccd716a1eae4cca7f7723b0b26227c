@@ -1,0 +1,5 @@
+
+\
+java:S1118":Add a private constructor to hide the implicit public one.(ÛÇ†ÿıÿÿÿÿ8±ØîõÓ/
+C	java:S131""Add a default case to this switch.(ªšşÿÿÿÿ8´ØîõÓ/
+{	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ªĞ€¦øÿÿÿÿ8¶ØîõÓ/

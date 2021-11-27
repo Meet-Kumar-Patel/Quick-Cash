@@ -1,0 +1,35 @@
+
+F
+java:S3740Ô"/Provide the parametrized type for this generic.(€ÇÒş
+F
+java:S3740Ö"/Provide the parametrized type for this generic.(¬‘ÀŞ
+q
+java:S1450/"VRemove the "binding" field and declare it as a local variable in the relevant methods.(…Öéÿÿÿÿÿ
+
+java:S14505"kRemove the "mFusedLocationProviderClient" field and declare it as a local variable in the relevant methods.(¾àŸ£
+f
+java:S1874’"JDon't override a deprecated method or explicitly mark it as "@Deprecated".(Ó»×¶şÿÿÿÿ
+=	java:S131•""Add a default case to this switch.(×ö³–úÿÿÿÿ
+n
+java:S3252Á"WUse static access with "androidx.core.content.ContextCompat" for "checkSelfPermission".(¥êêí
+n
+java:S3252Á"WUse static access with "androidx.core.content.ContextCompat" for "checkSelfPermission".(¥êêí
+n
+java:S3776Í"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(äõ¡‡üÿÿÿÿ
+C
+java:S1604R"(Make this anonymous inner class a lambda(ÔÀÄûøÿÿÿÿ
+C
+java:S1604`"(Make this anonymous inner class a lambda(Ì°ËÀúÿÿÿÿ
+>
+java:S1604k"(Make this anonymous inner class a lambda(™³½­
+?
+java:S1604Ö"(Make this anonymous inner class a lambda(¬‘ÀŞ
+g
+java:S1301•"KReplace this "switch" statement by "if" statements to increase readability.(×ö³–úÿÿÿÿ
+F
+java:S5411¿"*Use the primitive boolean expression here.(–Ë—Ğûÿÿÿÿ
+F
+java:S5411Ò"*Use the primitive boolean expression here.(–Ë—Ğûÿÿÿÿ
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÜŸŸÒüÿÿÿÿ
+
+java:S4165š"xRemove this useless assignment; "mLocationPermissionGranted" already holds the assigned value along all execution paths.(ıÆ·

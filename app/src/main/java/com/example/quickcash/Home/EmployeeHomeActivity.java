@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.quickcash.JobPosting.JobPosting;
 import com.example.quickcash.R;
 import com.example.quickcash.TaskList.TaskListActivity;
+import com.example.quickcash.UserManagement.MapsActivity;
 import com.example.quickcash.UserManagement.SessionManager;
 import com.example.quickcash.UserManagement.preferencePage;
 import com.google.firebase.FirebaseApp;
@@ -28,7 +29,7 @@ private Button searchByPref;
 
 // Created intents for navigating to the pages
     protected void navigateToSearchTasksPage() {
-        Intent searchTasksPageIntent = new Intent(this, TaskListActivity.class);
+        Intent searchTasksPageIntent = new Intent(this, MapsActivity.class);
         startActivity(searchTasksPageIntent);
     }
 
