@@ -1,7 +1,9 @@
 package com.example.quickcash.UserManagement;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.renderscript.Sampler;
 import android.widget.ArrayAdapter;
 
 
@@ -21,7 +23,11 @@ import com.example.quickcash.R;
 
 import com.example.quickcash.WelcomePage;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -145,23 +151,50 @@ public class preferencePage extends AppCompatActivity implements AdapterView.OnI
             SessionManager sessionManager = new SessionManager(getApplicationContext());
             String employeeName = sessionManager.getKeyName();
             String employeeEmail = sessionManager.getKeyEmail();
-            ArrayList<String> employeePreferenceIDs = sessionManager.getKeyemployeePreferenceIDs();
-
-
-
-
+            
             Preference preference = new Preference( employeeEmail,jobTypeId, duration, wage, employeeName);
-            employeePreferenceIDs.add(preference.getPreferenceId());
 
-
-            DPPreference dbPreference = new DPPreference();
-
-            dbPreference.add(preference);
-
-
-
+            updatePreferenceFromFirebase(preference);
 
         }
+    }
+
+    private void updatePreferenceFromFirebase(Preference preference) {
+        DatabaseReference preferenceReference = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/").getReference(Preference.class.getSimpleName());
+        DPPreference dpPreference = new DPPreference();
+        ValueEventListener valueEventListener = new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // When the data is received, verify the user credential
+                boolean emailFound = false;
+                for(DataSnapshot adSnapshot : dataSnapshot.getChildren()) {
+                    Preference pref = adSnapshot.getValue(Preference.class);
+                    if(pref.getemployeeEmail().equals(preference.getemployeeEmail())) {
+                        //Updates values if preference with email exists.
+                        String keyID = adSnapshot.getKey();
+                        preferenceReference.child(keyID).child("jobType").setValue(preference.getJobType());
+                        preferenceReference.child(keyID).child("duration").setValue(preference.getDuration());
+                        preferenceReference.child(keyID).child("wage").setValue(preference.getWage());
+                        emailFound = true;
+                        break;
+                    }
+
+                }
+                if(!emailFound){
+                    dpPreference.add(preference);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println("Could retrieve: " + error.getCode());
+            }
+
+        };
+
+        preferenceReference.addListenerForSingleValueEvent(valueEventListener);
     }
 
     private void setStatusMessage(String statusMessage) {
