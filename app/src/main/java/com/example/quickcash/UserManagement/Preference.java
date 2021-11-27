@@ -11,11 +11,11 @@ public class Preference {
     private int wage;
     private String employeeName;
     private String employeeEmail;
-    private String EmployeeId;
 
 
 
-    public Preference( String employeeEmail, int type, int duration, int wage,String employeeName,String EmployeeId) {
+
+    public Preference( String employeeEmail, int type, int duration, int wage,String employeeName) {
         this.preferenceId = UUID.randomUUID().toString();
         this.jobType = type;
         this.duration = duration;
@@ -23,7 +23,7 @@ public class Preference {
         this.wage = wage;
         this.employeeName = employeeName;
         this.employeeEmail = employeeEmail;
-        this.EmployeeId = EmployeeId;
+
     }
 
     public Preference() {}
@@ -41,12 +41,7 @@ public class Preference {
         this.preferenceId = preferenceId;
     }
 
-public void setEmployeeId(String EmployeeId){
-        this.EmployeeId = EmployeeId;
-}
-    public String getEmployeeId(){
-        return EmployeeId;
-    }
+
     public int getDuration() {
         return duration;
     }

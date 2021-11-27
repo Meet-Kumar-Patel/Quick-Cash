@@ -145,13 +145,12 @@ public class preferencePage extends AppCompatActivity implements AdapterView.OnI
             SessionManager sessionManager = new SessionManager(getApplicationContext());
             String employeeName = sessionManager.getKeyName();
             String employeeEmail = sessionManager.getKeyEmail();
-            String EmployeeId = sessionManager.getKeyEmployeeId();
             ArrayList<String> employeePreferenceIDs = sessionManager.getKeyemployeePreferenceIDs();
 
 
 
 
-            Preference preference = new Preference( employeeEmail,jobTypeId, duration, wage, employeeName,EmployeeId);
+            Preference preference = new Preference( employeeEmail,jobTypeId, duration, wage, employeeName);
             employeePreferenceIDs.add(preference.getPreferenceId());
 
 
