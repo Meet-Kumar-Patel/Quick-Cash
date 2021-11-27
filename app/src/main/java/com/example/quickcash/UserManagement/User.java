@@ -12,7 +12,8 @@ public class User {
     private String password;
     private String confirmPassword;
     private String isEmployee; // Values y = yes, n= no.
-    ArrayList<String> employeePreferenceIDs = new ArrayList<String>();
+    //ArrayList<String> employeePreferenceIDs = new ArrayList<String>();
+    private String employeePreferenceID;
     private String EmployeeId;
 
 
@@ -32,13 +33,13 @@ public class User {
     }
     public void setEmployeePreferenceID(String employeePreferenceID){
         if(isEmployee.equals("y")){
-            employeePreferenceIDs.add(employeePreferenceID);
+            this.employeePreferenceID = employeePreferenceID;
         }
         else{System.out.println("The user is not an Employee");}
     }
-    public ArrayList<String> getEmployeePreferenceID(){
+    public String getEmployeePreferenceID(){
         if(isEmployee.equals("y")){
-            return employeePreferenceIDs;
+            return employeePreferenceID;
         }
         else{System.out.println("The user is not an Employee");
         return null;
