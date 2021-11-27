@@ -1,8 +1,13 @@
 package com.example.quickcash.UserManagement;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class DPPreference {
     private DatabaseReference databaseReference;
@@ -19,5 +24,7 @@ public class DPPreference {
     public Task<Void> add(Preference preference) {
         return databaseReference.push().setValue(preference);
     }
+
+
 
 }
