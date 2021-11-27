@@ -14,7 +14,7 @@ public class User {
     private String isEmployee; // Values y = yes, n= no.
     //ArrayList<String> employeePreferenceIDs = new ArrayList<String>();
     private String employeePreferenceID;
-    private String EmployeeId;
+
 
 
     // Constructors
@@ -26,7 +26,6 @@ public class User {
         this.password = password;
         this.confirmPassword = confirmPassword;
         this.isEmployee = isEmployee;
-        if(isEmployee.equals("y")){this.EmployeeId = UUID.randomUUID().toString();}
     }
 
     public User() {
