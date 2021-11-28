@@ -158,7 +158,7 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
                 } else {
                     if (jobPosting.getAccepted().equals(userEmail)) {
                         btnApply.setText("Accepted");
-
+                        btnTaskCompleted.setVisibility(View.VISIBLE);
                     } else if (!jobPosting.getAccepted().equals(userEmail)) {
                         btnApply.setText("Sorry Rejected");
                     }
@@ -191,12 +191,16 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
     }
 
     public void openRateEmployer() {
-        Intent intent = new Intent(this, ViewRatingActivity.class);
-        //Intent intent = new Intent(this, GiveRatingsActivity.class);
-        intent.putExtra(JobPostingActivity.EXTRA_MESSAGE, jobPostingOBJ.getCreatedBy());
-        intent.putExtra("jobPostingID", jobPostingOBJ.getJobPostingId());
-        intent.putExtra("userToRate", jobPostingOBJ.getCreatedByName());
-        startActivity(intent);
+        Intent rateIntent;
+        if(jobPostingOBJ.isTaskComplete()){
+            rateIntent = new Intent(this, GiveRatingsActivity.class);
+        } else {
+            rateIntent = new Intent(this, ViewRatingActivity.class);
+        }
+        rateIntent.putExtra(JobPostingActivity.EXTRA_MESSAGE, jobPostingOBJ.getCreatedBy());
+        rateIntent.putExtra("jobPostingID", jobPostingOBJ.getJobPostingId());
+        rateIntent.putExtra("userToRate", jobPostingOBJ.getCreatedByName());
+        startActivity(rateIntent);
     }
 
     //can be refactored
@@ -264,4 +268,5 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         TextView etError = findViewById(R.id.txtJPDError);
         etError.setText(statusMessage);
     }
+
 }
