@@ -27,7 +27,7 @@ public class GiveRatingsActivity extends AppCompatActivity {
         SessionManager sessionManager = new SessionManager(getApplicationContext());
         String senderEmail = sessionManager.getKeyEmail();
 
-        RatingBar starRatingBar = (RatingBar) findViewById(R.id.give_star_rating_bar);
+        RatingBar starRatingBar = (RatingBar) findViewById(R.id.star_rating_bar);
 
         Button submitRatingButton = (Button) findViewById(R.id.rating_submit_button);
 

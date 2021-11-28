@@ -27,23 +27,27 @@ public class ViewRatingActivity extends AppCompatActivity {
     RatingBar ratingBar = null;
     String ratingKey = "";
 
+    String userToRate = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ratings);
+        setContentView(R.layout.activity_view_ratings);
 
         Intent intent = getIntent();
         String receiverEmail = intent.getStringExtra(JobPostingActivity.EXTRA_MESSAGE);
+        String jobPostingID = intent.getStringExtra("jobPostingID");
+        userToRate = intent.getStringExtra("userToRate");
 
         SessionManager sessionManager = new SessionManager(getApplicationContext());
         String senderEmail = sessionManager.getKeyEmail();
 
-        Rating rating = new Rating( senderEmail, receiverEmail, 3);
-        retrieveDataFromFirebase(receiverEmail, senderEmail);
+        //Rating rating = new Rating( senderEmail, receiverEmail, 3, jobPostingID);
+        retrieveDataFromFirebase(receiverEmail, senderEmail, jobPostingID);
 
     }
 
-    protected void retrieveDataFromFirebase(String receiverEmail, String senderEmail) {
+    protected void retrieveDataFromFirebase(String receiverEmail, String senderEmail,String jobID) {
         DatabaseReference jpDatabase = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/").getReference(Rating.class.getSimpleName());
         jpDatabase.addValueEventListener(new ValueEventListener() {
 
@@ -52,7 +56,7 @@ public class ViewRatingActivity extends AppCompatActivity {
                 // When the data is received, verify the user credential
                 if (dataSnapshot.exists()) {
                     try {
-                        getRatingByID(dataSnapshot, receiverEmail, senderEmail);
+                        getRatingByID(dataSnapshot, receiverEmail, senderEmail, jobID);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -66,13 +70,14 @@ public class ViewRatingActivity extends AppCompatActivity {
         });
     }
 
-    protected Rating getRatingByID(DataSnapshot dataSnapshot, String receiverEmail, String senderEmail) throws Exception {
+    protected Rating getRatingByID(DataSnapshot dataSnapshot, String receiverEmail, String senderEmail, String jobID) throws Exception {
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
             Rating ratingInFirebase = snapshot.getValue(Rating.class);
             boolean receiverEmailMatches = ratingInFirebase.getReceiverUserEmail().equals(receiverEmail);
             boolean senderEmailMatches = ratingInFirebase.getSenderUserEmail().equals(senderEmail);
+            boolean jobIDMatches = ratingInFirebase.getJobPostingID().equals(jobID);
 
-            if (receiverEmailMatches && senderEmailMatches) {
+            if (receiverEmailMatches && senderEmailMatches && jobIDMatches) {
                 rating = ratingInFirebase;
                 populateLayout(rating);
                 ratingKey = snapshot.getKey();
@@ -87,15 +92,15 @@ public class ViewRatingActivity extends AppCompatActivity {
         findLayout();
 
         // Fill with rating info
-        rating_header.setText("Name of the employer Rating");
-        star_rating_number.setText(String.valueOf(rating.getRatingValue()));
+        rating_header.setText( userToRate + "'s Rating");
+        star_rating_number.setText(rating.getRatingValue() + "/5");
         ratingBar.setRating(rating.getRatingValue());
     }
 
     public void findLayout() {
         rating_header = findViewById(R.id.rating_header);
         star_rating_number = findViewById(R.id.star_rating_number);
-        ratingBar = findViewById(R.id.star_rating);
+        ratingBar = findViewById(R.id.star_rating_bar);
         ratingBar.setClickable(false);
     }
 }
