@@ -25,9 +25,10 @@ public class ViewRatingActivity extends AppCompatActivity {
     TextView rating_header = null;
     TextView star_rating_number = null;
     RatingBar ratingBar = null;
-    String ratingKey = "";
 
+    float ratingSum = 0;
     String userToRate = "";
+    int numRatings = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +43,8 @@ public class ViewRatingActivity extends AppCompatActivity {
         SessionManager sessionManager = new SessionManager(getApplicationContext());
         String senderEmail = sessionManager.getKeyEmail();
 
-        //Rating rating = new Rating( senderEmail, receiverEmail, 3, jobPostingID);
         retrieveDataFromFirebase(receiverEmail, senderEmail, jobPostingID);
+
 
     }
 
@@ -74,27 +75,28 @@ public class ViewRatingActivity extends AppCompatActivity {
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
             Rating ratingInFirebase = snapshot.getValue(Rating.class);
             boolean receiverEmailMatches = ratingInFirebase.getReceiverUserEmail().equals(receiverEmail);
-            boolean senderEmailMatches = ratingInFirebase.getSenderUserEmail().equals(senderEmail);
-            boolean jobIDMatches = ratingInFirebase.getJobPostingID().equals(jobID);
 
-            if (receiverEmailMatches && senderEmailMatches && jobIDMatches) {
-                rating = ratingInFirebase;
-                populateLayout(rating);
-                ratingKey = snapshot.getKey();
-                return rating;
+            if (receiverEmailMatches) {
+                ratingSum += ratingInFirebase.getRatingValue();
+                numRatings ++;
             }
         }
+        populateLayout(userToRate, numRatings, ratingSum);
         return null;
     }
 
-    public void populateLayout(Rating rating) {
+    public void populateLayout(String userToRate, int numReviews, float reviewSum) {
         // Find the layout
         findLayout();
-
+        float ratingVal = calculateRating(numReviews, reviewSum);
         // Fill with rating info
         rating_header.setText( userToRate + "'s Rating");
-        star_rating_number.setText(rating.getRatingValue() + "/5");
-        ratingBar.setRating(rating.getRatingValue());
+        star_rating_number.setText(ratingVal + "/5");
+        ratingBar.setRating(ratingVal);
+    }
+
+    public float calculateRating(int numReviews, float reviewSum) {
+        return reviewSum/numReviews;
     }
 
     public void findLayout() {
@@ -103,4 +105,6 @@ public class ViewRatingActivity extends AppCompatActivity {
         ratingBar = findViewById(R.id.star_rating_bar);
         ratingBar.setClickable(false);
     }
+
+
 }

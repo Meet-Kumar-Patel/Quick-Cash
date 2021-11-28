@@ -154,9 +154,11 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
 
                 if(jobPosting.getAccepted().isEmpty()) {
                     btnApply.setText("Applied");
+                    btnTaskCompleted.setVisibility(View.VISIBLE);
                 } else {
                     if (jobPosting.getAccepted().equals(userEmail)) {
                         btnApply.setText("Accepted");
+
                     } else if (!jobPosting.getAccepted().equals(userEmail)) {
                         btnApply.setText("Sorry Rejected");
                     }
@@ -179,7 +181,6 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         }
         else {
             status.setText("Task Not Completed");
-            btnTaskCompleted.setVisibility(View.VISIBLE);
         }
     }
 
