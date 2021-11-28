@@ -17,8 +17,9 @@ public class Rating {
         this.ratingValue = ratingValue;
         this.jobPostingID = jobPostingID;
     }
-
+    
     public Rating() {this.ratingID = UUID.randomUUID().toString();}
+
 
     public void setSenderUserEmail(String senderUserEmail) {
         this.senderUserEmail = senderUserEmail;
