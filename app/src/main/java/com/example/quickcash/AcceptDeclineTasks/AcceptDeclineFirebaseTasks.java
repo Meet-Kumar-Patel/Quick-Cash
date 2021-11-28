@@ -3,6 +3,7 @@ package com.example.quickcash.AcceptDeclineTasks;
 import androidx.annotation.NonNull;
 
 import com.example.quickcash.JobPosting.JobPosting;
+import com.example.quickcash.UserManagement.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,16 +21,34 @@ public class AcceptDeclineFirebaseTasks {
                 for (DataSnapshot adSnapshot : dataSnapshot.getChildren()) {
                     JobPosting jp = adSnapshot.getValue(JobPosting.class);
                     if(jp.getCreatedBy().equals(createdByEmail)) {
-                        acceptDeclineTasks.addUserToArray(jp);
+                        acceptDeclineTasks.addJobPostingToHashMap(adSnapshot.getKey(), jp);
                     }
 
                 }
-                acceptDeclineTasks.setAdapter(new AcceptDeclineRecyclerAdapter(acceptDeclineTasks, acceptDeclineTasks.getUserArrayList()));
+                //acceptDeclineTasks.setAdapter(new AcceptDeclineRecyclerAdapter(acceptDeclineTasks, acceptDeclineTasks.getUserArrayList()));
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 return;
+            }
+        });
+    }
+
+    public void getUsersFromFirebase(AcceptDeclineTasks acceptDeclineTasks){
+        DatabaseReference userReference = db.getReference("User");
+        userReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot adSnapshot : snapshot.getChildren()) {
+                    User user = adSnapshot.getValue(User.class);
+                    acceptDeclineTasks.addUserToHashMap(adSnapshot.getKey(), user);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }

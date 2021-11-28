@@ -11,15 +11,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.quickcash.JobPosting.JobPosting;
 import com.example.quickcash.R;
 import com.example.quickcash.UserManagement.SessionManager;
+import com.example.quickcash.UserManagement.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AcceptDeclineTasks extends AppCompatActivity {
 
     AcceptDeclineRecyclerAdapter adapter;
-    ArrayList<String> userArrayList = new ArrayList<String>();
+    ArrayList<User> userArrayList = new ArrayList<User>();
+    HashMap<String,JobPosting> jobPostingHashMap = new HashMap<>();
     AcceptDeclineFirebaseTasks acceptDeclineFirebaseTasks = new AcceptDeclineFirebaseTasks();
-    String employerEmail = "jo@test.com";
+    String employerEmail;
 
     private RecyclerView recyclerView;
 
@@ -30,6 +33,7 @@ public class AcceptDeclineTasks extends AppCompatActivity {
         Intent intent = getIntent();
         setContentView(R.layout.activity_task_list);
         SessionManager sessionManager = new SessionManager(getApplicationContext());
+        employerEmail = sessionManager.getKeyEmail();
         recyclerView = findViewById(R.id.recyclerview);
         acceptDeclineFirebaseTasks.getJobPostingsFromFirebase(this, employerEmail);
 
@@ -47,13 +51,24 @@ public class AcceptDeclineTasks extends AppCompatActivity {
         return adapter;
     }
 
-    public void addUserToArray(JobPosting jobPosting) {
-        ArrayList<String> user = jobPosting.getLstAppliedBy();
-        userArrayList.addAll(user);
+    public void addUserToArray(HashMap<String,JobPosting> jobPostingHashMap) {
+        ArrayList<User> users = new ArrayList<>();
+        for(JobPosting jp : jobPostingHashMap.values()){
+            users.add()
+        }
 
+        userArrayList.addAll(users);
     }
 
-    public ArrayList<String> getUserArrayList() {
+    public void addJobPostingToHashMap(String key, JobPosting jobPosting){
+        jobPostingHashMap.put(key, jobPosting);
+    }
+
+    public ArrayList<User> getUserArrayList() {
         return userArrayList;
+    }
+
+    public void addUserToHashMap(String key,User user) {
+        userHashMap.put(key, user);
     }
 }
