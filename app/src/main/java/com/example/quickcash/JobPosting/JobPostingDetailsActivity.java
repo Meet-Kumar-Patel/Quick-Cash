@@ -10,8 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quickcash.R;
-import com.example.quickcash.Ratings.RatingsActivity;
+
 import com.example.quickcash.Ratings.ViewRatingActivity;
+import com.example.quickcash.Ratings.GiveRatingsActivity;
 import com.example.quickcash.TaskList.TaskListActivity;
 import com.example.quickcash.UserManagement.SessionManager;
 import com.google.firebase.database.DataSnapshot;
@@ -190,10 +191,14 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
 
     public void openRateEmployer() {
         Intent intent = new Intent(this, ViewRatingActivity.class);
+        //Intent intent = new Intent(this, GiveRatingsActivity.class);
         intent.putExtra(JobPostingActivity.EXTRA_MESSAGE, jobPostingOBJ.getCreatedBy());
+        intent.putExtra("jobPostingID", jobPostingOBJ.getJobPostingId());
+        intent.putExtra("userToRate", jobPostingOBJ.getCreatedByName());
         startActivity(intent);
     }
 
+    //can be refactored
     protected String convertJPType(int id) {
         String type = "";
         switch (id) {

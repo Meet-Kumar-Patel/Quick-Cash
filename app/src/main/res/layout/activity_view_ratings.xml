@@ -15,13 +15,13 @@
         android:layout_marginBottom="32dp"
         android:text="User's Rating"
         android:textSize="28sp"
-        app:layout_constraintBottom_toTopOf="@+id/star_rating"
+        app:layout_constraintBottom_toTopOf="@+id/give_star_rating_bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <RatingBar
-        android:id="@+id/star_rating"
+        android:id="@+id/give_star_rating_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="85dp"
@@ -47,7 +47,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/star_rating" />
+        app:layout_constraintTop_toBottomOf="@+id/give_star_rating_bar" />
 
     <Button
         android:id="@+id/rating_back_button"
