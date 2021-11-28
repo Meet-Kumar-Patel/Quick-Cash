@@ -32,7 +32,7 @@ public class AcceptDeclineTasks extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        setContentView(R.layout.activity_task_list);
+        setContentView(R.layout.activity_accept_decline_tasks);
         SessionManager sessionManager = new SessionManager(getApplicationContext());
         employerEmail = sessionManager.getKeyEmail();
         recyclerView = findViewById(R.id.recyclerview);
