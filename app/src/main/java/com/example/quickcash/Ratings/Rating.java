@@ -1,29 +1,27 @@
 package com.example.quickcash.Ratings;
 
+import java.util.UUID;
+
 public class Rating {
 
-    private String ratingID;
-    private String senderUserID;
-    private String receiverUserId;
+    private final String ratingID;
+    private String senderUserEmail;
+    private String receiverUserEmail;
     private int ratingValue;
 
-    public Rating(String ratingID, String senderUserID, String receiverUserId, int ratingValue) {
-        this.ratingID = ratingID;
-        this.senderUserID = senderUserID;
-        this.receiverUserId = receiverUserId;
+    public Rating(String senderUserEmail, String receiverUserEmail, int ratingValue) {
+        this.ratingID = UUID.randomUUID().toString();
+        this.senderUserEmail = senderUserEmail;
+        this.receiverUserEmail = receiverUserEmail;
         this.ratingValue = ratingValue;
     }
 
-    public void setRatingID(String ratingID) {
-        this.ratingID = ratingID;
+    public void setSenderUserEmail(String senderUserEmail) {
+        this.senderUserEmail = senderUserEmail;
     }
 
-    public void setSenderUserID(String senderUserID) {
-        this.senderUserID = senderUserID;
-    }
-
-    public void setReceiverUserId(String receiverUserId) {
-        this.receiverUserId = receiverUserId;
+    public void setReceiverUserEmail(String receiverUserEmail) {
+        this.receiverUserEmail = receiverUserEmail;
     }
 
     public void setRatingValue(int ratingValue) {
@@ -34,12 +32,12 @@ public class Rating {
         return ratingID;
     }
 
-    public String getSenderUserID() {
-        return senderUserID;
+    public String getSenderUserEmail() {
+        return senderUserEmail;
     }
 
-    public String getReceiverUserId() {
-        return receiverUserId;
+    public String getReceiverUserEmail() {
+        return receiverUserEmail;
     }
 
     public int getRatingValue() {

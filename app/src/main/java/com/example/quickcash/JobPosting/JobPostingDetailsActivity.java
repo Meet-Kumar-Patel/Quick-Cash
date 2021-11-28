@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quickcash.R;
+import com.example.quickcash.Ratings.RatingsActivity;
 import com.example.quickcash.TaskList.TaskListActivity;
 import com.example.quickcash.UserManagement.SessionManager;
 import com.google.firebase.database.DataSnapshot;
@@ -172,11 +173,22 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         if(jobPosting.isTaskComplete()) {
             status.setText("Task Completed");
             btnTaskCompleted.setVisibility(View.INVISIBLE);
+            allowToRateEmployer();
         }
         else {
             status.setText("Task Not Completed");
             btnTaskCompleted.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void allowToRateEmployer() {
+        employer.setOnClickListener(view -> openRateEmployer());
+    }
+
+    public void openRateEmployer() {
+        Intent intent = new Intent(this, RatingsActivity.class);
+        intent.putExtra(JobPostingActivity.EXTRA_MESSAGE, jobPostingOBJ.getCreatedBy());
+        startActivity(intent);
     }
 
     protected String convertJPType(int id) {
