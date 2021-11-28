@@ -11,24 +11,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quickcash.R;
+import com.example.quickcash.UserManagement.User;
 
 import java.util.ArrayList;
 
 public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDeclineRecyclerAdapter.MyViewHolder> {
 
-    private ArrayList<String> userArrayList;
+    private ArrayList<User> userArrayList;
     private Context context;
     //Code adapted from https://www.youtube.com/watch?v=sJ-Z9G0SDhc
 
-    public ArrayList<String> getUserArrayList() {
-        return userArrayList;
-    }
-
-    public void setUserArrayList(ArrayList<String> userArrayList) {
-        this.userArrayList = userArrayList;
-    }
-
-    public AcceptDeclineRecyclerAdapter(Context context, ArrayList<String> jobPostingArrayList) {
+    public AcceptDeclineRecyclerAdapter(Context context, ArrayList<User> jobPostingArrayList) {
         this.userArrayList = jobPostingArrayList;
         this.context = context;
     }
@@ -45,8 +38,8 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        String user = userArrayList.get(position);
-        String nameFromUser = user;
+        User user = userArrayList.get(position);
+        String nameFromUser = user.getFirstName() + user.getLastName();
         holder.employeeName.setText(nameFromUser);
         holder.acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,5 +82,13 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
 
         }
 
+    }
+
+    public ArrayList<User> getUserArrayList() {
+        return userArrayList;
+    }
+
+    public void setUserArrayList(ArrayList<User> userArrayList) {
+        this.userArrayList = userArrayList;
     }
 }

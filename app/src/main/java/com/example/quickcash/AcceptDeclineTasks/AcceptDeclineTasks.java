@@ -13,6 +13,7 @@ import com.example.quickcash.R;
 import com.example.quickcash.UserManagement.SessionManager;
 import com.example.quickcash.UserManagement.User;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -51,13 +52,20 @@ public class AcceptDeclineTasks extends AppCompatActivity {
         return adapter;
     }
 
-    public void addUserToArray(HashMap<String,JobPosting> jobPostingHashMap) {
-        ArrayList<User> users = new ArrayList<>();
-        for(JobPosting jp : jobPostingHashMap.values()){
-            users.add()
-        }
+    public HashMap<String, JobPosting> getJobPostingHashMap() {
+        return jobPostingHashMap;
+    }
 
-        userArrayList.addAll(users);
+    public ArrayList<String> getAppliedUserEmailsFromHashMap(HashMap<String, JobPosting> hashMap) {
+        ArrayList<String> emails = new ArrayList<String>();
+        for(JobPosting jp : hashMap.values()) {
+            emails.addAll(jp.getLstAppliedBy());
+        }
+        return emails;
+    }
+
+    public void addUserToArray(User user) {
+        userArrayList.add(user);
     }
 
     public void addJobPostingToHashMap(String key, JobPosting jobPosting){
@@ -68,7 +76,4 @@ public class AcceptDeclineTasks extends AppCompatActivity {
         return userArrayList;
     }
 
-    public void addUserToHashMap(String key,User user) {
-        userHashMap.put(key, user);
-    }
 }

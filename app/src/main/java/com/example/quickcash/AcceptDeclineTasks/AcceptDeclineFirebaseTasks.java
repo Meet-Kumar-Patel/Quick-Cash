@@ -10,6 +10,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class AcceptDeclineFirebaseTasks {
 
     FirebaseDatabase db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
@@ -25,7 +28,7 @@ public class AcceptDeclineFirebaseTasks {
                     }
 
                 }
-                //acceptDeclineTasks.setAdapter(new AcceptDeclineRecyclerAdapter(acceptDeclineTasks, acceptDeclineTasks.getUserArrayList()));
+                getUsersFromFirebase(acceptDeclineTasks, acceptDeclineTasks.getJobPostingHashMap());
             }
 
             @Override
@@ -35,15 +38,21 @@ public class AcceptDeclineFirebaseTasks {
         });
     }
 
-    public void getUsersFromFirebase(AcceptDeclineTasks acceptDeclineTasks){
+    public void getUsersFromFirebase(AcceptDeclineTasks acceptDeclineTasks, HashMap<String, JobPosting> hashMap){
         DatabaseReference userReference = db.getReference("User");
+        ArrayList<String> emails = acceptDeclineTasks.getAppliedUserEmailsFromHashMap(hashMap);
         userReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot adSnapshot : snapshot.getChildren()) {
                     User user = adSnapshot.getValue(User.class);
-                    acceptDeclineTasks.addUserToHashMap(adSnapshot.getKey(), user);
+                    for(String email : emails) {
+                        if(email.equals(user.getEmail())){
+                            acceptDeclineTasks.addUserToArray(user);
+                        }
+                    }
                 }
+                acceptDeclineTasks.setAdapter(new AcceptDeclineRecyclerAdapter(acceptDeclineTasks, acceptDeclineTasks.getUserArrayList()));
             }
 
             @Override
