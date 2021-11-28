@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quickcash.R;
 import com.example.quickcash.Ratings.RatingsActivity;
+import com.example.quickcash.Ratings.ViewRatingActivity;
 import com.example.quickcash.TaskList.TaskListActivity;
 import com.example.quickcash.UserManagement.SessionManager;
 import com.google.firebase.database.DataSnapshot;
@@ -183,10 +184,12 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
 
     public void allowToRateEmployer() {
         employer.setOnClickListener(view -> openRateEmployer());
+        TextView employerDesc =findViewById(R.id.txtJDPCreatedBy);
+        employerDesc.setText("Employer (Click to give rating)");
     }
 
     public void openRateEmployer() {
-        Intent intent = new Intent(this, RatingsActivity.class);
+        Intent intent = new Intent(this, ViewRatingActivity.class);
         intent.putExtra(JobPostingActivity.EXTRA_MESSAGE, jobPostingOBJ.getCreatedBy());
         startActivity(intent);
     }

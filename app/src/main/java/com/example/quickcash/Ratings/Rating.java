@@ -16,6 +16,8 @@ public class Rating {
         this.ratingValue = ratingValue;
     }
 
+    public Rating() {this.ratingID = UUID.randomUUID().toString();}
+
     public void setSenderUserEmail(String senderUserEmail) {
         this.senderUserEmail = senderUserEmail;
     }
