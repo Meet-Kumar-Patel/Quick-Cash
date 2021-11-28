@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quickcash.R;
+
+import com.example.quickcash.Ratings.ViewRatingActivity;
 import com.example.quickcash.Ratings.GiveRatingsActivity;
 import com.example.quickcash.TaskList.TaskListActivity;
 import com.example.quickcash.UserManagement.SessionManager;
@@ -183,10 +185,13 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
 
     public void allowToRateEmployer() {
         employer.setOnClickListener(view -> openRateEmployer());
+        TextView employerDesc =findViewById(R.id.txtJDPCreatedBy);
+        employerDesc.setText("Employer (Click to give rating)");
     }
 
     public void openRateEmployer() {
-        Intent intent = new Intent(this, GiveRatingsActivity.class);
+        Intent intent = new Intent(this, ViewRatingActivity.class);
+        //Intent intent = new Intent(this, GiveRatingsActivity.class);
         intent.putExtra(JobPostingActivity.EXTRA_MESSAGE, jobPostingOBJ.getCreatedBy());
         intent.putExtra("jobPostingID", jobPostingOBJ.getJobPostingId());
         intent.putExtra("userToRate", jobPostingOBJ.getCreatedByName());

@@ -60,6 +60,7 @@
         <activity android:name=".JobPosting.JobPostingActivity"></activity>
         <activity android:name=".TaskList.TaskListActivity"></activity>
         <activity android:name=".UserManagement.preferencePage"></activity>
+        <activity android:name=".Ratings.ViewRatingActivity"></activity>
         <activity android:name=".Ratings.GiveRatingsActivity"></activity>
     </application>
 
