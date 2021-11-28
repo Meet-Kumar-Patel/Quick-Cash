@@ -7,13 +7,15 @@ public class Rating {
     private final String ratingID;
     private String senderUserEmail;
     private String receiverUserEmail;
-    private int ratingValue;
+    private float ratingValue;
+    private String jobPostingID;
 
-    public Rating(String senderUserEmail, String receiverUserEmail, int ratingValue) {
+    public Rating(String senderUserEmail, String receiverUserEmail, float ratingValue, String jobPostingID) {
         this.ratingID = UUID.randomUUID().toString();
         this.senderUserEmail = senderUserEmail;
         this.receiverUserEmail = receiverUserEmail;
         this.ratingValue = ratingValue;
+        this.jobPostingID = jobPostingID;
     }
 
     public void setSenderUserEmail(String senderUserEmail) {
@@ -24,8 +26,12 @@ public class Rating {
         this.receiverUserEmail = receiverUserEmail;
     }
 
-    public void setRatingValue(int ratingValue) {
+    public void setRatingValue(float ratingValue) {
         this.ratingValue = ratingValue;
+    }
+
+    public void setJobPostingID(String jobPostingID) {
+        this.jobPostingID = jobPostingID;
     }
 
     public String getRatingID() {
@@ -40,7 +46,12 @@ public class Rating {
         return receiverUserEmail;
     }
 
-    public int getRatingValue() {
+    public float getRatingValue() {
         return ratingValue;
     }
+
+    public String getJobPostingID() {
+        return jobPostingID;
+    }
+
 }
