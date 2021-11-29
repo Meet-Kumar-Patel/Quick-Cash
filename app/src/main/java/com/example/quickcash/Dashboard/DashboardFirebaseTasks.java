@@ -20,7 +20,7 @@ public class DashboardFirebaseTasks {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot adSnapshot : dataSnapshot.getChildren()) {
                     JobPosting jp = adSnapshot.getValue(JobPosting.class);
-                    if(jp.getLstAppliedBy().contains(email)) {
+                    if(jp.getLstAppliedBy() != null && jp.getLstAppliedBy().contains(email)) {
                         employeeDashboardActivity.addJobToArray(jp);
                     }
                 }
