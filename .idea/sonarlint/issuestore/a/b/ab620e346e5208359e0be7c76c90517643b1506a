@@ -1,16 +1,0 @@
-
-z
-java:S1450"XRemove the "dashboard" field and declare it as a local variable in the relevant methods.(’ÆØÙûÿÿÿÿ8¦Ûž‚Ó/
-}
-java:S1450"[Remove the "searchByPref" field and declare it as a local variable in the relevant methods.(ªËàÈùÿÿÿÿ8¦Ûž‚Ó/
-w
-java:S1450"ZRemove the "searchTasks" field and declare it as a local variable in the relevant methods.(ýýØº8§Ûž‚Ó/
-H
-java:S16027",Remove useless curly braces around statement(ì•öc8ÆÛž‚Ó/
-I
-java:S1602<",Remove useless curly braces around statement(˜ý½»8ÌÛž‚Ó/
-I
-java:S1602A",Remove useless curly braces around statement(ïƒâ8ÏÛž‚Ó/
-D
-java:S1604H"(Make this anonymous inner class a lambda(Ûìèl8ÖÛž‚Ó/
-t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(åÏÌìþÿÿÿÿ

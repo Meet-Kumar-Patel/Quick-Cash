@@ -44,6 +44,7 @@ public class EmployeeDashboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_list);
+        Intent intent = getIntent();
         SessionManager sessionManager = new SessionManager(getApplicationContext());
         dashboardFirebaseTasks.getDashboardJobs(this,sessionManager.getKeyEmail());
         recyclerView = findViewById(R.id.recyclerview);
@@ -62,20 +63,14 @@ public class EmployeeDashboardActivity extends AppCompatActivity {
             }
         });
         Button resetButton = findViewById(R.id.resetbutton);
-        resetButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                jobSearchView.setQuery("", false);
-                jobSearchView.clearFocus();
-            }
+        resetButton.setOnClickListener(view -> {
+            jobSearchView.setQuery("", false);
+            jobSearchView.clearFocus();
         });
-        Button homeButton = findViewById(R.id.homebutton);
-        homeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent homeIntent = new Intent(EmployeeDashboardActivity.this, EmployeeHomeActivity.class);
-                startActivity(homeIntent);
-            }
+        Button homeButton = findViewById(R.id.backToEmployerHomeBtn);
+        homeButton.setOnClickListener(view -> {
+            Intent homeIntent = new Intent(EmployeeDashboardActivity.this, EmployeeHomeActivity.class);
+            startActivity(homeIntent);
         });
     }
 

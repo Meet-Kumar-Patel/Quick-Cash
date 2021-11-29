@@ -71,7 +71,7 @@ public class TaskListActivity extends AppCompatActivity {
                 jobSearchView.clearFocus();
             }
         });
-        Button homeButton = findViewById(R.id.homebutton);
+        Button homeButton = findViewById(R.id.backToEmployerHomeBtn);
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

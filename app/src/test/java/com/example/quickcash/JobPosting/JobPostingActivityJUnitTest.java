@@ -2,11 +2,6 @@ package com.example.quickcash.JobPosting;
 
 import static org.junit.Assert.assertTrue;
 
-import com.example.quickcash.JobPosting.JobPosting;
-import com.example.quickcash.JobPosting.JobPostingActivity;
-import com.example.quickcash.R;
-import com.example.quickcash.UserManagement.LogInActivity;
-
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
