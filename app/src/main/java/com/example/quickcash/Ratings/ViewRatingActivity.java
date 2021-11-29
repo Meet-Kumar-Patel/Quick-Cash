@@ -89,6 +89,9 @@ public class ViewRatingActivity extends AppCompatActivity {
         // Find the layout
         findLayout();
         float ratingVal = calculateRating(numReviews, reviewSum);
+        if(numReviews == 0) {
+            ratingVal = 0;
+        }
         // Fill with rating info
         rating_header.setText( userToRate + "'s Rating");
         star_rating_number.setText(ratingVal + "/5");
@@ -104,6 +107,7 @@ public class ViewRatingActivity extends AppCompatActivity {
         star_rating_number = findViewById(R.id.star_rating_number);
         ratingBar = findViewById(R.id.star_rating_bar);
         ratingBar.setClickable(false);
+        ratingBar.setEnabled(false);
     }
 
 

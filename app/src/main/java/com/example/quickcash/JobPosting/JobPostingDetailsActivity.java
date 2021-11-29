@@ -57,7 +57,6 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
 
         //access the intents & show the welcome message
         Intent intent = getIntent();
-
         //Received location from map and show to the user
         String jobID = intent.getStringExtra(JobPostingActivity.EXTRA_MESSAGE);
 
@@ -76,9 +75,6 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         btnTaskCompleted = (Button) findViewById(R.id.btnJPDMarkCompleted);
         btnTaskCompleted.setOnClickListener(view -> markCompleted());
         btnTaskCompleted.setVisibility(View.INVISIBLE);
-
-        // Job Posting Status: Apply now (Btn) (add name to lstApplied), Pending (txt), Accepted or Rejected
-        // Apply Now should change to Applied (disabled) when the user has applied or hide.
     }
 
 
@@ -123,6 +119,54 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
 
     protected void populateLayout(JobPosting jobPosting) {
         // Get the layout views
+        findLayouts();
+
+        // Set values
+        fillLayouts(jobPosting);
+
+        // if the employer accesses the app then he will not see the btn
+        if(jobPosting.getCreatedBy().equals(userEmail)) {
+            restrictEmployerActions();
+        }
+        else {
+            showCorrectStatusBtn(jobPosting);
+        }
+
+    }
+
+    public void showCorrectStatusBtn(JobPosting jobPosting) {
+        // If the user has already applied to the job => show applied.
+        btnApply.setText("Apply Now");
+        btnApply.setClickable(false);
+        
+        if(jobPosting.getLstAppliedBy().size() > 0) {
+            // If the user has applied and 
+            if(jobPosting.getLstAppliedBy().contains(userEmail)) {
+                
+                if(jobPosting.getAccepted().isEmpty()) {
+                    btnApply.setText("Applied");
+                } else {
+                    if (jobPosting.getAccepted().equals(userEmail)) {
+                        btnApply.setText("Accepted");
+                        btnTaskCompleted.setVisibility(View.VISIBLE);
+                    } else {
+                        btnApply.setText("Sorry Rejected");
+                    }
+                }
+            }
+            // User has not applied
+            else if (!jobPosting.getAccepted().isEmpty()) {
+                btnApply.setText("Candidate Already Selected");
+            }
+            
+        }
+        else {
+            btnApply.setClickable(true);
+        }
+        btnApply.setVisibility(View.VISIBLE);
+    }
+
+    protected void findLayouts() {
         jobTitle = (TextView) findViewById(R.id.txtJobTitle);
         jobType = (TextView) findViewById(R.id.txtJPDTypeValue);
         duration = (TextView) findViewById(R.id.txtJPDDurationValue);
@@ -131,9 +175,9 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         employer = (TextView) findViewById(R.id.txtJDPCreatedByValue);
         status = (TextView) findViewById(R.id.txtJPDStatusValue);
         btnTaskCompleted = (Button) findViewById(R.id.btnJPDMarkCompleted);
+    }
 
-
-        // Set values
+    protected void fillLayouts(JobPosting jobPosting) {
         jobTitle.setText(jobPosting.getJobTitle());
         jobType.setText(convertJPType(jobPosting.getJobType()));
         duration.setText(jobPosting.getDuration() + " ");
@@ -141,50 +185,20 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         wage.setText(jobPosting.getWage() + " ");
         employer.setText(jobPosting.getCreatedByName());
         changeCompletedStatus(jobPosting);
-
-
-        // if the employer accesses the app then he will not see the btn
-        if(!jobPosting.getCreatedBy().equals(userEmail)) {
-            btnApply.setVisibility(View.VISIBLE);
-        }
-
-        // If the user has already applied to the job => show applied.
-        if(jobPosting.getLstAppliedBy().size() > 0) {
-            if(jobPosting.getLstAppliedBy().contains(userEmail)) {
-
-                if(jobPosting.getAccepted().isEmpty()) {
-                    btnApply.setText("Applied");
-                    btnTaskCompleted.setVisibility(View.VISIBLE);
-                } else {
-                    if (jobPosting.getAccepted().equals(userEmail)) {
-                        btnApply.setText("Accepted");
-                        btnTaskCompleted.setVisibility(View.VISIBLE);
-                    } else if (!jobPosting.getAccepted().equals(userEmail)) {
-                        btnApply.setText("Sorry Rejected");
-                    }
-                }
-
-                btnApply.setClickable(false);
-            }
-            else if (!jobPosting.getAccepted().isEmpty()) {
-                btnApply.setText("Candidate Already Selected");
-                btnApply.setClickable(false);
-            }
-        }
+        allowToCheckRating();
     }
 
     private void changeCompletedStatus(JobPosting jobPosting) {
         if(jobPosting.isTaskComplete()) {
             status.setText("Task Completed");
-            btnTaskCompleted.setVisibility(View.INVISIBLE);
-            allowToRateEmployer();
         }
         else {
             status.setText("Task Not Completed");
         }
     }
 
-    public void allowToRateEmployer() {
+    public void allowToCheckRating() {
+        employer.setClickable(true);
         employer.setOnClickListener(view -> openRateEmployer());
         TextView employerDesc =findViewById(R.id.txtJDPCreatedBy);
         employerDesc.setText("Employer (Click to give rating)");
@@ -193,14 +207,26 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
     public void openRateEmployer() {
         Intent rateIntent;
         if(jobPostingOBJ.isTaskComplete()){
-            rateIntent = new Intent(this, GiveRatingsActivity.class);
+            if(jobPostingOBJ.getAccepted().equals(userEmail)) {
+                // Only the accepted employee can rate the employer
+                rateIntent = new Intent(this, GiveRatingsActivity.class);
+            }
+            else {
+                rateIntent = new Intent(this, ViewRatingActivity.class);
+            }
         } else {
             rateIntent = new Intent(this, ViewRatingActivity.class);
         }
+
         rateIntent.putExtra(JobPostingActivity.EXTRA_MESSAGE, jobPostingOBJ.getCreatedBy());
         rateIntent.putExtra("jobPostingID", jobPostingOBJ.getJobPostingId());
         rateIntent.putExtra("userToRate", jobPostingOBJ.getCreatedByName());
         startActivity(rateIntent);
+    }
+
+    public void restrictEmployerActions() {
+        btnApply.setVisibility(View.INVISIBLE);
+        btnTaskCompleted.setVisibility(View.INVISIBLE);
     }
 
     //can be refactored
