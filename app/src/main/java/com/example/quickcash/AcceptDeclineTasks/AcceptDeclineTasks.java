@@ -74,6 +74,20 @@ public class AcceptDeclineTasks extends AppCompatActivity {
 
     public ArrayList<User> getUserArrayList() {
         return userArrayList;
+
+
     }
 
+   public JobPosting getJobPosting (User user) {
+        String email;
+        email = user.getEmail();
+        for (JobPosting jb : jobPostingHashMap.values()){
+            jb.getLstAppliedBy().contains(email);
+            if( jb.getLstAppliedBy().contains(email){
+
+            }
+        }
+
+
+}
 }
