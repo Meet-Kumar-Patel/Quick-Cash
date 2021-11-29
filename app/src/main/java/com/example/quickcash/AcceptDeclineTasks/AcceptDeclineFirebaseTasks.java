@@ -18,7 +18,7 @@ public class AcceptDeclineFirebaseTasks {
     FirebaseDatabase db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
     public void getJobPostingsFromFirebase(AcceptDeclineTasks acceptDeclineTasks, String createdByEmail) {
         DatabaseReference jobPostingReference = db.getReference("JobPosting");
-        jobPostingReference.addValueEventListener(new ValueEventListener() {
+        jobPostingReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot adSnapshot : dataSnapshot.getChildren()) {
@@ -29,6 +29,7 @@ public class AcceptDeclineFirebaseTasks {
 
                 }
                 getUsersFromFirebase(acceptDeclineTasks, acceptDeclineTasks.getJobPostingHashMap());
+
             }
 
             @Override
@@ -41,18 +42,20 @@ public class AcceptDeclineFirebaseTasks {
     public void getUsersFromFirebase(AcceptDeclineTasks acceptDeclineTasks, HashMap<String, JobPosting> hashMap){
         DatabaseReference userReference = db.getReference("User");
         ArrayList<String> emails = acceptDeclineTasks.getAppliedUserEmailsFromHashMap(hashMap);
-        userReference.addValueEventListener(new ValueEventListener() {
+        userReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot adSnapshot : snapshot.getChildren()) {
                     User user = adSnapshot.getValue(User.class);
                     for(String email : emails) {
-                        if(email.equals(user.getEmail())){
+                        if(email.equals(user.getEmail()) && !acceptDeclineTasks.getUserArrayList().contains(user)){
                             acceptDeclineTasks.addUserToArray(user);
                         }
                     }
                 }
-                acceptDeclineTasks.setAdapter(new AcceptDeclineRecyclerAdapter(acceptDeclineTasks, acceptDeclineTasks.getAcceptDeclineOBJList()));
+                acceptDeclineTasks.addAcceptDeclineOBJ();
+                acceptDeclineTasks.setAdapter(new AcceptDeclineRecyclerAdapter(acceptDeclineTasks, acceptDeclineTasks.getAcceptDeclineOBJList(), hashMap));
+
             }
 
             @Override

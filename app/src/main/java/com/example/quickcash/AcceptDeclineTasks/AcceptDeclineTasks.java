@@ -2,12 +2,14 @@ package com.example.quickcash.AcceptDeclineTasks;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.quickcash.Home.EmployerHomeActivity;
 import com.example.quickcash.JobPosting.JobPosting;
 import com.example.quickcash.R;
 import com.example.quickcash.UserManagement.EmployerDashboardActivity;
@@ -26,7 +28,7 @@ public class AcceptDeclineTasks extends AppCompatActivity {
     ArrayList<AcceptDeclineObject> acceptDeclineOBJList = new ArrayList<>();
     AcceptDeclineFirebaseTasks acceptDeclineFirebaseTasks = new AcceptDeclineFirebaseTasks();
     String employerEmail;
-
+    Button backToEmployerHomeBtn;
     private RecyclerView recyclerView;
 
     //Refactoring needed, move search, and button init to new methods.
@@ -39,7 +41,8 @@ public class AcceptDeclineTasks extends AppCompatActivity {
         employerEmail = sessionManager.getKeyEmail();
         recyclerView = findViewById(R.id.recyclerview);
         acceptDeclineFirebaseTasks.getJobPostingsFromFirebase(this, employerEmail);
-
+        backToEmployerHomeBtn = findViewById(R.id.backToEmployerHomeBtn);
+        backToEmployerHomeBtn.setOnClickListener(view -> BackToHome());
     }
 
     public void setAdapter(AcceptDeclineRecyclerAdapter adapter) {
@@ -82,7 +85,6 @@ public class AcceptDeclineTasks extends AppCompatActivity {
         for (String key: jobPostingHashMap.keySet()) {
             JobPosting jobPosting = jobPostingHashMap.get(key);
 
-            assert jobPosting != null;
             for (int i = 0; i < userArrayList.size(); i++) {
                 User user = userArrayList.get(i);
                 if(jobPosting.getLstAppliedBy().contains(user.getEmail())) {
@@ -90,15 +92,23 @@ public class AcceptDeclineTasks extends AppCompatActivity {
                     String userEmail = user.getEmail();
                     String jobID = jobPosting.getJobPostingId();
                     String jobTitle = jobPosting.getJobTitle();
-                    AcceptDeclineObject acceptDeclineObject = new AcceptDeclineObject(userName, userEmail, jobID, jobTitle, key);
-                    acceptDeclineOBJList.add(acceptDeclineObject);
+                    AcceptDeclineObject acceptDeclineObject = new AcceptDeclineObject(userName, userEmail, jobID, jobTitle, key, !jobPosting.getAccepted().isEmpty());
+                    // Once a candidate is accepted we will only the accepted candidate for rating.
+                    if(jobPosting.getAccepted().isEmpty()) {
+                        acceptDeclineOBJList.add(acceptDeclineObject);
+                    } else {
+                        if(jobPosting.getAccepted().equals(userEmail)) {
+                            acceptDeclineOBJList.add(acceptDeclineObject);
+                        }
+                    }
                 }
             }
         }
     }
 
     protected JobPosting getJobPosting(String key) {
-        return jobPostingHashMap.get(key);
+        JobPosting jobPosting = jobPostingHashMap.get(key);
+        return jobPosting;
     }
 
     public ArrayList<AcceptDeclineObject> getAcceptDeclineOBJList() {
@@ -109,15 +119,11 @@ public class AcceptDeclineTasks extends AppCompatActivity {
         this.acceptDeclineOBJList = acceptDeclineOBJList;
     }
 
-    public void openIntent(String key) {
-        JobPosting jobPosting = jobPostingHashMap.get(key);
+    public void BackToHome() {
         Intent intent;
-        if(jobPosting.isTaskComplete()) {
-            intent = new Intent(this, EmployerDashboardActivity.class);
-        }
-        else {
-            intent = new Intent(this, EmployerDashboardActivity.class);
-        }
+        intent = new Intent(this, EmployerHomeActivity.class);
         startActivity(intent);
     }
+
+
 }

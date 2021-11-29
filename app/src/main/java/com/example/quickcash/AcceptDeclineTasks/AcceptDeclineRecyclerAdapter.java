@@ -11,9 +11,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.quickcash.Home.EmployeeHomeActivity;
+import com.example.quickcash.Home.EmployerHomeActivity;
 import com.example.quickcash.JobPosting.DAOJobPosting;
 import com.example.quickcash.JobPosting.JobPosting;
 import com.example.quickcash.R;
+import com.example.quickcash.UserManagement.EmployeeDashboardActivity;
 import com.example.quickcash.UserManagement.EmployerDashboardActivity;
 import com.example.quickcash.UserManagement.User;
 
@@ -24,12 +27,13 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
 
     private ArrayList<AcceptDeclineObject> acceptDeclineObjects;
     private Context context;
-    private AcceptDeclineTasks acceptDeclineTasks= new AcceptDeclineTasks();
+    HashMap<String, JobPosting> hashMap;
     //Code adapted from https://www.youtube.com/watch?v=sJ-Z9G0SDhc
 
-    public AcceptDeclineRecyclerAdapter(Context context, ArrayList<AcceptDeclineObject> acceptDeclineObjects) {
+    public AcceptDeclineRecyclerAdapter(Context context, ArrayList<AcceptDeclineObject> acceptDeclineObjects, HashMap hashMap) {
         this.acceptDeclineObjects = acceptDeclineObjects;
         this.context = context;
+        this.hashMap = hashMap;
     }
 
     public AcceptDeclineRecyclerAdapter() {
@@ -46,25 +50,27 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         AcceptDeclineObject acceptDeclineObject = acceptDeclineObjects.get(position);
-        String nameFromUser = acceptDeclineObject.getUserName();
-        holder.employeeName.setText(nameFromUser);
+        holder.employeeName.setText(acceptDeclineObject.getUserName());
+        holder.jobTitleButton.setText(acceptDeclineObject.getJobPostingName());
         DAOJobPosting daoJobPosting = new DAOJobPosting();
         String jpKey = acceptDeclineObject.getJobKey();
-        JobPosting jobPosting =  acceptDeclineTasks.getJobPosting(acceptDeclineObject.getJobKey());
-        holder.acceptButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                jobPosting.setAccepted(acceptDeclineObject.getUserEmail());
-                daoJobPosting.update(jobPosting, jpKey);
-            }
+        JobPosting jobPosting =  hashMap.get(jpKey);
+        holder.acceptButton.setOnClickListener(view -> {
+            jobPosting.setAccepted(acceptDeclineObject.getUserEmail());
+            daoJobPosting.update(jobPosting, jpKey);
+            disableAcceptBtn(holder);
         });
 
-        holder.ratingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                acceptDeclineTasks.openIntent(jpKey);
-            }
-        });
+        // If the candidate has been accepted then the btn should say Selected and should not be clickable
+        if(acceptDeclineObject.isAccepted()) {disableAcceptBtn(holder);}
+
+
+        holder.ratingsButton.setOnClickListener(view -> openIntent(jpKey));
+    }
+
+    public void disableAcceptBtn(MyViewHolder holder) {
+            holder.acceptButton.setClickable(false);
+            holder.acceptButton.setText("Selected");
     }
 
     @Override
@@ -75,23 +81,34 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
     //Refactor, move to new class
     public class MyViewHolder extends RecyclerView.ViewHolder {
         Button acceptButton;
-        Button declineButton;
         Button ratingsButton;
-        private TextView employeeName;
+        TextView employeeName;
+        TextView jobTitleButton;
 
         public MyViewHolder(final View view) {
             super(view);
             employeeName = view.findViewById(R.id.employeename);
             ratingsButton = view.findViewById(R.id.ratingsbutton);
             acceptButton = view.findViewById(R.id.acceptbutton);
+            jobTitleButton = view.findViewById(R.id.txt_job_title);
         }
     }
 
-    public ArrayList<AcceptDeclineObject> getUserArrayList() {
-        return acceptDeclineObjects;
+    public ArrayList<AcceptDeclineObject> getAcceptDeclineArraylist() { return acceptDeclineObjects;}
+
+    public void setAcceptDeclineArrayList(ArrayList<AcceptDeclineObject> acceptDeclineObjects) {this.acceptDeclineObjects = acceptDeclineObjects; }
+
+    public void openIntent(String key) {
+        JobPosting jobPosting = hashMap.get(key);
+        Intent intent;
+        if(jobPosting.isTaskComplete()) {
+            intent = new Intent(context, EmployeeHomeActivity.class);
+        }
+        else {
+            intent = new Intent(context, EmployeeHomeActivity.class);
+        }
+        context.startActivity(intent);
     }
 
-    public void setUserArrayList(ArrayList<AcceptDeclineObject> acceptDeclineObjects) {
-        this.acceptDeclineObjects = acceptDeclineObjects;
-    }
+
 }
