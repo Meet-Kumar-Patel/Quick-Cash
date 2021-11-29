@@ -2,9 +2,6 @@ package com.example.quickcash.UserManagement;
 
 import androidx.annotation.NonNull;
 
-import com.example.quickcash.JobPosting.JobPosting;
-import com.example.quickcash.TaskList.RecyclerAdapter;
-import com.example.quickcash.TaskList.TaskListActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

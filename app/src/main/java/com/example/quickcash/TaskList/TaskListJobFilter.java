@@ -4,7 +4,7 @@ import com.example.quickcash.JobPosting.JobPosting;
 
 import java.util.ArrayList;
 
-public class JobFilter {
+public class TaskListJobFilter {
     public static ArrayList<JobPosting> filter(ArrayList<JobPosting> jobPostingArrayListFull, CharSequence constraint) {
         ArrayList<JobPosting> filteredJobList = new ArrayList<>();
         if (constraint == null || constraint.length() == 0) {

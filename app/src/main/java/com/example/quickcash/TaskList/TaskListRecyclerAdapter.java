@@ -21,7 +21,7 @@ import com.example.quickcash.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> implements Filterable {
+public class TaskListRecyclerAdapter extends RecyclerView.Adapter<TaskListRecyclerAdapter.MyViewHolder> implements Filterable {
 
     private ArrayList<JobPosting> jobPostingArrayList;
     private ArrayList<JobPosting> jobPostingArrayListFull;
@@ -30,7 +30,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     private Filter jobFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            ArrayList<JobPosting> filteredJobList = JobFilter.filter(jobPostingArrayListFull, constraint);
+            ArrayList<JobPosting> filteredJobList = TaskListJobFilter.filter(jobPostingArrayListFull, constraint);
             FilterResults results = new FilterResults();
             results.values = filteredJobList;
             return results;
@@ -52,13 +52,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         this.jobPostingArrayList = jobPostingArrayList;
     }
 
-    public RecyclerAdapter(Context context, ArrayList<JobPosting> jobPostingArrayList) {
+    public TaskListRecyclerAdapter(Context context, ArrayList<JobPosting> jobPostingArrayList) {
         this.jobPostingArrayList = jobPostingArrayList;
         jobPostingArrayListFull = new ArrayList<>(jobPostingArrayList);
         this.context = context;
     }
 
-    public RecyclerAdapter() {
+    public TaskListRecyclerAdapter() {
     }
 
     @NonNull

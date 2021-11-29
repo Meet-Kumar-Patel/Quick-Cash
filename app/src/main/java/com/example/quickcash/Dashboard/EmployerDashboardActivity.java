@@ -7,30 +7,24 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.SearchView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.quickcash.Home.EmployeeHomeActivity;
 import com.example.quickcash.Home.EmployerHomeActivity;
 import com.example.quickcash.JobPosting.JobPosting;
 import com.example.quickcash.R;
-import com.example.quickcash.TaskList.RecyclerAdapter;
+import com.example.quickcash.TaskList.TaskListRecyclerAdapter;
 import com.example.quickcash.UserManagement.SessionManager;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 public class EmployerDashboardActivity extends AppCompatActivity {
 
     private FirebaseDatabase db;
-    RecyclerAdapter adapter;
+    TaskListRecyclerAdapter adapter;
     RecyclerView recyclerView;
     SearchView jobSearchView;
     ArrayList<JobPosting> jobsCreatedArray = new ArrayList<>();
@@ -72,7 +66,7 @@ public class EmployerDashboardActivity extends AppCompatActivity {
         });
     }
 
-    public void setAdapter(RecyclerAdapter adapter) {
+    public void setAdapter(TaskListRecyclerAdapter adapter) {
         this.adapter = adapter;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);

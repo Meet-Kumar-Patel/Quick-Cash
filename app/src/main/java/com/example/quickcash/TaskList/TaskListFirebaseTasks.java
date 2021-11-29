@@ -4,14 +4,13 @@ import androidx.annotation.NonNull;
 
 import com.example.quickcash.JobPosting.JobPosting;
 import com.example.quickcash.UserManagement.Preference;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class FirebaseTasks {
+public class TaskListFirebaseTasks {
 
     FirebaseDatabase db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
     public void getJobPostingsFromFirebase(TaskListActivity taskListActivity, String city) {
@@ -31,7 +30,7 @@ public class FirebaseTasks {
                         }
                     }
                 }
-                taskListActivity.setAdapter(new RecyclerAdapter(taskListActivity, taskListActivity.getJobPostingArrayList()));
+                taskListActivity.setAdapter(new TaskListRecyclerAdapter(taskListActivity, taskListActivity.getJobPostingArrayList()));
             }
 
             @Override

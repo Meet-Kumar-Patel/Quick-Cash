@@ -25,12 +25,12 @@ import java.util.ArrayList;
 
 public class TaskListActivity extends AppCompatActivity {
 
-    RecyclerAdapter adapter;
+    TaskListRecyclerAdapter adapter;
     ArrayList<JobPosting> jobPostingArrayList = new ArrayList<JobPosting>();
     FirebaseDatabase db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
-    String city = "Halifax";
+    String city;
     boolean searchByPreference;
-    FirebaseTasks firebaseTasks = new FirebaseTasks();
+    TaskListFirebaseTasks firebaseTasks = new TaskListFirebaseTasks();
     SessionManager sessionManager;
     SearchView jobSearchView;
     private RecyclerView recyclerView;
@@ -40,7 +40,7 @@ public class TaskListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        //city = intent.getStringExtra("City");
+        city = intent.getStringExtra("City").trim();
         searchByPreference = intent.getBooleanExtra("Preference", false);
         setContentView(R.layout.activity_task_list);
         sessionManager = new SessionManager(getApplicationContext());
@@ -89,11 +89,11 @@ public class TaskListActivity extends AppCompatActivity {
         });
     }
 
-    public RecyclerAdapter getAdapter() {
+    public TaskListRecyclerAdapter getAdapter() {
         return adapter;
     }
 
-    public void setAdapter(RecyclerAdapter adapter) {
+    public void setAdapter(TaskListRecyclerAdapter adapter) {
         this.adapter = adapter;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);

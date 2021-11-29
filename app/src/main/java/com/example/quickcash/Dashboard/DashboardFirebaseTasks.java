@@ -3,7 +3,7 @@ package com.example.quickcash.Dashboard;
 import androidx.annotation.NonNull;
 
 import com.example.quickcash.JobPosting.JobPosting;
-import com.example.quickcash.TaskList.RecyclerAdapter;
+import com.example.quickcash.TaskList.TaskListRecyclerAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,7 +24,7 @@ public class DashboardFirebaseTasks {
                         employeeDashboardActivity.addJobToArray(jp);
                     }
                 }
-                employeeDashboardActivity.setAdapter(new RecyclerAdapter(employeeDashboardActivity, employeeDashboardActivity.getJobsAppliedForArray()));
+                employeeDashboardActivity.setAdapter(new TaskListRecyclerAdapter(employeeDashboardActivity, employeeDashboardActivity.getJobsAppliedForArray()));
             }
 
             @Override
@@ -45,7 +45,7 @@ public class DashboardFirebaseTasks {
                         employerDashboardActivity.addJobToArray(jp);
                     }
                 }
-                employerDashboardActivity.setAdapter(new RecyclerAdapter(employerDashboardActivity, employerDashboardActivity.getJobsCreatedArray()));
+                employerDashboardActivity.setAdapter(new TaskListRecyclerAdapter(employerDashboardActivity, employerDashboardActivity.getJobsCreatedArray()));
             }
 
             @Override

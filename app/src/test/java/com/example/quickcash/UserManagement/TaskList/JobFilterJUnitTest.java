@@ -3,7 +3,7 @@ package com.example.quickcash.UserManagement.TaskList;
 import static org.junit.Assert.assertEquals;
 
 import com.example.quickcash.JobPosting.JobPosting;
-import com.example.quickcash.TaskList.JobFilter;
+import com.example.quickcash.TaskList.TaskListJobFilter;
 import com.example.quickcash.TaskList.JobTypeStringGetter;
 
 import org.junit.AfterClass;
@@ -32,13 +32,13 @@ public class JobFilterJUnitTest {
 
     @Test
     public void testFilterByJobName() {
-        ArrayList<JobPosting> filteredArrList = JobFilter.filter(jobPostingArrayList,"Test2");
+        ArrayList<JobPosting> filteredArrList = TaskListJobFilter.filter(jobPostingArrayList,"Test2");
         assertEquals(jobPosting2,filteredArrList.get(0));
     }
 
     @Test
     public void testFilterByJobType() {
-        ArrayList<JobPosting> filteredArrList = JobFilter.filter(jobPostingArrayList, JobTypeStringGetter.getJobType(1));
+        ArrayList<JobPosting> filteredArrList = TaskListJobFilter.filter(jobPostingArrayList, JobTypeStringGetter.getJobType(1));
         assertEquals(jobPosting2,filteredArrList.get(0));
     }
 }

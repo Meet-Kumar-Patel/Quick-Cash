@@ -3,7 +3,7 @@ package com.example.quickcash.UserManagement.TaskList;
 import static org.junit.Assert.assertEquals;
 
 import com.example.quickcash.JobPosting.JobPosting;
-import com.example.quickcash.TaskList.RecyclerAdapter;
+import com.example.quickcash.TaskList.TaskListRecyclerAdapter;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -13,13 +13,13 @@ import java.util.ArrayList;
 
 public class TaskListRecyclerAdapterJUnitTest {
 
-    static RecyclerAdapter recyclerAdapter;
+    static TaskListRecyclerAdapter recyclerAdapter;
     static ArrayList<JobPosting> jobPostingArrayList;
 
     @BeforeClass
     public static void setup() {
         jobPostingArrayList = new ArrayList<>();
-        recyclerAdapter = new RecyclerAdapter();
+        recyclerAdapter = new TaskListRecyclerAdapter();
         recyclerAdapter.setJobPostingArrayList(jobPostingArrayList);
     }
 
