@@ -1,4 +1,4 @@
-package com.example.quickcash.paypal;
+package com.example.quickcash.Paypal;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,20 +9,17 @@ import static android.content.ContentValues.TAG;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.quickcash.R;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
@@ -35,7 +32,7 @@ import org.json.JSONObject;
 import java.math.BigDecimal;
 
 
-public class paypalActivity extends AppCompatActivity {
+public class PaypalActivity extends AppCompatActivity {
 
     //@Override
     //protected void onCreate(Bundle savedInstanceState) {
@@ -56,16 +53,16 @@ public class paypalActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_paypal);
         config = new PayPalConfiguration()
                 .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
                 .clientId(Config.PAYPAL_CLIENT_ID);
 
-        edtAmount = findViewById(R.id.edtAmount);
+        edtAmount = findViewById(R.id.etAmount);
         btnPayNow = findViewById(R.id.btnPayNow);
         // creating a variable for button, edit text and status tv.
         paymentTV = findViewById(R.id.idTVStatus);
-        // initiallizing Activity Launcher
+        // initializing Activity Launcher
         initializeActivityLauncher();
 
         btnPayNow.setOnClickListener(new View.OnClickListener() {
@@ -121,8 +118,5 @@ public class paypalActivity extends AppCompatActivity {
         intent.putExtra(PaymentActivity.EXTRA_PAYMENT,payPalPayment);
         // Starting Activity Request launcher
         activityResultLauncher.launch(intent);
-    }
-}
-
     }
 }

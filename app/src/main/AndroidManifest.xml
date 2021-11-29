@@ -24,10 +24,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuickCash">
         <activity
-            android:name=".paypal.Config"
+            android:name=".Paypal.Config"
             android:exported="true" />
         <activity
-            android:name=".paypal.paypalActivity"
+            android:name=".Paypal.PaypalActivity"
             android:exported="true" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -65,6 +65,7 @@
         <activity android:name=".JobPosting.JobPostingActivity" />
         <activity android:name=".TaskList.TaskListActivity" />
         <activity android:name=".UserManagement.preferencePage" />
+
     </application>
 
 </manifest>
