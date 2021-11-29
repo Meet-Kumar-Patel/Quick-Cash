@@ -59,7 +59,9 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
      * @param password - Password provided by the user.
      */
     private void retrieveDataFromFirebase(String email, String password) {
-        DatabaseReference userReference = FirebaseDatabase.getInstance().getReference(User.class.getSimpleName());
+
+        //can be refactored.
+        DatabaseReference userReference = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/").getReference(User.class.getSimpleName());
         userReference.addValueEventListener(new ValueEventListener() {
 
             @Override

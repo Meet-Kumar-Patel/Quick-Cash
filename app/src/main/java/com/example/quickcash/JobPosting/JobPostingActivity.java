@@ -2,7 +2,6 @@ package com.example.quickcash.JobPosting;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,12 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quickcash.Home.EmployerHomeActivity;
-import com.example.quickcash.MainActivity;
 import com.example.quickcash.R;
-import com.example.quickcash.TaskList.TaskListActivity;
-import com.example.quickcash.UserManagement.LogInActivity;
 import com.example.quickcash.UserManagement.SessionManager;
-import com.example.quickcash.UserManagement.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -65,7 +60,7 @@ public class JobPostingActivity extends AppCompatActivity implements AdapterView
         Intent intent = getIntent();
 
         //Received location from map and show to the user
-        locationStr = intent.getStringExtra(EmployerHomeActivity.EXTRA_MESSAGE).toString();
+        locationStr = intent.getStringExtra(EmployerHomeActivity.EXTRA_MESSAGE);
         location = findViewById(R.id.etLocation);
         location.setText(locationStr);
 
@@ -115,7 +110,7 @@ public class JobPostingActivity extends AppCompatActivity implements AdapterView
         });
     }
 
-    protected User getAllTitles(DataSnapshot dataSnapshot) {
+    protected com.example.quickcash.UserManagement.User getAllTitles(DataSnapshot dataSnapshot) {
 
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
             // get all the titles
@@ -141,7 +136,12 @@ public class JobPostingActivity extends AppCompatActivity implements AdapterView
 
     protected int getDuration() {
         duration = findViewById(R.id.etDuration);
-        return Integer.parseInt(duration.getText().toString().trim());
+        String durationString = duration.getText().toString();
+        if(durationString.isEmpty()) {
+            return 0;
+        }
+        return Integer.parseInt(durationString.trim());
+
     }
 
     protected String getLocation() {
@@ -151,7 +151,9 @@ public class JobPostingActivity extends AppCompatActivity implements AdapterView
 
     protected int getWage() {
         wage = findViewById(R.id.etWage);
-        return Integer.parseInt(wage.getText().toString().trim());
+        String WageString = wage.getText().toString();
+        if(WageString.isEmpty()) return 0;
+        return Integer.parseInt(WageString.trim());
     }
 
     protected void returnToHomePage() {
@@ -174,6 +176,9 @@ public class JobPostingActivity extends AppCompatActivity implements AdapterView
         }
         else if (titleList.contains(jobTitle)){
             setStatusMessage("Job Title Already Taken.");
+        }
+        else if(location.equals("Not Given.PLease Enter.") || location.isEmpty()) {
+            setStatusMessage("Please Enter The Location.");
         }
         else if(duration < 1) {
             setStatusMessage("Duration 1 day or longer is required.");
@@ -214,16 +219,12 @@ public class JobPostingActivity extends AppCompatActivity implements AdapterView
     }
 
     // Referred to: https://developer.android.com/guide/topics/ui/controls/spinner
-
     public void onItemSelected(AdapterView<?> parent, View view,
                                int pos, long id) {
         // An item was selected. You can retrieve the selected item using
         //Message spinnerItem = (Message) parent.getItemAtPosition(pos);
 
         switch (pos) {
-            case 0:
-                jobTypeId = 0;
-                break;
             case 1:
                 jobTypeId = 1;
                 break;

@@ -1,6 +1,5 @@
 package com.example.quickcash.JobPosting;
 
-import com.example.quickcash.UserManagement.User;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -19,5 +18,10 @@ public class DAOJobPosting {
 
     public Task<Void> add(JobPosting jobPosting) {
         return databaseReference.push().setValue(jobPosting);
+    }
+
+    public void update(JobPosting jobPosting, String key) {
+        // Making a hashmap to store the new values
+        databaseReference.child(key).setValue(jobPosting);
     }
 }

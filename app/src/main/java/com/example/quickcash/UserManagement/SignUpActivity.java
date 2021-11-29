@@ -306,7 +306,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
      * To switch from this Activity to Login Activity
      */
     protected void switch2Login() {
-        Intent intent = new Intent(this, MapsActivity.class);
+        Intent intent = new Intent(this, LogInActivity.class);
         startActivity(intent);
     }
 
@@ -408,7 +408,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             String type = "";
             // to find the tyoe of user
             if (employee.isChecked()) {
-                type = "Y";
+                type = "y";
             } else if (employer.isChecked()) {
                 type = "N";
             }

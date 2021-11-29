@@ -1,0 +1,13 @@
+
+R	java:S125¥"<This block of commented-out lines of code should be removed.(à£¸†
+S
+java:S1117¨"<Rename "jobTitle" which hides the field declared at line 36.(èßÔâ
+S
+java:S1117©"<Rename "duration" which hides the field declared at line 38.(Ëş
+S
+java:S1117ª"<Rename "location" which hides the field declared at line 39.(Ëÿøµ
+O
+java:S1117«"8Rename "wage" which hides the field declared at line 40.(ÙØ´‰
+W	java:S125á"<This block of commented-out lines of code should be removed.(÷Ğ¹²ùÿÿÿÿ
+n	java:S117š"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àÁıæ8¾ëè¿Ö/
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ø¾ß½øÿÿÿÿ
