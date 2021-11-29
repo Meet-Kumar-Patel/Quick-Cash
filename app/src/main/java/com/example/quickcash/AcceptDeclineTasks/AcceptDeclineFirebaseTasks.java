@@ -52,7 +52,7 @@ public class AcceptDeclineFirebaseTasks {
                         }
                     }
                 }
-                acceptDeclineTasks.setAdapter(new AcceptDeclineRecyclerAdapter(acceptDeclineTasks, acceptDeclineTasks.getUserArrayList()));
+                acceptDeclineTasks.setAdapter(new AcceptDeclineRecyclerAdapter(acceptDeclineTasks, acceptDeclineTasks.getAcceptDeclineOBJList()));
             }
 
             @Override

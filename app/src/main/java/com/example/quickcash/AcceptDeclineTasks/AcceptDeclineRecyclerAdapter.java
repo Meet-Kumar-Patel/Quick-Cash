@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.quickcash.JobPosting.DAOJobPosting;
 import com.example.quickcash.JobPosting.JobPosting;
 import com.example.quickcash.R;
+import com.example.quickcash.UserManagement.EmployerDashboardActivity;
 import com.example.quickcash.UserManagement.User;
 
 import java.util.ArrayList;
@@ -21,21 +22,15 @@ import java.util.HashMap;
 
 public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDeclineRecyclerAdapter.MyViewHolder> {
 
-    private HashMap<String, JobPosting> userHashMap;
-    //private ArrayList<User> userArrayList;
+    private ArrayList<AcceptDeclineObject> acceptDeclineObjects;
     private Context context;
+    private AcceptDeclineTasks acceptDeclineTasks= new AcceptDeclineTasks();
     //Code adapted from https://www.youtube.com/watch?v=sJ-Z9G0SDhc
-    //
-    protected void navigateToRatingsPage() {
-        Intent acceptDeclineIntent = new Intent(this, AcceptDeclineRecyclerAdapter.class);
-        startActivity(acceptDeclineIntent);
-    }
 
-    public AcceptDeclineRecyclerAdapter(Context context, HashMap<String, JobPosting> user) {
-        this.userHashMap = user;
+    public AcceptDeclineRecyclerAdapter(Context context, ArrayList<AcceptDeclineObject> acceptDeclineObjects) {
+        this.acceptDeclineObjects = acceptDeclineObjects;
         this.context = context;
     }
-
 
     public AcceptDeclineRecyclerAdapter() {
     }
@@ -50,34 +45,31 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        User user = userArrayList.get(position);
-        String nameFromUser = user.getFirstName() + user.getLastName();
+        AcceptDeclineObject acceptDeclineObject = acceptDeclineObjects.get(position);
+        String nameFromUser = acceptDeclineObject.getUserName();
         holder.employeeName.setText(nameFromUser);
-        DAOJobPosting acceptdecline = new DAOJobPosting();
+        DAOJobPosting daoJobPosting = new DAOJobPosting();
+        String jpKey = acceptDeclineObject.getJobKey();
+        JobPosting jobPosting =  acceptDeclineTasks.getJobPosting(acceptDeclineObject.getJobKey());
         holder.acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-acceptdecline.update( J, );
-
+                jobPosting.setAccepted(acceptDeclineObject.getUserEmail());
+                daoJobPosting.update(jobPosting, jpKey);
             }
         });
-        holder.declineButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
         holder.ratingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                acceptDeclineTasks.openIntent(jpKey);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return userArrayList.size();
+        return acceptDeclineObjects.size();
     }
 
     //Refactor, move to new class
@@ -90,24 +82,16 @@ acceptdecline.update( J, );
         public MyViewHolder(final View view) {
             super(view);
             employeeName = view.findViewById(R.id.employeename);
-
-            //
             ratingsButton = view.findViewById(R.id.ratingsbutton);
-            ratingsButton.setOnClickListener(view -> {
-                navigateToRatingsPage();
-            });
             acceptButton = view.findViewById(R.id.acceptbutton);
-            declineButton = view.findViewById(R.id.declinebutton);
-
         }
-
     }
 
-    public ArrayList<User> getUserArrayList() {
-        return userArrayList;
+    public ArrayList<AcceptDeclineObject> getUserArrayList() {
+        return acceptDeclineObjects;
     }
 
-    public void setUserArrayList(ArrayList<User> userArrayList) {
-        this.userArrayList = userArrayList;
+    public void setUserArrayList(ArrayList<AcceptDeclineObject> acceptDeclineObjects) {
+        this.acceptDeclineObjects = acceptDeclineObjects;
     }
 }

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quickcash.JobPosting.JobPosting;
 import com.example.quickcash.R;
+import com.example.quickcash.UserManagement.EmployerDashboardActivity;
 import com.example.quickcash.UserManagement.SessionManager;
 import com.example.quickcash.UserManagement.User;
 
@@ -22,6 +23,7 @@ public class AcceptDeclineTasks extends AppCompatActivity {
     AcceptDeclineRecyclerAdapter adapter;
     ArrayList<User> userArrayList = new ArrayList<User>();
     HashMap<String,JobPosting> jobPostingHashMap = new HashMap<>();
+    ArrayList<AcceptDeclineObject> acceptDeclineOBJList = new ArrayList<>();
     AcceptDeclineFirebaseTasks acceptDeclineFirebaseTasks = new AcceptDeclineFirebaseTasks();
     String employerEmail;
 
@@ -74,20 +76,48 @@ public class AcceptDeclineTasks extends AppCompatActivity {
 
     public ArrayList<User> getUserArrayList() {
         return userArrayList;
-
-
     }
 
-   public JobPosting getJobPosting (User user) {
-        String email;
-        email = user.getEmail();
-        for (JobPosting jb : jobPostingHashMap.values()){
-            jb.getLstAppliedBy().contains(email);
-            if( jb.getLstAppliedBy().contains(email){
+    protected void addAcceptDeclineOBJ() {
+        for (String key: jobPostingHashMap.keySet()) {
+            JobPosting jobPosting = jobPostingHashMap.get(key);
 
+            assert jobPosting != null;
+            for (int i = 0; i < userArrayList.size(); i++) {
+                User user = userArrayList.get(i);
+                if(jobPosting.getLstAppliedBy().contains(user.getEmail())) {
+                    String userName = user.getFirstName() + " " + user.getLastName();
+                    String userEmail = user.getEmail();
+                    String jobID = jobPosting.getJobPostingId();
+                    String jobTitle = jobPosting.getJobTitle();
+                    AcceptDeclineObject acceptDeclineObject = new AcceptDeclineObject(userName, userEmail, jobID, jobTitle, key);
+                    acceptDeclineOBJList.add(acceptDeclineObject);
+                }
             }
         }
+    }
 
+    protected JobPosting getJobPosting(String key) {
+        return jobPostingHashMap.get(key);
+    }
 
-}
+    public ArrayList<AcceptDeclineObject> getAcceptDeclineOBJList() {
+        return acceptDeclineOBJList;
+    }
+
+    public void setAcceptDeclineOBJList(ArrayList<AcceptDeclineObject> acceptDeclineOBJList) {
+        this.acceptDeclineOBJList = acceptDeclineOBJList;
+    }
+
+    public void openIntent(String key) {
+        JobPosting jobPosting = jobPostingHashMap.get(key);
+        Intent intent;
+        if(jobPosting.isTaskComplete()) {
+            intent = new Intent(this, EmployerDashboardActivity.class);
+        }
+        else {
+            intent = new Intent(this, EmployerDashboardActivity.class);
+        }
+        startActivity(intent);
+    }
 }

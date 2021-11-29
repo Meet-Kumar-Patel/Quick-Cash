@@ -18,19 +18,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/employeename"
-        app:layout_constraintTop_toBottomOf="@+id/declinebutton" />
-
-    <Button
-        android:id="@+id/declinebutton"
-        android:layout_width="150dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="77dp"
-        android:layout_marginEnd="4dp"
-        android:text="decline"
-        app:layout_constraintBottom_toTopOf="@+id/ratingsbutton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/employeename"
         app:layout_constraintTop_toBottomOf="@+id/acceptbutton" />
 
     <Button
@@ -38,9 +25,9 @@
         android:layout_width="150dp"
         android:layout_height="35dp"
         android:layout_marginStart="77dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="4dp"
         android:text="Accept"
-        app:layout_constraintBottom_toTopOf="@+id/declinebutton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/employeename"
         app:layout_constraintTop_toTopOf="parent" />
@@ -56,8 +43,8 @@
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/declinebutton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
