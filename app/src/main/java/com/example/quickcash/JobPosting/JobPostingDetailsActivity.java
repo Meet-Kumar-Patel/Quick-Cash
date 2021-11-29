@@ -148,7 +148,9 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
                 } else {
                     if (jobPosting.getAccepted().equals(userEmail)) {
                         btnApply.setText("Accepted");
-                        btnTaskCompleted.setVisibility(View.VISIBLE);
+                        if(!jobPosting.isTaskComplete()) {
+                            btnTaskCompleted.setVisibility(View.VISIBLE);
+                        }
                     } else {
                         btnApply.setText("Sorry Rejected");
                     }

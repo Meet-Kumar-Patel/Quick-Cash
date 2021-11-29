@@ -65,13 +65,10 @@ public class EmployerDashboardActivity extends AppCompatActivity {
                 jobSearchView.clearFocus();
             }
         });
-        Button homeButton = findViewById(R.id.homebutton);
-        homeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent homeIntent = new Intent(EmployerDashboardActivity.this, EmployerHomeActivity.class);
-                startActivity(homeIntent);
-            }
+        Button homeButton = findViewById(R.id.backToEmployerHomeBtn);
+        homeButton.setOnClickListener(view -> {
+            Intent homeIntent = new Intent(EmployerDashboardActivity.this, EmployerHomeActivity.class);
+            startActivity(homeIntent);
         });
     }
 

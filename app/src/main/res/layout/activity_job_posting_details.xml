@@ -21,14 +21,13 @@
         android:id="@+id/btnJPDApplyNow"
         android:layout_width="335dp"
         android:layout_height="56dp"
-        android:layout_marginBottom="108dp"
         android:text="Apply Now"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnJPDMarkCompleted"
-        app:layout_constraintVertical_bias="0.548" />
+        app:layout_constraintVertical_bias="0.171" />
 
     <Button
         android:id="@+id/btnJPDReturnToSearch"
@@ -40,7 +39,7 @@
         app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnJPDApplyNow"
-        app:layout_constraintVertical_bias="0.181" />
+        app:layout_constraintVertical_bias="0.214" />
 
     <TextView
         android:id="@+id/txtJPDStatus"
@@ -219,9 +218,9 @@
         android:text="Mark Task Completed"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintHorizontal_bias="0.484"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtJPDError"
-        app:layout_constraintVertical_bias="0.114" />
+        app:layout_constraintVertical_bias="0.054" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

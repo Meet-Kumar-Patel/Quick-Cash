@@ -19,8 +19,6 @@ import com.example.quickcash.JobPosting.JobPostingActivity;
 import com.example.quickcash.R;
 import com.example.quickcash.Ratings.GiveRatingsActivity;
 import com.example.quickcash.Ratings.ViewRatingActivity;
-import com.example.quickcash.UserManagement.EmployeeDashboardActivity;
-import com.example.quickcash.UserManagement.EmployerDashboardActivity;
 import com.example.quickcash.UserManagement.User;
 
 import java.util.ArrayList;
