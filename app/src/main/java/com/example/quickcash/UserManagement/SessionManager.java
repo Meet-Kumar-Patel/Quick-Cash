@@ -30,8 +30,6 @@ public class SessionManager {
     // Shared pref mode
     int PRIVATE_MODE = 0;
 
-    private static SessionManagerFirebaseUser sessionManagerFirebaseUser = new SessionManagerFirebaseUser();
-
     // Constructor
     @SuppressLint("CommitPrefEdits")
     public SessionManager(Context context) {
@@ -54,8 +52,6 @@ public class SessionManager {
         editor.putString(KEY_NAME, name);
         // commit changes
         editor.commit();
-
-        sessionManagerFirebaseUser.setLoggedInUser(email);
     }
 
     /**
@@ -116,11 +112,6 @@ public class SessionManager {
     // Get Login State
     public boolean isLoggedIn() {
         return pref.getBoolean(IS_LOGIN, false);
-    }
-
-    public SessionManagerFirebaseUser getSessionManagerFirebaseUser() {
-
-        return sessionManagerFirebaseUser;
     }
 
     public String getKeyName() {

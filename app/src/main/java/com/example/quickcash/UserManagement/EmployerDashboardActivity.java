@@ -1,8 +1,6 @@
 package com.example.quickcash.UserManagement;
 
 import android.os.Bundle;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,40 +13,37 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class EmployeeDashboardActivity extends AppCompatActivity {
+public class EmployerDashboardActivity extends AppCompatActivity {
 
-    private static FirebaseDatabase db;
+    private FirebaseDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.employee_dashboard);
+        setContentView(R.layout.employer_dashboard);
         SessionManager sessionManager = new SessionManager(getApplicationContext());
         sessionManager.checkLogin();
 
         initializeFirebase();
+
     }
 
-    private static void initializeFirebase() {
+    private void initializeFirebase() {
         db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
     }
 
-    String statusMessage = "ERROR";
-    private void retrieveDataFromFirebase(String email) {
-        //db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
-        //initializeFirebase();
-        DatabaseReference jobReference = db.getReference(JobPosting.class.getSimpleName());
+     public void retrieveDataFromFirebase(String email) {
+        DatabaseReference jobReference = FirebaseDatabase.getInstance().getReference(JobPosting.class.getSimpleName());
         jobReference.addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // When the data is received, check the job applied by employee
+                // When the data is received, verify the user credential
                 if (dataSnapshot.exists()) {
 
                     try {
-                        //verifyUserCredentials(dataSnapshot, email);
                         JobPosting jobPosting = getJobPosting(dataSnapshot, email);
-                        setStatusMessage(jobPosting.getJobTitle());
+                        System.out.println(jobPosting.getJobTitle());
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -64,11 +59,11 @@ public class EmployeeDashboardActivity extends AppCompatActivity {
         });
     }
 
-    public JobPosting getJobPosting(DataSnapshot dataSnapshot, String email) {
+    private JobPosting getJobPosting(DataSnapshot dataSnapshot, String email) {
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
             JobPosting jobPosting = snapshot.getValue(JobPosting.class);
             if(jobPosting != null) {
-                boolean emailMatches = jobPosting.getAccepted().equals(email);
+                boolean emailMatches = jobPosting.getCreatedByName().equals(email);
                 if (emailMatches) {
                     return jobPosting;
                 }
@@ -77,12 +72,4 @@ public class EmployeeDashboardActivity extends AppCompatActivity {
         return null;
     }
 
-    private void setStatusMessage(String statusMessage) {
-        EditText etError = findViewById(R.id.employeeMultiLine);
-        etError.setText(statusMessage);
-    }
-
-    /*public String getStatusMessage() {
-        return statusMessage;
-    }*/
 }

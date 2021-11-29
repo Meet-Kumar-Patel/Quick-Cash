@@ -7,23 +7,21 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.quickcash.AcceptDeclineTasks.AcceptDeclineTasks;
 import com.example.quickcash.JobPosting.JobPostingActivity;
 import com.example.quickcash.R;
-import com.example.quickcash.Dashboard.EmployerDashboardActivity;
+import com.example.quickcash.UserManagement.EmployerDashboardActivity;
 import com.example.quickcash.UserManagement.SessionManager;
 import com.google.firebase.FirebaseApp;
 
 public class EmployerHomeActivity extends AppCompatActivity {
-    public static final String EXTRA_MESSAGE = "locationOfEmployer";
+    public static final String EXTRA_MESSAGE = "KK";
     private Button createTasks;
     private Button dashboard;
-    private Button acceptdecline;
+
 
     // Created intents for navigating to the pages
     protected void navigateToCreateTasksPage() {
         Intent createTasksPageIntent = new Intent(this, JobPostingActivity.class);
-        createTasksPageIntent.putExtra(EXTRA_MESSAGE, "Not Given. Please Enter.");
         startActivity(createTasksPageIntent);
     }
 
@@ -32,10 +30,6 @@ public class EmployerHomeActivity extends AppCompatActivity {
         startActivity(dashboardPageIntent);
     }
 
-    protected void navigateToAcceptDecline() {
-        Intent acceptDeclineIntent = new Intent(this, AcceptDeclineTasks.class);
-        startActivity(acceptDeclineIntent);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +47,6 @@ public class EmployerHomeActivity extends AppCompatActivity {
         dashboard = (Button) findViewById(R.id.btnDashboardEmployerPage);
         dashboard.setOnClickListener(view -> {
             navigateToDashboardPage();
-        });
-
-        acceptdecline = (Button) findViewById(R.id.acceptdecline);
-        acceptdecline.setOnClickListener(view -> {
-            navigateToAcceptDecline();
         });
 
         FirebaseApp.initializeApp(this);

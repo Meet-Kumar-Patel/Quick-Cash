@@ -89,7 +89,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 // --- You need to pass the cityName as a extra attribute to the search preference form.
                 Toast.makeText(MapsActivity.this, cityName, Toast.LENGTH_LONG).show();
                intent.putExtra("City",cityName);
-               intent.putExtra("Preference", true);
                 startActivity(intent);
             }
         });
