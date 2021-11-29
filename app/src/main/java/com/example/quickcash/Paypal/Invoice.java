@@ -6,9 +6,9 @@ public class Invoice {
 
     private final String InvoiceID;
     private String jobID;
-    private double totalPayment;
+    private String totalPayment;
 
-    protected Invoice(String jobID, double totalPayment) {
+    protected Invoice(String jobID, String totalPayment) {
         this.InvoiceID = UUID.randomUUID().toString();
         this.jobID = jobID;
         this.totalPayment = totalPayment;
@@ -31,11 +31,11 @@ public class Invoice {
         this.jobID = jobID;
     }
 
-    public double getTotalPayment() {
+    public String getTotalPayment() {
         return totalPayment;
     }
 
-    public void setTotalPayment(double totalPayment) {
+    public void setTotalPayment(String totalPayment) {
         this.totalPayment = totalPayment;
     }
 }

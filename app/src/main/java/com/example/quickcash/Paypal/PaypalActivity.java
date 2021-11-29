@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.quickcash.AcceptDeclineTasks.AcceptDeclineTasks;
+import com.example.quickcash.JobPosting.DAOJobPosting;
 import com.example.quickcash.JobPosting.JobPosting;
 import com.example.quickcash.JobPosting.JobPostingActivity;
 import com.example.quickcash.R;
@@ -80,13 +81,14 @@ public class PaypalActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         String jobID = intent.getStringExtra("jobID");
-        username = intent.getStringExtra("username");
+        username = intent.getStringExtra("userName");
 
         btnPayNow = findViewById(R.id.btnPayNow);
         btnGoBack = findViewById(R.id.btnGoBack);
         txtName = findViewById(R.id.txtNameValue);
         txtDuration = findViewById(R.id.txtDurationValue);
         txtTotal = findViewById(R.id.txtTotalValue);
+        txtWage = findViewById(R.id.txtWageValue);
         txtError = findViewById(R.id.invoiceErrorMessage);
 
         retrieveDataFromFirebase(jobID);
@@ -146,8 +148,8 @@ JobPosting jobPostingOBJ;
 
 
         txtName.setText(username);
-        txtDuration.setText(jobPosting.getDuration());
-        txtWage.setText(jobPosting.getWage());
+        txtDuration.setText(String.valueOf(jobPosting.getDuration()));
+        txtWage.setText(String.valueOf(jobPosting.getWage()));
         amount = String.valueOf(jobPosting.getDuration() * jobPosting.getWage());
         txtTotal.setText(amount);
 
@@ -186,6 +188,10 @@ JobPosting jobPostingOBJ;
     }
 
     private void processPayment() {
+        String jobPostingId = jobPostingOBJ.getJobPostingId();
+        Invoice invoice = new Invoice(jobPostingId, amount);
+        DAOInvoice daoInvoice = new DAOInvoice();
+        daoInvoice.add(invoice);
         // Creating Paypal payment
         PayPalPayment payPalPayment = new PayPalPayment(new BigDecimal(String.valueOf(amount)),"CAD","Purchase Goods",PayPalPayment.PAYMENT_INTENT_SALE);
         // Creating Paypal Payment activity intent

@@ -17,7 +17,7 @@ public class DAOInvoice {
         return databaseReference;
     }
 
-    public Task<Void> add(JobPosting jobPosting) {
-        return databaseReference.push().setValue(jobPosting);
+    public Task<Void> add(Invoice invoice) {
+        return databaseReference.push().setValue(invoice);
     }
 }
