@@ -2,7 +2,6 @@ package com.example.quickcash.UserManagement;
 
 import android.os.Bundle;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

@@ -107,7 +107,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
         public MyViewHolder(final View view) {
             super(view);
-            nameText = view.findViewById(R.id.titletext);
+            nameText = view.findViewById(R.id.employeename);
             locationText = view.findViewById(R.id.location);
             jobTypeText = view.findViewById(R.id.jobtype);
             viewJobButton = view.findViewById(R.id.viewjobbutton);

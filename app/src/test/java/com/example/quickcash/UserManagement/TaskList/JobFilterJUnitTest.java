@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import com.example.quickcash.JobPosting.JobPosting;
 import com.example.quickcash.TaskList.JobFilter;
 import com.example.quickcash.TaskList.JobTypeStringGetter;
-import com.example.quickcash.TaskList.RecyclerAdapter;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
