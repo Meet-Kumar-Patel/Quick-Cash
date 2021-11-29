@@ -91,7 +91,7 @@ public class AcceptDeclineTasks extends AppCompatActivity {
                     String userEmail = user.getEmail();
                     String jobID = jobPosting.getJobPostingId();
                     String jobTitle = jobPosting.getJobTitle();
-                    AcceptDeclineObject acceptDeclineObject = new AcceptDeclineObject(userName, userEmail, jobID, jobTitle, key, !jobPosting.getAccepted().isEmpty());
+                    AcceptDeclineObject acceptDeclineObject = new AcceptDeclineObject(userName, userEmail, jobID, jobTitle, key, !jobPosting.getAccepted().isEmpty(), jobPosting.isTaskComplete());
                     // Once a candidate is accepted we will only the accepted candidate for rating.
                     if(jobPosting.getAccepted().isEmpty()) {
                         acceptDeclineOBJList.add(acceptDeclineObject);
