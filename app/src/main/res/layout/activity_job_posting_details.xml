@@ -160,11 +160,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtJPDType"
+        app:layout_constraintTop_toBottomOf="@+id/txtName"
         app:layout_constraintVertical_bias="0.015" />
 
     <TextView
-        android:id="@+id/txtJobTitle"
+        android:id="@+id/txtInvoice"
         android:layout_width="wrap_content"
         android:layout_height="53dp"
         android:text="Job Title"
@@ -176,7 +176,7 @@
         app:layout_constraintVertical_bias="0.048" />
 
     <TextView
-        android:id="@+id/txtJPDType"
+        android:id="@+id/txtName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Job Type"
@@ -184,7 +184,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.10"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtJobTitle"
+        app:layout_constraintTop_toBottomOf="@+id/txtInvoice"
         app:layout_constraintVertical_bias="0.027" />
 
     <TextView
