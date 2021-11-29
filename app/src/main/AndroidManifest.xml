@@ -57,6 +57,8 @@
         <activity android:name=".Home.EmployeeHomeActivity" />
         <activity android:name=".Home.EmployerHomeActivity" />
         <activity android:name=".AcceptDeclineTasks.AcceptDeclineTasks"></activity>
+        <activity android:name=".Dashboard.EmployerDashboardActivity" />
+        <activity android:name=".Dashboard.EmployeeDashboardActivity" />
         <activity android:name=".JobPosting.JobPostingDetailsActivity"></activity>
         <activity android:name=".JobPosting.JobPostingActivity"></activity>
         <activity android:name=".TaskList.TaskListActivity"></activity>

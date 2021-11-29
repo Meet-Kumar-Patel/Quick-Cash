@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.quickcash.AcceptDeclineTasks.AcceptDeclineTasks;
 import com.example.quickcash.JobPosting.JobPostingActivity;
 import com.example.quickcash.R;
-import com.example.quickcash.UserManagement.EmployerDashboardActivity;
+import com.example.quickcash.Dashboard.EmployerDashboardActivity;
 import com.example.quickcash.UserManagement.SessionManager;
 import com.google.firebase.FirebaseApp;
 
@@ -36,7 +36,6 @@ public class EmployerHomeActivity extends AppCompatActivity {
         Intent acceptDeclineIntent = new Intent(this, AcceptDeclineTasks.class);
         startActivity(acceptDeclineIntent);
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
