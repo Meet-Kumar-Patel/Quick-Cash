@@ -15,7 +15,10 @@ import com.example.quickcash.Home.EmployeeHomeActivity;
 import com.example.quickcash.Home.EmployerHomeActivity;
 import com.example.quickcash.JobPosting.DAOJobPosting;
 import com.example.quickcash.JobPosting.JobPosting;
+import com.example.quickcash.JobPosting.JobPostingActivity;
 import com.example.quickcash.R;
+import com.example.quickcash.Ratings.GiveRatingsActivity;
+import com.example.quickcash.Ratings.ViewRatingActivity;
 import com.example.quickcash.UserManagement.EmployeeDashboardActivity;
 import com.example.quickcash.UserManagement.EmployerDashboardActivity;
 import com.example.quickcash.UserManagement.User;
@@ -65,7 +68,7 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
         if(acceptDeclineObject.isAccepted()) {disableAcceptBtn(holder);}
 
 
-        holder.ratingsButton.setOnClickListener(view -> openIntent(jpKey));
+        holder.ratingsButton.setOnClickListener(view -> openIntent(jpKey, acceptDeclineObject.getUserName(), acceptDeclineObject.getUserEmail()));
     }
 
     public void disableAcceptBtn(MyViewHolder holder) {
@@ -98,15 +101,19 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
 
     public void setAcceptDeclineArrayList(ArrayList<AcceptDeclineObject> acceptDeclineObjects) {this.acceptDeclineObjects = acceptDeclineObjects; }
 
-    public void openIntent(String key) {
+    public void openIntent(String key, String userName, String userEmail) {
         JobPosting jobPosting = hashMap.get(key);
         Intent intent;
         if(jobPosting.isTaskComplete()) {
-            intent = new Intent(context, EmployeeHomeActivity.class);
+            intent = new Intent(context, GiveRatingsActivity.class);
         }
         else {
-            intent = new Intent(context, EmployeeHomeActivity.class);
+            intent = new Intent(context, ViewRatingActivity.class);
         }
+        intent.putExtra(JobPostingActivity.EXTRA_MESSAGE, userEmail);
+        intent.putExtra("jobPostingID", jobPosting.getJobPostingId());
+        intent.putExtra("userToRate", userName);
+        intent.putExtra("page", "acceptDecline");
         context.startActivity(intent);
     }
 

@@ -4,13 +4,17 @@ import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.quickcash.AcceptDeclineTasks.AcceptDeclineTasks;
 import com.example.quickcash.JobPosting.JobPostingActivity;
+import com.example.quickcash.JobPosting.JobPostingDetailsActivity;
 import com.example.quickcash.R;
 import com.example.quickcash.UserManagement.SessionManager;
 import com.google.firebase.database.DataSnapshot;
@@ -25,6 +29,7 @@ public class ViewRatingActivity extends AppCompatActivity {
     TextView rating_header = null;
     TextView star_rating_number = null;
     RatingBar ratingBar = null;
+    Button backButton;
 
     float ratingSum = 0;
     String userToRate = "";
@@ -39,13 +44,23 @@ public class ViewRatingActivity extends AppCompatActivity {
         String receiverEmail = intent.getStringExtra(JobPostingActivity.EXTRA_MESSAGE);
         String jobPostingID = intent.getStringExtra("jobPostingID");
         userToRate = intent.getStringExtra("userToRate");
-
+        String page = intent.getStringExtra("page");
         SessionManager sessionManager = new SessionManager(getApplicationContext());
         String senderEmail = sessionManager.getKeyEmail();
 
         retrieveDataFromFirebase(receiverEmail, senderEmail, jobPostingID);
-
-
+        backButton = findViewById(R.id.rating_back_button);
+        backButton.setOnClickListener(view -> {
+            Intent jobDetailsIntent;
+            if(page.equals("acceptDecline")) {
+                jobDetailsIntent = new Intent(ViewRatingActivity.this, AcceptDeclineTasks.class);
+            }
+            else {
+                jobDetailsIntent =new Intent(ViewRatingActivity.this, JobPostingDetailsActivity.class);
+                jobDetailsIntent.putExtra(JobPostingActivity.EXTRA_MESSAGE, jobPostingID);
+            }
+            startActivity(jobDetailsIntent);
+        });
     }
 
     protected void retrieveDataFromFirebase(String receiverEmail, String senderEmail,String jobID) {
@@ -109,6 +124,8 @@ public class ViewRatingActivity extends AppCompatActivity {
         ratingBar.setClickable(false);
         ratingBar.setEnabled(false);
     }
+
+
 
 
 }

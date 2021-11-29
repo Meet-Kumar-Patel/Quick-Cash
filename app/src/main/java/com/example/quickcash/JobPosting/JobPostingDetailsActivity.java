@@ -221,6 +221,7 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         rateIntent.putExtra(JobPostingActivity.EXTRA_MESSAGE, jobPostingOBJ.getCreatedBy());
         rateIntent.putExtra("jobPostingID", jobPostingOBJ.getJobPostingId());
         rateIntent.putExtra("userToRate", jobPostingOBJ.getCreatedByName());
+        rateIntent.putExtra("page", "jobPostingDetails");
         startActivity(rateIntent);
     }
 
