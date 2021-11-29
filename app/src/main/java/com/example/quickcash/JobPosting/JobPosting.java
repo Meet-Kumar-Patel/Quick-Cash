@@ -41,7 +41,7 @@ public class JobPosting extends Object {
         return jobPostingId;
     }
 
-    public void setJobPostingId(String jobPostingId) {
+    private void setJobPostingId(String jobPostingId) {
         this.jobPostingId = jobPostingId;
     }
 

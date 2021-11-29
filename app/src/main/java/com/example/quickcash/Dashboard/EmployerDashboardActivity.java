@@ -1,4 +1,4 @@
-package com.example.quickcash.TaskList;
+package com.example.quickcash.Dashboard;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.SearchView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,39 +17,32 @@ import com.example.quickcash.Home.EmployeeHomeActivity;
 import com.example.quickcash.Home.EmployerHomeActivity;
 import com.example.quickcash.JobPosting.JobPosting;
 import com.example.quickcash.R;
+import com.example.quickcash.TaskList.RecyclerAdapter;
 import com.example.quickcash.UserManagement.SessionManager;
-import com.example.quickcash.UserManagement.SessionManagerFirebaseUser;
-import com.example.quickcash.UserManagement.User;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class TaskListActivity extends AppCompatActivity {
+public class EmployerDashboardActivity extends AppCompatActivity {
 
+    private FirebaseDatabase db;
     RecyclerAdapter adapter;
-    ArrayList<JobPosting> jobPostingArrayList = new ArrayList<JobPosting>();
-    FirebaseDatabase db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
-    String city = "Halifax";
-    boolean searchByPreference;
-    FirebaseTasks firebaseTasks = new FirebaseTasks();
-    SessionManager sessionManager;
+    RecyclerView recyclerView;
     SearchView jobSearchView;
-    private RecyclerView recyclerView;
+    ArrayList<JobPosting> jobsCreatedArray = new ArrayList<>();
+    DashboardFirebaseTasks dashboardFirebaseTasks = new DashboardFirebaseTasks();
 
-    //Refactoring needed, move search, and button init to new methods.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
-        //city = intent.getStringExtra("City");
-        searchByPreference = intent.getBooleanExtra("Preference", false);
         setContentView(R.layout.activity_task_list);
-        sessionManager = new SessionManager(getApplicationContext());
+        SessionManager sessionManager = new SessionManager(getApplicationContext());
+        dashboardFirebaseTasks.getDashboardJobs(this, sessionManager.getKeyEmail());
         recyclerView = findViewById(R.id.recyclerview);
-        firebaseTasks.getJobPostingsFromFirebase(this, city);
-        if (searchByPreference) {
-            firebaseTasks.getUserPreferenceFromFirebase(this, sessionManager.getKeyEmail());
-        }
         jobSearchView = findViewById(R.id.jobsearch);
         jobSearchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
         jobSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -72,25 +66,10 @@ public class TaskListActivity extends AppCompatActivity {
             }
         });
         Button homeButton = findViewById(R.id.backToEmployerHomeBtn);
-        homeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Change this to switch between employee and employer.
-                SessionManagerFirebaseUser sessionManagerFirebaseUser = sessionManager.getSessionManagerFirebaseUser();
-                User user = sessionManagerFirebaseUser.getLoggedInUser();
-                Intent homeIntent;
-                if (user.getIsEmployee().equals("y")) {
-                    homeIntent = new Intent(TaskListActivity.this, EmployeeHomeActivity.class);
-                } else {
-                    homeIntent = new Intent(TaskListActivity.this, EmployerHomeActivity.class);
-                }
-                startActivity(homeIntent);
-            }
+        homeButton.setOnClickListener(view -> {
+            Intent homeIntent = new Intent(EmployerDashboardActivity.this, EmployerHomeActivity.class);
+            startActivity(homeIntent);
         });
-    }
-
-    public RecyclerAdapter getAdapter() {
-        return adapter;
     }
 
     public void setAdapter(RecyclerAdapter adapter) {
@@ -101,15 +80,11 @@ public class TaskListActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    public void addJobPostingToArray(JobPosting jobPosting) {
-        jobPostingArrayList.add(jobPosting);
+    public void addJobToArray(JobPosting jobPosting) {
+        jobsCreatedArray.add(jobPosting);
     }
 
-    public ArrayList<JobPosting> getJobPostingArrayList() {
-        return jobPostingArrayList;
-    }
-
-    public void setSearchQuery(String query) {
-        jobSearchView.setQuery(query, false);
+    public ArrayList<JobPosting> getJobsCreatedArray() {
+        return jobsCreatedArray;
     }
 }

@@ -1,5 +1,4 @@
 package com.example.quickcash.Paypal;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;

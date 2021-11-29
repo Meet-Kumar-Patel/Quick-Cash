@@ -1,15 +1,0 @@
-
-q
-java:S1450""VRemove the "cancelB" field and declare it as a local variable in the relevant methods.(ÊßÍôýÿÿÿÿ
-l
-java:S1450"VRemove the "jobType" field and declare it as a local variable in the relevant methods.(¦ž³€
-q
-java:S1450!"VRemove the "submitB" field and declare it as a local variable in the relevant methods.(•èùþûÿÿÿÿ
-Q
-java:S2696G"6Make the enclosing method "static" or remove this set.(¼é€ßúÿÿÿÿ
-S
-java:S1117ƒ"<Rename "duration" which hides the field declared at line 29.(Ëžþ
-O
-java:S1117„"8Rename "wage" which hides the field declared at line 30.(ÙØ´‰
-a	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(¨•ªX
-t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÜŸŸÒüÿÿÿÿ
