@@ -16,6 +16,8 @@ import com.example.quickcash.Home.EmployeeHomeActivity;
 import com.example.quickcash.Home.EmployerHomeActivity;
 import com.example.quickcash.JobPosting.JobPosting;
 import com.example.quickcash.R;
+import com.example.quickcash.UserManagement.ISessionManagerFirebaseUser;
+import com.example.quickcash.UserManagement.IUser;
 import com.example.quickcash.UserManagement.SessionManager;
 import com.example.quickcash.UserManagement.SessionManagerFirebaseUser;
 import com.example.quickcash.UserManagement.User;
@@ -76,8 +78,8 @@ public class TaskListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Change this to switch between employee and employer.
-                SessionManagerFirebaseUser sessionManagerFirebaseUser = sessionManager.getSessionManagerFirebaseUser();
-                User user = sessionManagerFirebaseUser.getLoggedInUser();
+                ISessionManagerFirebaseUser sessionManagerFirebaseUser = sessionManager.getSessionManagerFirebaseUser();
+                IUser user = sessionManagerFirebaseUser.getLoggedInUser();
                 Intent homeIntent;
                 if (user.getIsEmployee().equals("y")) {
                     homeIntent = new Intent(TaskListActivity.this, EmployeeHomeActivity.class);

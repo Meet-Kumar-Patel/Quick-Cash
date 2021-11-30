@@ -8,10 +8,9 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quickcash.R;
-import com.example.quickcash.TaskList.TaskListActivity;
 import com.example.quickcash.UserManagement.MapsActivity;
 import com.example.quickcash.UserManagement.SessionManager;
-import com.example.quickcash.UserManagement.preferencePage;
+import com.example.quickcash.UserManagement.PreferenceActivity;
 import com.google.firebase.FirebaseApp;
 import com.example.quickcash.Dashboard.EmployeeDashboardActivity;
 
@@ -33,7 +32,7 @@ private Button searchByPref;
     }
 
     protected void navigateToSearchPrefPage() {
-        Intent searchTasksPageIntent = new Intent(this, preferencePage.class);
+        Intent searchTasksPageIntent = new Intent(this, PreferenceActivity.class);
         startActivity(searchTasksPageIntent);
     }
 

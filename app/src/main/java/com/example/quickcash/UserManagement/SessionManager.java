@@ -10,7 +10,7 @@ import com.example.quickcash.WelcomePage;
 import java.util.HashMap;
 
 // Taken from: https://stackoverflow.com/questions/23720313/android-save-user-session
-public class SessionManager {
+public class SessionManager implements ISessionManager {
     // public email name
     public static final String KEY_PASSWORD = "name";
     // Email address (make variable public to access from outside)
@@ -21,6 +21,11 @@ public class SessionManager {
     private static final String IS_LOGIN = "IsLoggedIn";
 
     private static final String KEY_NAME = "userName";
+
+    private static final ISessionManagerFirebaseUser sessionManagerFirebaseUser =
+            UserManagementInjector.getInstance().getUserManagementAbstractFactory().
+                    getISessionManagerFirebaseUserInstance();
+
     // Shared Preferences
     SharedPreferences pref;
     // Editor for Shared preferences
@@ -29,8 +34,6 @@ public class SessionManager {
     Context _context;
     // Shared pref mode
     int PRIVATE_MODE = 0;
-
-    private static SessionManagerFirebaseUser sessionManagerFirebaseUser = new SessionManagerFirebaseUser();
 
     // Constructor
     @SuppressLint("CommitPrefEdits")
@@ -43,6 +46,7 @@ public class SessionManager {
     /**
      * Create login session
      */
+    @Override
     public void createLoginSession(String email, String password, String name) {
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
@@ -54,7 +58,6 @@ public class SessionManager {
         editor.putString(KEY_NAME, name);
         // commit changes
         editor.commit();
-
         sessionManagerFirebaseUser.setLoggedInUser(email);
     }
 
@@ -62,6 +65,7 @@ public class SessionManager {
      * Check login method wil check user login status If false it will redirect
      * user to login page Else won't do anything
      */
+    @Override
     public void checkLogin() {
         // Check login status
         if (!this.isLoggedIn()) {
@@ -69,10 +73,8 @@ public class SessionManager {
             Intent i = new Intent(_context, LogInActivity.class);
             // Closing all the Activities
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
             // Add new Flag to start new Activity
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
             // Staring Login Activity
             _context.startActivity(i);
         }
@@ -81,6 +83,7 @@ public class SessionManager {
     /**
      * Get stored session data
      */
+    @Override
     public HashMap<String, String> getUserDetails() {
         HashMap<String, String> user = new HashMap<String, String>();
         // email
@@ -96,6 +99,7 @@ public class SessionManager {
     /**
      * Clear session details
      */
+    @Override
     public void logoutUser() {
         // Clearing all data from Shared Preferences
         editor.clear();
@@ -114,19 +118,22 @@ public class SessionManager {
      * Quick check for login
      **/
     // Get Login State
+    @Override
     public boolean isLoggedIn() {
         return pref.getBoolean(IS_LOGIN, false);
     }
 
-    public SessionManagerFirebaseUser getSessionManagerFirebaseUser() {
-
+    @Override
+    public ISessionManagerFirebaseUser getSessionManagerFirebaseUser() {
         return sessionManagerFirebaseUser;
     }
 
+    @Override
     public String getKeyName() {
         return pref.getString(KEY_NAME, "Not Exist");
     }
 
+    @Override
     public String getKeyEmail() {
         return pref.getString(KEY_EMAIL, "Not Exist");
     }

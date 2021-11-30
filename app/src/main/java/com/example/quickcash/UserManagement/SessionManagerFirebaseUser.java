@@ -2,24 +2,26 @@ package com.example.quickcash.UserManagement;
 
 import androidx.annotation.NonNull;
 
+import com.example.quickcash.common.Constants;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class SessionManagerFirebaseUser {
+public class SessionManagerFirebaseUser implements ISessionManagerFirebaseUser {
 
-    private User loggedInUser;
-    FirebaseDatabase db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
+    private IUser loggedInUser;
+    FirebaseDatabase db = FirebaseDatabase.getInstance(Constants.FIREBASE_URL);
 
+    @Override
     public void setLoggedInUser(String userEmail) {
         DatabaseReference jobPostingReference = db.getReference("User");
         jobPostingReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot adSnapshot : dataSnapshot.getChildren()) {
-                    User user = adSnapshot.getValue(User.class);
+                    IUser user = adSnapshot.getValue(User.class);
                     if(user.getEmail().equals(userEmail)) {
                         loggedInUser = user;
                     }
@@ -33,7 +35,8 @@ public class SessionManagerFirebaseUser {
         });
     }
 
-    public User getLoggedInUser() {
+    @Override
+    public IUser getLoggedInUser() {
         return loggedInUser;
     }
 }

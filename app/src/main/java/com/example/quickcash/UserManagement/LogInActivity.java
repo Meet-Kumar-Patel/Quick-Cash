@@ -13,12 +13,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.quickcash.Home.EmployeeHomeActivity;
 import com.example.quickcash.Home.EmployerHomeActivity;
 import com.example.quickcash.R;
+import com.example.quickcash.common.Constants;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 
 public class LogInActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -33,22 +33,26 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        initializeActivity();
+    }
+
+    private void initializeActivity() {
         Button btnLogin = findViewById(R.id.btnLogin);
         Button btnSignUp = findViewById(R.id.btnSignUp);
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent signUpPageIntent = new Intent(LogInActivity.this, SignUpActivity.class);
-                startActivity(signUpPageIntent);
-            }
+        IUserManagementAbstractFactory userManagementAbstractFactory = UserManagementInjector.
+                getInstance().getUserManagementAbstractFactory();
+        btnSignUp.setOnClickListener(view -> {
+            Intent signUpPageIntent = userManagementAbstractFactory.getIntentInstance
+                    (LogInActivity.this, SignUpActivity.class);
+            startActivity(signUpPageIntent);
         });
-
         btnLogin.setOnClickListener(this);
         initializeFirebase();
     }
 
     private void initializeFirebase() {
-        db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
+        db = FirebaseDatabase.
+                getInstance(Constants.FIREBASE_URL);
     }
 
     /**
@@ -60,15 +64,12 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
      */
     private void retrieveDataFromFirebase(String email, String password) {
 
-        //can be refactored.
-        DatabaseReference userReference = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/").getReference(User.class.getSimpleName());
+        DatabaseReference userReference = db.getReference(User.class.getSimpleName());
         userReference.addValueEventListener(new ValueEventListener() {
-
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // When the data is received, verify the user credential
                 if (dataSnapshot.exists()) {
-
                     try {
                         verifyUserCredentials(dataSnapshot, email, password);
                     } catch (Exception e) {
@@ -76,12 +77,10 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                     }
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 System.out.println("Could retrieve: " + error.getCode());
             }
-
         });
     }
 
@@ -95,8 +94,9 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
      * @param password     - password given by the user
      */
     private void verifyUserCredentials(DataSnapshot dataSnapshot, String email, String password) throws Exception {
-        User userWithGivenEmail;
-
+        IUser userWithGivenEmail;
+        IUserManagementAbstractFactory userManagementAbstractFactory = UserManagementInjector.
+                getInstance().getUserManagementAbstractFactory();
         if (dataSnapshot == null) {
             setStatusMessage("Failed to connect to the database.");
         } else {
@@ -107,13 +107,14 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                 setStatusMessage("Invalid Email or Password.");
             } else {
                 // Creates login session
-                SessionManager sessionManager = new SessionManager(this);
-                sessionManager.createLoginSession(email, password, userWithGivenEmail.getFirstName() + " " + userWithGivenEmail.getLastName());
+                ISessionManager sessionManager = userManagementAbstractFactory.
+                        getSessionInstance(this);
+                sessionManager.createLoginSession(email, password,
+                        userWithGivenEmail.getFirstName() + " " +
+                                userWithGivenEmail.getLastName());
                 switchToHomePage(userWithGivenEmail.getIsEmployee().equals("y"));
             }
-
         }
-
     }
 
     /**
@@ -126,16 +127,15 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         String email = getEmail();
         String password = getPassword();
         if (isEmailEmpty(email)) {
-            setStatusMessage("Empty Email.");
+            setStatusMessage(Constants.EMPTY_EMAIL);
         } else if (isPasswordEmpty(password)) {
-            setStatusMessage("Empty Password.");
+            setStatusMessage(Constants.EMPTY_PASSWORD);
         } else if (!isProperEmailAddress(email)) {
-            setStatusMessage("Improper Email Address");
+            setStatusMessage(Constants.IMPROPER_EMAIL_ADDRESS);
         } else {
             retrieveDataFromFirebase(email, password);
-            setStatusMessage("Verifying credentials");
+            setStatusMessage(Constants.VERIFYING_CREDENTIALS);
         }
-
     }
 
     private void setStatusMessage(String statusMessage) {
@@ -151,9 +151,9 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
      * @param password     - password of the user.
      * @return user with the given email, if not user is not found => null.
      */
-    protected User getUserFromDataSnapshot(DataSnapshot dataSnapshot, String email, String password) throws Exception {
+    protected IUser getUserFromDataSnapshot(DataSnapshot dataSnapshot, String email, String password) throws Exception {
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-            User user = snapshot.getValue(User.class);
+            IUser user = snapshot.getValue(User.class);
             boolean emailMatches = user.getEmail().equals(email);
             boolean passwordMatches = decrypt(user.getPassword()).equals(password);
             if (emailMatches && passwordMatches) {
@@ -175,10 +175,13 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
      * @throws Exception To check for NullPointerException
      */
     public String decrypt(String encrypted) throws Exception {
+        IUserManagementAbstractFactory userManagementAbstractFactory = UserManagementInjector.
+                getInstance().getUserManagementAbstractFactory();
+        IAESUtils aesUtils = userManagementAbstractFactory.getAESInstance();
         String decrypted = "";
         try {
             // decrypts the encrypted user password
-            decrypted = AESUtils.decrypt(encrypted);
+            decrypted = aesUtils.decrypt(encrypted);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -191,11 +194,15 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
      * @param isEmployee - boolean used to determine which home page to open.
      */
     protected void switchToHomePage(boolean isEmployee) {
+        IUserManagementAbstractFactory userManagementAbstractFactory = UserManagementInjector.
+                getInstance().getUserManagementAbstractFactory();
         Intent homePageIntent;
         if (isEmployee) {
-            homePageIntent = new Intent(this, EmployeeHomeActivity.class);
+            homePageIntent = userManagementAbstractFactory.
+                    getIntentInstance(this, EmployeeHomeActivity.class);
         } else {
-            homePageIntent = new Intent(this, EmployerHomeActivity.class);
+            homePageIntent = userManagementAbstractFactory.
+                    getIntentInstance(this, EmployerHomeActivity.class);
         }
         startActivity(homePageIntent);
     }

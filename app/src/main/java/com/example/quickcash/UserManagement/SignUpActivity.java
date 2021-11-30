@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quickcash.R;
+import com.example.quickcash.common.Constants;
+import com.example.quickcash.common.DAO;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,6 +42,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private RadioButton employee;       // reference to the YES button
     private RadioButton employer;       // reference to the NO button
     private EditText phone;             // phone number entered by the user
+
     /**
      * This method is responsible for implementing the initial build of the program.
      *
@@ -50,6 +53,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // to retrieve all the information from the Sign Up form UI
+        initializeActivity();
+    }
+
+    private void initializeActivity() {
         firstName = (EditText) findViewById(R.id.txtFirstName);
         lastName = (EditText) findViewById(R.id.txtLastName);
         email = (EditText) findViewById(R.id.txtEmail);
@@ -59,21 +66,15 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         employee = (RadioButton) findViewById(R.id.radioButton_Employee);
         employer = (RadioButton) findViewById(R.id.radioButton_Employer);
         // establishing a connection to the firebase database.
-        db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
+        db = FirebaseDatabase.getInstance(Constants.FIREBASE_URL);
         // Showcasing a message for the user to know that they have entered the app.
         Toast.makeText(SignUpActivity.this, "Welcome to Signup", Toast.LENGTH_LONG).show();
         register = (Button) findViewById(R.id.btnRegister);
         // calling the onClick method whenever the register button is clicked.
         register.setOnClickListener(this);
-
         login = (Button) findViewById(R.id.buttonLogin);
         // if the login button is clicked instead, the user is transferred to the login page
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                switch2Login();
-            }
-        });
+        login.setOnClickListener(view -> switch2Login());
     }
 
     /**
@@ -243,10 +244,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
      * @return returns true if the password is valid, false otherwise
      */
     //source for ragex : https://stackoverflow.com/questions/3802192/regexp-java-for-password-validation/3802238
-    public boolean isValidPassword(String password1) {
-        Pattern p = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$");
-        Matcher m = p.matcher(password1.trim());
-        return m.find();
+    public boolean isValidPassword(String password) {
+        Pattern pattern = Pattern.
+                compile(Constants.REGEX_PASSWORD_RULE);
+        Matcher matcher = pattern.matcher(password.trim());
+        return matcher.find();
     }
 
     /**
@@ -265,28 +267,30 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
      * @throws Exception To check whether it is not null
      */
     protected void pushToDatabase(String type) throws Exception {
-        //initialize the database and the related references
-        firstName = (EditText) findViewById(R.id.txtFirstName);
-        lastName = (EditText) findViewById(R.id.txtLastName);
-        email = (EditText) findViewById(R.id.txtEmail);
-        password = (EditText) findViewById(R.id.txtUserEnteredPassword);
-        confirmPassword = (EditText) findViewById(R.id.txtConfirmPassword);
+        IUserManagementAbstractFactory userManagementAbstractFactory = UserManagementInjector.
+                getInstance().getUserManagementAbstractFactory();
         // encrypt the user entered password
         String encryptedPassword = encrypt(password.getText().toString());
         // encrypt the user entered confirm password
         String encryptedConfirmPassword = encrypt(confirmPassword.getText().toString());
         // creates a new DAOUser object
-        DAOUser user = new DAOUser();
+        DAO userDAO = userManagementAbstractFactory.getUserDAOInstance();
         // create a User object with all the user information
-        User user1 = new User(firstName.getText().toString(), lastName.getText().toString(), email.getText().toString(), phone.getText().toString(), encryptedPassword, encryptedConfirmPassword, type);
+        IUser user = userManagementAbstractFactory.
+                getUserInstanceWithParameters(firstName.getText().toString(),
+                        lastName.getText().toString(), email.getText().toString(),
+                        phone.getText().toString(), encryptedPassword,
+                        encryptedConfirmPassword, type);
         // pushes the information entered by the user to the firebase
-        user.add(user1).addOnSuccessListener(saved -> {
+        userDAO.add(user).addOnSuccessListener(saved -> {
             // Message if push was successful
-            Toast.makeText(SignUpActivity.this, "Firebase Connected! Data Saved",
+            Toast.makeText(SignUpActivity.this,
+                    Constants.FIREBASE_CONNECTED_DATA_SAVED,
                     Toast.LENGTH_LONG).show();
             // Message if push was not successful
         }).addOnFailureListener(failed -> {
-            Toast.makeText(SignUpActivity.this, "Data not Saved", Toast.LENGTH_LONG).show();
+            Toast.makeText(SignUpActivity.this, Constants.DATA_NOT_SAVED,
+                    Toast.LENGTH_LONG).show();
         });
         // switch to the login page
         switch2Login();
@@ -306,7 +310,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
      * To switch from this Activity to Login Activity
      */
     protected void switch2Login() {
-        Intent intent = new Intent(this, LogInActivity.class);
+        IUserManagementAbstractFactory userManagementAbstractFactory = UserManagementInjector.
+                getInstance().getUserManagementAbstractFactory();
+        Intent intent = userManagementAbstractFactory.
+                getIntentInstance(this, LogInActivity.class);
         startActivity(intent);
     }
 
@@ -323,32 +330,32 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         String phone = getPhoneNumber();
         String userEnteredPassword = getUserEnteredPassword();
         String confirmPassword = getConfirmPassword();
-        String errorMessage = new String("ERROR MESSAGE");
+        String errorMessage = "ERROR MESSAGE";
         // Sign Up logic
         // loop to check whether all the information is added correctly or not.
         for (int i = 0; i < 1; i++) {
             // to check for empty first Name
             if (isEmptyFirstName(firstName)) {
-                errorMessage = "Please Enter Your First Name";
+                errorMessage = Constants.FIRST_NAME_ERROR;
                 break;
             } else {
                 errorMessage = "";
             }
             // to check for empty last name
             if (isEmptyLastName(lastName)) {
-                errorMessage = "Please Enter Your Last Name";
+                errorMessage = Constants.LAST_NAME_ERROR;
                 break;
             } else {
                 errorMessage = "";
             }
             // to check for empty email address
             if (isEmptyEmail(emailAddress)) {
-                errorMessage = "Please Enter your email address";
+                errorMessage = Constants.EMAIL_ERROR;
                 break;
             } else {
                 // to check for valid email address
                 if (!isEmailValid(emailAddress)) {
-                    errorMessage = "Please Enter valid email address";
+                    errorMessage = Constants.INVALID_EMAIL_ADDRESS;
                     break;
                 } else {
                     errorMessage = "";
@@ -356,12 +363,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             }
             // to check for empty phone number
             if (isEmptyPhoneNumber(phone)) {
-                errorMessage = "Please enter your phone number";
+                errorMessage = Constants.PHONE_NUMBER_MANDATORY;
                 break;
             } else {
                 // to check for valid phone number
                 if (!isValidPhoneNumber(phone)) {
-                    errorMessage = "Phone number should be atleast 10 digits";
+                    errorMessage = Constants.PHONE_INVALID_ERROR;
                     break;
                 } else {
                     errorMessage = "";
@@ -424,8 +431,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
      * @param type  type of the user
      */
     protected void retrieveDataFromFirebase(String email, String type) {
+        IUserManagementAbstractFactory userManagementAbstractFactory = UserManagementInjector.
+                getInstance().getUserManagementAbstractFactory();
         // reference to the database
-        DatabaseReference userReference = db.getReference(User.class.getSimpleName());
+        DatabaseReference userReference = userManagementAbstractFactory.
+                getUserDAOInstance().getDatabaseReference();
         // adding event listener to the userReference
         userReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -440,6 +450,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 System.out.println("Could retrieve: " + error.getCode());
@@ -456,8 +467,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
      * @throws Exception The execption to check for NullPointerException
      */
     protected void verifyUserCredentials(DataSnapshot dataSnapshot, String email, String type) throws Exception {
-        String statusMessage = new String("");
-        User userWithGivenEmail = null;
+        String statusMessage = "";
+        IUser userWithGivenEmail = null;
         // to see if the firebase object contains data or not.
         if (dataSnapshot == null) {
             statusMessage = "Failed to connect to the database.";
@@ -481,18 +492,22 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
      * @param email        The email of the user
      * @return Returns null if user not found, other wise the user object
      */
-    protected User getUserFromDataSnapshot(DataSnapshot dataSnapshot, String email) {
+    protected IUser getUserFromDataSnapshot(DataSnapshot dataSnapshot, String email) {
+        IUserManagementAbstractFactory userManagementAbstractFactory = UserManagementInjector.
+                getInstance().getUserManagementAbstractFactory();
         System.out.println(dataSnapshot.toString());
         // loop to transverse over the data in the firebase and find the email of the current user.
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-            User user = snapshot.getValue(User.class);
+            IUser user = snapshot.getValue(User.class);
             // to see if the user is not null
             assert user != null;
             // to check whether the email of the user in firebase matches with the email entered by the user or not.
             if (user.getEmail().equals(email)) {
                 // returns the object if it matches, null otherwise.
-                return new User(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPhone(), user.getPassword(),
-                        user.getConfirmPassword(), user.getIsEmployee());
+                return userManagementAbstractFactory.
+                        getUserInstanceWithParameters(user.getFirstName(), user.getLastName(),
+                                user.getEmail(), user.getPhone(), user.getPassword(),
+                                user.getConfirmPassword(), user.getIsEmployee());
             }
         }
         return null;
@@ -512,9 +527,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
      */
     public String encrypt(String password) throws Exception {
         String encrypted = "";
+        IUserManagementAbstractFactory userManagementAbstractFactory = UserManagementInjector.
+                getInstance().getUserManagementAbstractFactory();
         try {
             // encrypts the user entered password
-            encrypted = AESUtils.encrypt(password);
+            encrypted = userManagementAbstractFactory.getAESInstance().encrypt(password);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -534,9 +551,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
      */
     public String decrypt(String encrypted) throws Exception {
         String decrypted = "";
+        IUserManagementAbstractFactory userManagementAbstractFactory = UserManagementInjector.
+                getInstance().getUserManagementAbstractFactory();
         try {
             // decrypts the encrypted user password
-            decrypted = AESUtils.decrypt(encrypted);
+            decrypted = userManagementAbstractFactory.getAESInstance().decrypt(encrypted);
         } catch (Exception e) {
             e.printStackTrace();
         }

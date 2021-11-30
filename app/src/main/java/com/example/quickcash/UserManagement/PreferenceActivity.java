@@ -1,97 +1,78 @@
 package com.example.quickcash.UserManagement;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.renderscript.Sampler;
-import android.widget.ArrayAdapter;
-
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
-import android.widget.AdapterView;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quickcash.Home.EmployeeHomeActivity;
 import com.example.quickcash.R;
-
-
-import com.example.quickcash.WelcomePage;
-
+import com.example.quickcash.common.Constants;
+import com.example.quickcash.common.DAO;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-
-public class preferencePage extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-
+public class PreferenceActivity extends AppCompatActivity implements
+        AdapterView.OnItemSelectedListener {
     static FirebaseDatabase db;
     private Spinner jobType;
     private EditText duration;
     private EditText wage;
-
-
-    private Button submitB;
-    private Button cancelB;
-
+    private Button submitButton;
+    private Button cancelButton;
     private int jobTypeId = 0;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preference_page);
-        SessionManager sessionManager = new SessionManager(getApplicationContext());
+        initializeActivity();
+    }
+
+    private void initializeActivity() {
+        IUserManagementAbstractFactory userManagementAbstractFactory = UserManagementInjector.
+                getInstance().getUserManagementAbstractFactory();
+        ISessionManager sessionManager = userManagementAbstractFactory.
+                getSessionInstance(getApplicationContext());
         sessionManager.checkLogin();
-
-
-
-
         addJobsToSpinner();
         Spinner spinner = (Spinner) findViewById(R.id.jType);
         spinner.setOnItemSelectedListener(this);
         initializeFirebase();
-
-
-        cancelB = (Button) findViewById(R.id.button_Cancel);
-        cancelB.setOnClickListener(view -> returnToEmployeePage());
-
-        submitB = (Button) findViewById(R.id.button_Submit);
-        submitB.setOnClickListener(view->createNewPreference());
-
-
+        cancelButton = (Button) findViewById(R.id.button_Cancel);
+        cancelButton.setOnClickListener(view -> returnToEmployeePage());
+        submitButton = (Button) findViewById(R.id.button_Submit);
+        submitButton.setOnClickListener(view -> createNewPreference());
         duration = (EditText) findViewById(R.id.editTextDuration);
         wage = (EditText) findViewById(R.id.editWage);
-
-
     }
 
     private void initializeFirebase() {
-        db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
+        db = FirebaseDatabase.getInstance(Constants.FIREBASE_URL);
     }
-
-
 
 
     // ref : https://stackoverflow.com/questions/2505207/how-to-add-item-to-spinners-arrayadapter
     // and https://developer.android.com/guide/topics/resources/string-resource
     protected void addJobsToSpinner() {
-        ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(this,R.array.planets_array, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.
+                createFromResource(this, R.array.planets_array,
+                        android.R.layout.simple_spinner_item);
         jobType = (Spinner) findViewById(R.id.jType);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         jobType.setAdapter(arrayAdapter);
     }
-
 
 
     protected int getDuration() {
@@ -100,14 +81,16 @@ public class preferencePage extends AppCompatActivity implements AdapterView.OnI
     }
 
 
-
     protected int getWage() {
         wage = findViewById(R.id.editWage);
         return Integer.parseInt(wage.getText().toString().trim());
     }
 
     protected void returnToEmployeePage() {
-        Intent intent = new Intent(this, EmployeeHomeActivity.class);
+        IUserManagementAbstractFactory userManagementAbstractFactory = UserManagementInjector.
+                getInstance().getUserManagementAbstractFactory();
+        Intent intent = userManagementAbstractFactory.
+                getIntentInstance(this, EmployeeHomeActivity.class);
         startActivity(intent);
     }
 
@@ -121,79 +104,74 @@ public class preferencePage extends AppCompatActivity implements AdapterView.OnI
     }
 
 
-
-
-    public boolean isDurationLessThanone(int duration) {
+    public boolean isDurationLessThanOne(int duration) {
         return duration < 1;
     }
 
 
     public boolean isWageLessThan15(int wage) {
-        return wage < 15 ;
+        return wage < 15;
     }
 
 
     protected void createNewPreference() {
-
-
-
         int duration = getDuration();
         int wage = getWage();
-
-        if(isDurationLessThanone(duration)) {
-            setStatusMessage("Duration of a task must be greator than one day");
-        }
-        else if(isWageLessThan15(wage)) {
-            setStatusMessage("Wage must be greator or equal $15.");
-        }
-        else {
-
-            SessionManager sessionManager = new SessionManager(getApplicationContext());
+        IUserManagementAbstractFactory userManagementAbstractFactory = UserManagementInjector.
+                getInstance().getUserManagementAbstractFactory();
+        if (isDurationLessThanOne(duration)) {
+            setStatusMessage(Constants.DURATION_OF_A_TASK_MUST_BE_GREATOR_THAN_ONE_DAY);
+        } else if (isWageLessThan15(wage)) {
+            setStatusMessage(Constants.WAGE_MUST_BE_GREATOR_OR_EQUAL_$_15);
+        } else {
+            ISessionManager sessionManager = userManagementAbstractFactory.
+                    getSessionInstance(getApplicationContext());
             String employeeName = sessionManager.getKeyName();
             String employeeEmail = sessionManager.getKeyEmail();
-            
-            Preference preference = new Preference( employeeEmail,jobTypeId, duration, wage, employeeName);
-
+            IPreference preference = userManagementAbstractFactory.
+                    getPreferenceInstance(employeeEmail, jobTypeId, duration, wage,
+                            employeeName);
             updatePreferenceFromFirebase(preference);
-
         }
     }
 
-    private void updatePreferenceFromFirebase(Preference preference) {
-        DatabaseReference preferenceReference = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/").getReference(Preference.class.getSimpleName());
-        DPPreference dpPreference = new DPPreference();
+    private void updatePreferenceFromFirebase(IPreference preference) {
+        IUserManagementAbstractFactory userManagementAbstractFactory = UserManagementInjector.
+                getInstance().getUserManagementAbstractFactory();
+        DAO DAOPreference = userManagementAbstractFactory.getPreferenceDAOInstance();
+        DatabaseReference preferenceReference = DAOPreference.getDatabaseReference();
         ValueEventListener valueEventListener = new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // When the data is received, verify the user credential
                 boolean emailFound = false;
-                for(DataSnapshot adSnapshot : dataSnapshot.getChildren()) {
-                    Preference pref = adSnapshot.getValue(Preference.class);
-                    if(pref.getemployeeEmail().equals(preference.getemployeeEmail())) {
+                for (DataSnapshot adSnapshot : dataSnapshot.getChildren()) {
+                    IPreference pref = adSnapshot.getValue(Preference.class);
+                    if (pref.getEmployeeEmail().equals(preference.getEmployeeEmail())) {
                         //Updates values if preference with email exists.
                         String keyID = adSnapshot.getKey();
-                        preferenceReference.child(keyID).child("jobType").setValue(preference.getJobType());
-                        preferenceReference.child(keyID).child("duration").setValue(preference.getDuration());
-                        preferenceReference.child(keyID).child("wage").setValue(preference.getWage());
+                        preferenceReference.child(keyID).child("jobType").
+                                setValue(preference.getJobType());
+                        preferenceReference.child(keyID).child("duration").
+                                setValue(preference.getDuration());
+                        preferenceReference.child(keyID).child("wage").
+                                setValue(preference.getWage());
                         emailFound = true;
                         break;
                     }
 
                 }
-                if(!emailFound){
-                    dpPreference.add(preference);
+                if (!emailFound) {
+                    DAOPreference.add(preference);
                 }
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 System.out.println("Could retrieve: " + error.getCode());
             }
-
         };
-
         preferenceReference.addListenerForSingleValueEvent(valueEventListener);
     }
 
@@ -202,40 +180,12 @@ public class preferencePage extends AppCompatActivity implements AdapterView.OnI
         etError.setText(statusMessage);
     }
 
-
-
     // Referred to: https://developer.android.com/guide/topics/ui/controls/spinner#java
-
     public void onItemSelected(AdapterView<?> parent, View view,
                                int pos, long id) {
-
-
-        switch (pos) {
-            case 0:
-                jobTypeId = 0;
-                break;
-            case 1:
-                jobTypeId = 1;
-                break;
-            case 2:
-                jobTypeId = 2;
-                break;
-            case 3:
-                jobTypeId = 3;
-                break;
-            case 4:
-                jobTypeId = 4;
-                break;
-            case 5:
-                jobTypeId = 5;
-                break;
-            default:
-                jobTypeId = 0;
-        }
-
+        jobTypeId = pos;
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
-        // Another interface callback. (Default=0)
     }
 }

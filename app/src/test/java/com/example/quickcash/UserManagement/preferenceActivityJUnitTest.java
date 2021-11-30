@@ -7,13 +7,13 @@ import static org.junit.Assert.assertTrue;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-public class preferencePageJUnitTest {
+public class preferenceActivityJUnitTest {
 
-    static preferencePage preferencePage1;
+    static PreferenceActivity preferenceActivity1;
 
     @BeforeClass
     public static void setup() {
-        preferencePage1 = new preferencePage();
+        preferenceActivity1 = new PreferenceActivity();
     }
 
     @AfterClass
@@ -23,22 +23,22 @@ public class preferencePageJUnitTest {
 
     @Test
     public void checkIfDurationEmpty() {
-        assertTrue(preferencePage1.isEmptyDuration(""));
+        assertTrue(preferenceActivity1.isEmptyDuration(""));
     }
 
 
     @Test
     public void checkIfWageEmpty() {
-        assertTrue(preferencePage1.isEmptyWage(""));
+        assertTrue(preferenceActivity1.isEmptyWage(""));
     }
 
     @Test
     public void checkIfDurationLessThanone() {
-        assertTrue(preferencePage1.isDurationLessThanone(0));
+        assertTrue(preferenceActivity1.isDurationLessThanOne(0));
     }
 
     @Test
     public void checkIfWageLessThan15() {
-        assertTrue(preferencePage1.isWageLessThan15(0));
+        assertTrue(preferenceActivity1.isWageLessThan15(0));
     }
 }

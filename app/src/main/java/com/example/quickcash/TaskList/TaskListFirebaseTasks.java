@@ -47,7 +47,7 @@ public class TaskListFirebaseTasks {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot adSnapshot : dataSnapshot.getChildren()) {
                     Preference pref = adSnapshot.getValue(Preference.class);
-                    if(pref.getemployeeEmail() != null && pref.getemployeeEmail().equals(email)) {
+                    if(pref.getEmployeeEmail() != null && pref.getEmployeeEmail().equals(email)) {
                         int taskPrefType = pref.getJobType();
                         String taskPref = JobTypeStringGetter.getJobType(taskPrefType);
                         taskListActivity.setSearchQuery(taskPref);
