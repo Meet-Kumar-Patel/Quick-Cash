@@ -169,7 +169,7 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
     }
 
     protected void findLayouts() {
-        jobTitle = (TextView) findViewById(R.id.txtJobTitle);
+        jobTitle = (TextView) findViewById(R.id.txtInvoice);
         jobType = (TextView) findViewById(R.id.txtJPDTypeValue);
         duration = (TextView) findViewById(R.id.txtJPDDurationValue);
         location = (TextView) findViewById(R.id.txtJDPLocationValue);

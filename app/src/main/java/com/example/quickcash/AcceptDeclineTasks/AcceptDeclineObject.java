@@ -10,8 +10,9 @@ public class AcceptDeclineObject {
     private String jobPostingName;
     private String jobKey;
     private boolean isAccepted;
+    private boolean isTaskComplete;
 
-    public AcceptDeclineObject(String userName, String userEmail, String jobPostingID, String jobPostingName, String jobKey, boolean isAccepted) {
+    public AcceptDeclineObject(String userName, String userEmail, String jobPostingID, String jobPostingName, String jobKey, boolean isAccepted, boolean isTaskComplete) {
         ID = UUID.randomUUID().toString();
         this.userName = userName;
         this.userEmail = userEmail;
@@ -19,6 +20,7 @@ public class AcceptDeclineObject {
         this.jobPostingName = jobPostingName;
         this.jobKey = jobKey;
         this.isAccepted = isAccepted;
+        this.isTaskComplete = isTaskComplete;
     }
 
     public String getID() {
@@ -64,11 +66,13 @@ public class AcceptDeclineObject {
         this.jobKey = jobKey;
     }
 
-    public boolean isAccepted() {
-        return isAccepted;
-    }
+    public boolean isAccepted() { return isAccepted; }
 
     public void setAccepted(boolean accepted) {
         isAccepted = accepted;
     }
+
+    public boolean isTaskComplete() { return isTaskComplete; }
+
+    public void setTaskComplete(boolean taskComplete) { isTaskComplete = taskComplete; }
 }

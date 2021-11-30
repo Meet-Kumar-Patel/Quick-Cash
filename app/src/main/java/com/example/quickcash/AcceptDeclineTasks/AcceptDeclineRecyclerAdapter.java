@@ -16,6 +16,7 @@ import com.example.quickcash.Home.EmployerHomeActivity;
 import com.example.quickcash.JobPosting.DAOJobPosting;
 import com.example.quickcash.JobPosting.JobPosting;
 import com.example.quickcash.JobPosting.JobPostingActivity;
+import com.example.quickcash.Paypal.PaypalActivity;
 import com.example.quickcash.R;
 import com.example.quickcash.Ratings.GiveRatingsActivity;
 import com.example.quickcash.Ratings.ViewRatingActivity;
@@ -65,13 +66,19 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
         // If the candidate has been accepted then the btn should say Selected and should not be clickable
         if(acceptDeclineObject.isAccepted()) {disableAcceptBtn(holder);}
 
-
+        if(acceptDeclineObject.isTaskComplete()){showPayBtn(holder, jpKey, acceptDeclineObject.getUserName());}
         holder.ratingsButton.setOnClickListener(view -> openIntent(jpKey, acceptDeclineObject.getUserName(), acceptDeclineObject.getUserEmail()));
     }
 
     public void disableAcceptBtn(MyViewHolder holder) {
             holder.acceptButton.setClickable(false);
             holder.acceptButton.setText("Selected");
+    }
+
+    public void showPayBtn(MyViewHolder holder, String key, String userName) {
+        holder.acceptButton.setClickable(true);
+        holder.acceptButton.setText("Pay Now");
+        holder.acceptButton.setOnClickListener((view) -> openPayPalActivity(key, userName));
     }
 
     @Override
@@ -115,5 +122,12 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
         context.startActivity(intent);
     }
 
+    public void openPayPalActivity(String key, String userName) {
+        JobPosting jobPosting = hashMap.get(key);
+        Intent intent = new Intent(context, PaypalActivity.class);
 
+        intent.putExtra("userName", userName);
+        intent.putExtra("jobID", jobPosting.getJobPostingId());
+        context.startActivity(intent);
+    }
 }
