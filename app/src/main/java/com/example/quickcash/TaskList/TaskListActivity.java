@@ -19,8 +19,6 @@ import com.example.quickcash.R;
 import com.example.quickcash.UserManagement.ISessionManagerFirebaseUser;
 import com.example.quickcash.UserManagement.IUser;
 import com.example.quickcash.UserManagement.SessionManager;
-import com.example.quickcash.UserManagement.SessionManagerFirebaseUser;
-import com.example.quickcash.UserManagement.User;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
@@ -41,16 +39,49 @@ public class TaskListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initializeActivity();
+        initializeJobSearchView();
+        initializeResetButton();
+        initializeHomeButton();
+    }
+
+    private void initializeActivity() {
         Intent intent = getIntent();
         city = intent.getStringExtra("City").trim();
-        searchByPreference = intent.getBooleanExtra("Preference", false);
         setContentView(R.layout.activity_task_list);
         sessionManager = new SessionManager(getApplicationContext());
         recyclerView = findViewById(R.id.recyclerview);
         firebaseTasks.getJobPostingsFromFirebase(this, city);
+        searchByPreference = intent.getBooleanExtra("Preference", false);
         if (searchByPreference) {
             firebaseTasks.getUserPreferenceFromFirebase(this, sessionManager.getKeyEmail());
         }
+    }
+
+    private void initializeHomeButton() {
+        Button homeButton = findViewById(R.id.backToEmployerHomeBtn);
+        homeButton.setOnClickListener(view -> {
+            ISessionManagerFirebaseUser sessionManagerFirebaseUser = sessionManager.getSessionManagerFirebaseUser();
+            IUser user = sessionManagerFirebaseUser.getLoggedInUser();
+            Intent homeIntent;
+            if (user.getIsEmployee().equals("y")) {
+                homeIntent = new Intent(TaskListActivity.this, EmployeeHomeActivity.class);
+            } else {
+                homeIntent = new Intent(TaskListActivity.this, EmployerHomeActivity.class);
+            }
+            startActivity(homeIntent);
+        });
+    }
+
+    private void initializeResetButton() {
+        Button resetButton = findViewById(R.id.resetbutton);
+        resetButton.setOnClickListener(view -> {
+            jobSearchView.setQuery("", false);
+            jobSearchView.clearFocus();
+        });
+    }
+
+    private void initializeJobSearchView() {
         jobSearchView = findViewById(R.id.jobsearch);
         jobSearchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
         jobSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -58,35 +89,10 @@ public class TaskListActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String s) {
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String s) {
                 adapter.getFilter().filter(s);
                 return false;
-            }
-        });
-        Button resetButton = findViewById(R.id.resetbutton);
-        resetButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                jobSearchView.setQuery("", false);
-                jobSearchView.clearFocus();
-            }
-        });
-        Button homeButton = findViewById(R.id.backToEmployerHomeBtn);
-        homeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Change this to switch between employee and employer.
-                ISessionManagerFirebaseUser sessionManagerFirebaseUser = sessionManager.getSessionManagerFirebaseUser();
-                IUser user = sessionManagerFirebaseUser.getLoggedInUser();
-                Intent homeIntent;
-                if (user.getIsEmployee().equals("y")) {
-                    homeIntent = new Intent(TaskListActivity.this, EmployeeHomeActivity.class);
-                } else {
-                    homeIntent = new Intent(TaskListActivity.this, EmployerHomeActivity.class);
-                }
-                startActivity(homeIntent);
             }
         });
     }
