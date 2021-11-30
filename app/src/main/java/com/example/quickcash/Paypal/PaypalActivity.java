@@ -1,30 +1,24 @@
 package com.example.quickcash.Paypal;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
 
 import static android.content.ContentValues.TAG;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-
-import android.app.Activity;
-import android.content.Intent;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quickcash.AcceptDeclineTasks.AcceptDeclineTasks;
-import com.example.quickcash.JobPosting.DAOJobPosting;
 import com.example.quickcash.JobPosting.JobPosting;
-import com.example.quickcash.JobPosting.JobPostingActivity;
 import com.example.quickcash.R;
-import com.example.quickcash.UserManagement.preferencePage;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,16 +34,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 public class PaypalActivity extends AppCompatActivity {
 
-    String username;
-
-    ActivityResultLauncher activityResultLauncher;
-
     private static final int PAYPAL_REQUEST_CODE = 555;
     private static PayPalConfiguration config;
-
+    String username;
+    JobPosting jobPostingOBJ;
+    ActivityResultLauncher activityResultLauncher;
+    ArrayList<Invoice> lstInvoices = new ArrayList<>();
     Button btnPayNow;
     Button btnGoBack;
     TextView txtName;
@@ -60,11 +54,6 @@ public class PaypalActivity extends AppCompatActivity {
     String amount = "";
 
 
-    protected void navigateToAcceptDeclinePage() {
-        Intent navToAcceptDecline = new Intent(this, AcceptDeclineTasks.class);
-        startActivity(navToAcceptDecline);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +62,7 @@ public class PaypalActivity extends AppCompatActivity {
                 .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
                 .clientId(Config.PAYPAL_CLIENT_ID);
 
-        btnGoBack = (Button) findViewById(R.id.btnGoBack);
+        btnGoBack = findViewById(R.id.btnGoBack);
         btnGoBack.setOnClickListener(view -> {
             navigateToAcceptDeclinePage();
         });
@@ -92,28 +81,25 @@ public class PaypalActivity extends AppCompatActivity {
         txtError = findViewById(R.id.invoiceErrorMessage);
 
         retrieveDataFromFirebase(jobID);
+        retrieveInvoicesFromFirebase();
 
         // initializing Activity Launcher
         initializeActivityLauncher();
-
-        btnPayNow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                processPayment();
-            }
-
-        });
-
+        btnPayNow.setOnClickListener(v -> processPayment());
     }
+
+    protected void navigateToAcceptDeclinePage() {
+        Intent navToAcceptDecline = new Intent(this, AcceptDeclineTasks.class);
+        startActivity(navToAcceptDecline);
+    }
+
     protected void retrieveDataFromFirebase(String id) {
         DatabaseReference jpDatabase = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/").getReference(JobPosting.class.getSimpleName());
         jpDatabase.addValueEventListener(new ValueEventListener() {
-
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // When the data is received, verify the user credential
                 if (dataSnapshot.exists()) {
-
                     try {
                         getJPbyID(dataSnapshot, id);
                     } catch (Exception e) {
@@ -129,7 +115,7 @@ public class PaypalActivity extends AppCompatActivity {
 
         });
     }
-JobPosting jobPostingOBJ;
+
     protected JobPosting getJPbyID(DataSnapshot dataSnapshot, String id) throws Exception {
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
             JobPosting jobPosting = snapshot.getValue(JobPosting.class);
@@ -144,15 +130,11 @@ JobPosting jobPostingOBJ;
     }
 
     protected void populateLayout(JobPosting jobPosting) {
-        // Get the layout views
-
-
         txtName.setText(username);
         txtDuration.setText(String.valueOf(jobPosting.getDuration()));
         txtWage.setText(String.valueOf(jobPosting.getWage()));
         amount = String.valueOf(jobPosting.getDuration() * jobPosting.getWage());
         txtTotal.setText(amount);
-
     }
 
     private void initializeActivityLauncher() {
@@ -178,8 +160,8 @@ JobPosting jobPostingOBJ;
                     }
 
                     //Toast.makeText(this, "Cancel", Toast.LENGTH_SHORT).show();
-                } else if (result.getResultCode() == PaymentActivity.RESULT_EXTRAS_INVALID){
-                    Log.d(TAG,"Launcher Result Invalid");
+                } else if (result.getResultCode() == PaymentActivity.RESULT_EXTRAS_INVALID) {
+                    Log.d(TAG, "Launcher Result Invalid");
                 } else if (result.getResultCode() == Activity.RESULT_CANCELED) {
                     Log.d(TAG, "Launcher Result Cancelled");
                 }
@@ -187,20 +169,65 @@ JobPosting jobPostingOBJ;
         });
     }
 
+    /**
+     * This method calls the paypal api to process the payment if the user has not paid already.
+     * If the user has already paid then an error message will be displayed informing of the past payment.
+     */
     private void processPayment() {
         String jobPostingId = jobPostingOBJ.getJobPostingId();
         Invoice invoice = new Invoice(jobPostingId, amount);
         DAOInvoice daoInvoice = new DAOInvoice();
-        daoInvoice.add(invoice);
-        // Creating Paypal payment
-        PayPalPayment payPalPayment = new PayPalPayment(new BigDecimal(String.valueOf(amount)),"CAD","Purchase Goods",PayPalPayment.PAYMENT_INTENT_SALE);
-        // Creating Paypal Payment activity intent
-        Intent intent = new Intent(this, PaymentActivity.class);
-        // Adding paypal configuration to the intent
-        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION,config);
-        // Adding paypal payment to the intent
-        intent.putExtra(PaymentActivity.EXTRA_PAYMENT,payPalPayment);
-        // Starting Activity Request launcher
-        activityResultLauncher.launch(intent);
+        if (paymentMade(jobPostingId)) {
+            txtError.setText("Sorry, you have already paid.");
+        } else {
+            daoInvoice.add(invoice);
+            // Creating Paypal payment
+            PayPalPayment payPalPayment = new PayPalPayment(new BigDecimal(String.valueOf(amount)), "CAD", "Purchase Goods", PayPalPayment.PAYMENT_INTENT_SALE);
+            // Creating Paypal Payment activity intent
+            Intent intent = new Intent(this, PaymentActivity.class);
+            // Adding paypal configuration to the intent
+            intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
+            // Adding paypal payment to the intent
+            intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payPalPayment);
+            // Starting Activity Request launcher
+            activityResultLauncher.launch(intent);
+        }
+    }
+
+    protected boolean paymentMade(String jobPostingId) {
+        for (int i = 0; i < lstInvoices.size(); i++) {
+            Invoice invoiceItem = lstInvoices.get(i);
+            if (invoiceItem.getJobID().equals(jobPostingId)) return true;
+        }
+        return false;
+    }
+
+    protected void retrieveInvoicesFromFirebase() {
+        DatabaseReference invoiceReference = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/").getReference(Invoice.class.getSimpleName());
+        invoiceReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // When the data is received, verify the user credential
+                if (dataSnapshot.exists()) {
+                    try {
+                        populateLstInvoices(dataSnapshot);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println("Could retrieve: " + error.getCode());
+            }
+        });
+    }
+
+    protected void populateLstInvoices(DataSnapshot dataSnapshot) {
+        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+            Invoice invoice = snapshot.getValue(Invoice.class);
+            lstInvoices.add(invoice);
+        }
     }
 }
