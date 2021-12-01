@@ -120,9 +120,9 @@ public class PreferenceActivity extends AppCompatActivity implements
         IUserManagementAbstractFactory userManagementAbstractFactory = UserManagementInjector.
                 getInstance().getUserManagementAbstractFactory();
         if (isDurationLessThanOne(duration)) {
-            setStatusMessage(Constants.DURATION_OF_A_TASK_MUST_BE_GREATOR_THAN_ONE_DAY);
+            setStatusMessage(Constants.TASK_DURATION_ERROR);
         } else if (isWageLessThan15(wage)) {
-            setStatusMessage(Constants.WAGE_MUST_BE_GREATOR_OR_EQUAL_$_15);
+            setStatusMessage(Constants.WAGE_AMOUNT_ERROR);
         } else {
             ISessionManager sessionManager = userManagementAbstractFactory.
                     getSessionInstance(getApplicationContext());

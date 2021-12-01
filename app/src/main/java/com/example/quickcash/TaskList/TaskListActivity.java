@@ -2,7 +2,6 @@ package com.example.quickcash.TaskList;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.SearchView;
@@ -19,16 +18,16 @@ import com.example.quickcash.R;
 import com.example.quickcash.UserManagement.ISessionManagerFirebaseUser;
 import com.example.quickcash.UserManagement.IUser;
 import com.example.quickcash.UserManagement.SessionManager;
-import com.google.firebase.database.FirebaseDatabase;
+import com.example.quickcash.common.Constants;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TaskListActivity extends AppCompatActivity {
 
     TaskListRecyclerAdapter adapter;
-    ArrayList<JobPosting> jobPostingArrayList = new ArrayList<JobPosting>();
-    FirebaseDatabase db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
-    String city;
+    ArrayList<JobPosting> jobPostingArrayList = new ArrayList<>();
+    String city = "Halifax";
     boolean searchByPreference;
     TaskListFirebaseTasks firebaseTasks = new TaskListFirebaseTasks();
     SessionManager sessionManager;
@@ -47,27 +46,31 @@ public class TaskListActivity extends AppCompatActivity {
 
     private void initializeActivity() {
         Intent intent = getIntent();
-        city = intent.getStringExtra("City").trim();
+        //city = intent.getStringExtra(Constants.CITY_INTENT).trim();
         setContentView(R.layout.activity_task_list);
         sessionManager = new SessionManager(getApplicationContext());
         recyclerView = findViewById(R.id.recyclerview);
         firebaseTasks.getJobPostingsFromFirebase(this, city);
-        searchByPreference = intent.getBooleanExtra("Preference", false);
+        searchByPreference = intent.getBooleanExtra(Constants.PREFERENCE_INTENT, false);
         if (searchByPreference) {
-            firebaseTasks.getUserPreferenceFromFirebase(this, sessionManager.getKeyEmail());
+            firebaseTasks.getUserPreferenceFromFirebase(this,
+                    sessionManager.getKeyEmail());
         }
     }
 
     private void initializeHomeButton() {
         Button homeButton = findViewById(R.id.backToEmployerHomeBtn);
         homeButton.setOnClickListener(view -> {
-            ISessionManagerFirebaseUser sessionManagerFirebaseUser = sessionManager.getSessionManagerFirebaseUser();
+            ISessionManagerFirebaseUser sessionManagerFirebaseUser =
+                    sessionManager.getSessionManagerFirebaseUser();
             IUser user = sessionManagerFirebaseUser.getLoggedInUser();
             Intent homeIntent;
             if (user.getIsEmployee().equals("y")) {
-                homeIntent = new Intent(TaskListActivity.this, EmployeeHomeActivity.class);
+                homeIntent = new Intent(TaskListActivity.this,
+                        EmployeeHomeActivity.class);
             } else {
-                homeIntent = new Intent(TaskListActivity.this, EmployerHomeActivity.class);
+                homeIntent = new Intent(TaskListActivity.this,
+                        EmployerHomeActivity.class);
             }
             startActivity(homeIntent);
         });
@@ -89,6 +92,7 @@ public class TaskListActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String s) {
                 return false;
             }
+
             @Override
             public boolean onQueryTextChange(String s) {
                 adapter.getFilter().filter(s);
@@ -113,7 +117,7 @@ public class TaskListActivity extends AppCompatActivity {
         jobPostingArrayList.add(jobPosting);
     }
 
-    public ArrayList<JobPosting> getJobPostingArrayList() {
+    public List<JobPosting> getJobPostingList() {
         return jobPostingArrayList;
     }
 

@@ -1,5 +1,7 @@
 package com.example.quickcash.TaskList;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.example.quickcash.JobPosting.JobPosting;
@@ -13,9 +15,10 @@ import com.google.firebase.database.ValueEventListener;
 
 public class TaskListFirebaseTasks {
 
-    FirebaseDatabase db = FirebaseDatabase.getInstance(Constants.FIREBASE_URL);
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance(Constants.FIREBASE_URL);
     public void getJobPostingsFromFirebase(TaskListActivity taskListActivity, String city) {
-        DatabaseReference jobPostingReference = db.getReference(JobPosting.class.getSimpleName());
+        DatabaseReference jobPostingReference =
+                firebaseDatabase.getReference(JobPosting.class.getSimpleName());
         jobPostingReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -23,12 +26,14 @@ public class TaskListFirebaseTasks {
                     JobPosting jp = adSnapshot.getValue(JobPosting.class);
                     addJobPosting(jp, city, taskListActivity);
                 }
-                taskListActivity.setAdapter(new TaskListRecyclerAdapter(taskListActivity, taskListActivity.getJobPostingArrayList()));
+                TaskListRecyclerAdapter taskListRecyclerAdapter = new TaskListRecyclerAdapter
+                        (taskListActivity, taskListActivity.getJobPostingList());
+                taskListActivity.setAdapter(taskListRecyclerAdapter);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                return;
+                Log.d(Constants.FIREBASE_ERROR, Constants.FIREBASE_ERROR + error.getCode());
             }
         });
     }
@@ -46,24 +51,26 @@ public class TaskListFirebaseTasks {
     }
 
     public void getUserPreferenceFromFirebase(TaskListActivity taskListActivity, String email){
-        DatabaseReference preferenceReference = db.getReference("Preference");
+        DatabaseReference preferenceReference =
+                firebaseDatabase.getReference(Preference.class.getSimpleName());
         preferenceReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot adSnapshot : dataSnapshot.getChildren()) {
-                    Preference pref = adSnapshot.getValue(Preference.class);
-                    retrievePreference(pref, email, taskListActivity);
+                    Preference preference = adSnapshot.getValue(Preference.class);
+                    retrievePreference(preference, email, taskListActivity);
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Log.d(Constants.FIREBASE_ERROR, Constants.FIREBASE_ERROR + error.getCode());
             }
         });
     }
 
-    private void retrievePreference(Preference pref, String email, TaskListActivity taskListActivity) {
+    private void retrievePreference(Preference pref, String email,
+                                    TaskListActivity taskListActivity) {
         if(pref.getEmployeeEmail() != null && pref.getEmployeeEmail().equals(email)) {
             int taskPrefType = pref.getJobType();
             String taskPref = JobTypeStringGetter.getJobType(taskPrefType);
