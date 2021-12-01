@@ -36,7 +36,7 @@ public class TaskListRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerVi
         jobFilter = taskListFilterFactory.getFilter(this, jobPostingArrayListFull);
     }
 
-    public TaskListRecyclerAdapter(EmployeeDashboardActivity employeeDashboardActivity, List<JobPosting> jobsAppliedForArray) {
+    public TaskListRecyclerAdapter() {
     }
 
     @NonNull
