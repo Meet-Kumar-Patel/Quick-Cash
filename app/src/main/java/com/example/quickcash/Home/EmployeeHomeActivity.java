@@ -8,35 +8,14 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quickcash.R;
-import com.example.quickcash.TaskList.TaskListActivity;
 import com.example.quickcash.UserManagement.MapsActivity;
 import com.example.quickcash.UserManagement.SessionManager;
-import com.example.quickcash.UserManagement.preferencePage;
+import com.example.quickcash.UserManagement.PreferenceActivity;
 import com.google.firebase.FirebaseApp;
 import com.example.quickcash.Dashboard.EmployeeDashboardActivity;
 
 
 public class EmployeeHomeActivity extends AppCompatActivity {
-private Button searchTasks;
-private Button dashboard;
-private Button searchByPref;
-
-// Created intents for navigating to the pages
-    protected void navigateToSearchTasksPage() {
-        Intent searchTasksPageIntent = new Intent(this, MapsActivity.class);
-        startActivity(searchTasksPageIntent);
-    }
-
-    protected void navigateToDashboardPage() {
-        Intent dashboardPageIntent = new Intent(this, EmployeeDashboardActivity.class);
-        startActivity(dashboardPageIntent);
-    }
-
-    protected void navigateToSearchPrefPage() {
-        Intent searchTasksPageIntent = new Intent(this, preferencePage.class);
-        startActivity(searchTasksPageIntent);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,17 +24,17 @@ private Button searchByPref;
         sessionManager.checkLogin();
 
         //Created 3 buttons: SearchTasks, dashboard, searchByPref and their respective event listeners to navigate to those pages
-        searchTasks = (Button) findViewById(R.id.btnCreateTasksEmployerPage);
+        Button searchTasks = (Button) findViewById(R.id.btnCreateTasksEmployerPage);
         searchTasks.setOnClickListener(view -> {
             navigateToSearchTasksPage();
         });
 
-        dashboard = (Button) findViewById(R.id.btnDashboardEmployerPage);
+        Button dashboard = (Button) findViewById(R.id.btnDashboardEmployerPage);
         dashboard.setOnClickListener(view -> {
             navigateToDashboardPage();
         });
 
-        searchByPref = (Button) findViewById(R.id.btnSearchByPrefEmployeePage);
+        Button searchByPref = (Button) findViewById(R.id.btnSearchByPrefEmployeePage);
         searchByPref.setOnClickListener(view -> {
             navigateToSearchPrefPage();
         });
@@ -71,6 +50,22 @@ private Button searchByPref;
             }
         });
     }
+    // Created intents for navigating to the pages
+    protected void navigateToSearchTasksPage() {
+        Intent searchTasksPageIntent = new Intent(this, MapsActivity.class);
+        startActivity(searchTasksPageIntent);
+    }
+
+    protected void navigateToDashboardPage() {
+        Intent dashboardPageIntent = new Intent(this, EmployeeDashboardActivity.class);
+        startActivity(dashboardPageIntent);
+    }
+
+    protected void navigateToSearchPrefPage() {
+        Intent searchTasksPageIntent = new Intent(this, PreferenceActivity.class);
+        startActivity(searchTasksPageIntent);
+    }
+
 
 }
 

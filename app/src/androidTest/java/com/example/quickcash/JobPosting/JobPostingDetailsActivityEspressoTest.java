@@ -36,7 +36,7 @@ public class JobPostingDetailsActivityEspressoTest {
 
     @Test
     public void checkIfCreateJPTitleISVisible() {
-        onView(withId(R.id.txtInvoice)).check(matches(withText("Job Title")));
+        onView(withId(R.id.txtJobTitle)).check(matches(withText("Job Title")));
     }
 
     @Test

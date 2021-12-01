@@ -1,10 +1,11 @@
 package com.example.quickcash.UserManagement;
-import java.util.ArrayList;
-import java.util.UUID;
 
-public class User {
+import android.util.Log;
 
-    // Initialize Variables
+import com.example.quickcash.common.Constants;
+
+public class User implements IUser {
+
     private String firstName;
     private String lastName;
     private String email;
@@ -12,13 +13,10 @@ public class User {
     private String password;
     private String confirmPassword;
     private String isEmployee; // Values y = yes, n= no.
-    //ArrayList<String> employeePreferenceIDs = new ArrayList<String>();
     private String employeePreferenceID;
 
-
-
-    // Constructors
-    public User(String firstName, String lastName, String email, String phone, String password, String confirmPassword, String isEmployee) {
+    public User(String firstName, String lastName, String email, String phone, String password,
+                String confirmPassword, String isEmployee) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -30,73 +28,92 @@ public class User {
 
     public User() {
     }
-    public void setEmployeePreferenceID(String employeePreferenceID){
-        if(isEmployee.equals("y")){
-            this.employeePreferenceID = employeePreferenceID;
-        }
-        else{System.out.println("The user is not an Employee");}
-    }
-    public String getEmployeePreferenceID(){
-        if(isEmployee.equals("y")){
+
+    @Override
+    public String getEmployeePreferenceID() {
+        if (isEmployee.equals("y")) {
             return employeePreferenceID;
-        }
-        else{System.out.println("The user is not an Employee");
-        return null;
+        } else {
+            Log.println(Log.WARN, Constants.TAG_ERROR_FIREBASE, "The user is not an employer");
+            return null;
         }
     }
-    // Getters/Setters
+
+    @Override
+    public void setEmployeePreferenceID(String employeePreferenceID) {
+        if (isEmployee.equals("y")) {
+            this.employeePreferenceID = employeePreferenceID;
+        } else {
+            Log.println(Log.WARN, Constants.TAG_ERROR_FIREBASE, "The user is not an employer");
+        }
+    }
+
+    @Override
     public String getFirstName() {
         return firstName;
     }
 
+    @Override
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
+    @Override
     public String getLastName() {
         return lastName;
     }
 
+    @Override
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
+    @Override
     public String getEmail() {
         return email;
     }
 
+    @Override
     public void setEmail(String email) {
         this.email = email;
     }
 
+    @Override
     public String getPhone() {
         return phone;
     }
 
+    @Override
     public void setPhone(String phone) {
         this.phone = phone;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
 
+    @Override
     public void setPassword(String password) {
         this.password = password;
     }
 
+    @Override
     public String getConfirmPassword() {
         return confirmPassword;
     }
 
+    @Override
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
     }
 
+    @Override
     public String getIsEmployee() {
         return isEmployee;
     }
 
+    @Override
     public void setIsEmployee(String isEmployee) {
         this.isEmployee = isEmployee;
     }

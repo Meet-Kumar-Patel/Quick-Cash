@@ -1,9 +1,8 @@
-package com.example.quickcash.UserManagement.TaskList;
+package com.example.quickcash.TaskList;
 
 import static org.junit.Assert.assertEquals;
 
 import com.example.quickcash.JobPosting.JobPosting;
-import com.example.quickcash.TaskList.TaskListRecyclerAdapter;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -39,7 +38,7 @@ public class TaskListRecyclerAdapterJUnitTest {
         jobPostingArrayList.add(jobPosting);
         recyclerAdapter.setJobPostingArrayList(jobPostingArrayList);
         String jobTitle = "Test";
-        ArrayList<JobPosting> jpArr = recyclerAdapter.getJobPostingArrayList();
+        ArrayList<JobPosting> jpArr = (ArrayList<JobPosting>) recyclerAdapter.getJobPostingArrayList();
         assertEquals(jobTitle, jpArr.get(0).getJobTitle());
     }
 

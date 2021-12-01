@@ -10,9 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quickcash.R;
-
-import com.example.quickcash.Ratings.ViewRatingActivity;
 import com.example.quickcash.Ratings.GiveRatingsActivity;
+import com.example.quickcash.Ratings.ViewRatingActivity;
 import com.example.quickcash.TaskList.TaskListActivity;
 import com.example.quickcash.UserManagement.SessionManager;
 import com.google.firebase.database.DataSnapshot;
@@ -22,10 +21,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class JobPostingDetailsActivity extends AppCompatActivity {
-
-    // Text views
     private TextView jobTitle;
     private TextView jobType;
     private TextView duration;
@@ -33,14 +31,9 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
     private TextView wage;
     private TextView employer;
     private TextView status;
-
-    // Btns
     private Button btnApply;
-    private Button btnSearchMore;
     private Button btnTaskCompleted;
     private JobPosting jobPostingOBJ;
-
-    // Logged user info
     private String userEmail = "";
     private String snapshotKey;
 
@@ -64,19 +57,18 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         retrieveDataFromFirebase(jobID);
 
         // Add functionality to the btns
-        btnApply = (Button) findViewById(R.id.btnJPDApplyNow);
+        btnApply = findViewById(R.id.btnJPDApplyNow);
         btnApply.setOnClickListener(view -> addApplicant(userEmail));
         // Setting Default visibility to invisible. If the applicant is not the employer => the btn will become visible.
         btnApply.setVisibility(View.INVISIBLE);
 
-        btnSearchMore = (Button) findViewById(R.id.btnJPDReturnToSearch);
+        Button btnSearchMore = findViewById(R.id.btnJPDReturnToSearch);
         btnSearchMore.setOnClickListener(view -> returnToSearch());
 
-        btnTaskCompleted = (Button) findViewById(R.id.btnJPDMarkCompleted);
+        btnTaskCompleted = findViewById(R.id.btnJPDMarkCompleted);
         btnTaskCompleted.setOnClickListener(view -> markCompleted());
         btnTaskCompleted.setVisibility(View.INVISIBLE);
     }
-
 
     protected void retrieveDataFromFirebase(String id) {
         DatabaseReference jpDatabase = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/").getReference(JobPosting.class.getSimpleName());
@@ -103,7 +95,7 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         });
     }
 
-    protected JobPosting getJPbyID(DataSnapshot dataSnapshot, String id) throws Exception {
+    protected JobPosting getJPbyID(DataSnapshot dataSnapshot, String id) {
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
             JobPosting jobPosting = snapshot.getValue(JobPosting.class);
             boolean idMatches = jobPosting.getJobPostingId().equals(id);
@@ -125,10 +117,9 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         fillLayouts(jobPosting);
 
         // if the employer accesses the app then he will not see the btn
-        if(jobPosting.getCreatedBy().equals(userEmail)) {
+        if (jobPosting.getCreatedBy().equals(userEmail)) {
             restrictEmployerActions();
-        }
-        else {
+        } else {
             showCorrectStatusBtn(jobPosting);
         }
 
@@ -138,45 +129,48 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         // If the user has already applied to the job => show applied.
         btnApply.setText("Apply Now");
         btnApply.setClickable(false);
-        
-        if(jobPosting.getLstAppliedBy().size() > 0) {
-            // If the user has applied and 
-            if(jobPosting.getLstAppliedBy().contains(userEmail)) {
-                
-                if(jobPosting.getAccepted().isEmpty()) {
-                    btnApply.setText("Applied");
-                } else {
-                    if (jobPosting.getAccepted().equals(userEmail)) {
-                        btnApply.setText("Accepted");
-                        if(!jobPosting.isTaskComplete()) {
-                            btnTaskCompleted.setVisibility(View.VISIBLE);
-                        }
-                    } else {
-                        btnApply.setText("Sorry Rejected");
-                    }
-                }
-            }
-            // User has not applied
-            else if (!jobPosting.getAccepted().isEmpty()) {
-                btnApply.setText("Candidate Already Selected");
-            }
-            
-        }
-        else {
+
+        if (!jobPosting.getLstAppliedBy().isEmpty()) {
+            checkStatusOfApplicant(jobPosting);
+
+        } else {
             btnApply.setClickable(true);
         }
         btnApply.setVisibility(View.VISIBLE);
     }
 
+    private void checkStatusOfApplicant(JobPosting jobPosting) {
+        // If the user has applied and
+        if (jobPosting.getLstAppliedBy().contains(userEmail)) {
+
+            if (jobPosting.getAccepted().isEmpty()) {
+                btnApply.setText("Applied");
+            } else {
+                if (jobPosting.getAccepted().equals(userEmail)) {
+                    btnApply.setText("Accepted");
+                    if (!jobPosting.isTaskComplete()) {
+                        btnTaskCompleted.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    btnApply.setText("Sorry Rejected");
+                }
+            }
+        }
+        // User has not applied
+        else if (!jobPosting.getAccepted().isEmpty()) {
+            btnApply.setText("Candidate Already Selected");
+        }
+    }
+
     protected void findLayouts() {
-        jobTitle = (TextView) findViewById(R.id.txtInvoice);
-        jobType = (TextView) findViewById(R.id.txtJPDTypeValue);
-        duration = (TextView) findViewById(R.id.txtJPDDurationValue);
-        location = (TextView) findViewById(R.id.txtJDPLocationValue);
-        wage = (TextView) findViewById(R.id.txtJPDWageValue);
-        employer = (TextView) findViewById(R.id.txtJDPCreatedByValue);
-        status = (TextView) findViewById(R.id.txtJPDStatusValue);
-        btnTaskCompleted = (Button) findViewById(R.id.btnJPDMarkCompleted);
+        jobTitle = findViewById(R.id.txtJobTitle);
+        jobType = findViewById(R.id.txtJPDTypeValue);
+        duration = findViewById(R.id.txtJPDDurationValue);
+        location = findViewById(R.id.txtJDPLocationValue);
+        wage = findViewById(R.id.txtJPDWageValue);
+        employer = findViewById(R.id.txtJDPCreatedByValue);
+        status = findViewById(R.id.txtJPDStatusValue);
+        btnTaskCompleted = findViewById(R.id.btnJPDMarkCompleted);
     }
 
     protected void fillLayouts(JobPosting jobPosting) {
@@ -191,10 +185,9 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
     }
 
     private void changeCompletedStatus(JobPosting jobPosting) {
-        if(jobPosting.isTaskComplete()) {
+        if (jobPosting.isTaskComplete()) {
             status.setText("Task Completed");
-        }
-        else {
+        } else {
             status.setText("Task Not Completed");
         }
     }
@@ -202,18 +195,17 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
     public void allowToCheckRating() {
         employer.setClickable(true);
         employer.setOnClickListener(view -> openRateEmployer());
-        TextView employerDesc =findViewById(R.id.txtJDPCreatedBy);
+        TextView employerDesc = findViewById(R.id.txtJDPCreatedBy);
         employerDesc.setText("Employer (Click to give rating)");
     }
 
     public void openRateEmployer() {
         Intent rateIntent;
-        if(jobPostingOBJ.isTaskComplete()){
-            if(jobPostingOBJ.getAccepted().equals(userEmail)) {
+        if (jobPostingOBJ.isTaskComplete()) {
+            if (jobPostingOBJ.getAccepted().equals(userEmail)) {
                 // Only the accepted employee can rate the employer
                 rateIntent = new Intent(this, GiveRatingsActivity.class);
-            }
-            else {
+            } else {
                 rateIntent = new Intent(this, ViewRatingActivity.class);
             }
         } else {
@@ -232,7 +224,6 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         btnTaskCompleted.setVisibility(View.INVISIBLE);
     }
 
-    //can be refactored
     protected String convertJPType(int id) {
         String type = "";
         switch (id) {
@@ -258,13 +249,11 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
     }
 
     protected void returnToSearch() {
-        // Needs to be changed to search page
         Intent intent = new Intent(this, TaskListActivity.class);
         startActivity(intent);
     }
 
     protected void markCompleted() {
-        // Needs to be changed to search page
         jobPostingOBJ.setTaskComplete(true);
         changeCompletedStatus(jobPostingOBJ);
         DAOJobPosting daoJobPosting = new DAOJobPosting();
@@ -274,15 +263,15 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
 
     protected void addApplicant(String userEmail) {
 
-        ArrayList arrayList = jobPostingOBJ.getLstAppliedBy();
-        if (arrayList.size() == 0) {
-            arrayList = new ArrayList();
-            arrayList.add(userEmail);
-        } else if (!arrayList.contains(userEmail)) {
-            arrayList.add(userEmail);
+        List<String> lstAppliedBy = jobPostingOBJ.getLstAppliedBy();
+        if (lstAppliedBy.isEmpty()) {
+            lstAppliedBy = new ArrayList<>();
+            lstAppliedBy.add(userEmail);
+        } else if (!lstAppliedBy.contains(userEmail)) {
+            lstAppliedBy.add(userEmail);
         }
 
-        jobPostingOBJ.setLstAppliedBy(arrayList);
+        jobPostingOBJ.setLstAppliedBy(lstAppliedBy);
         DAOJobPosting daoJobPosting = new DAOJobPosting();
         daoJobPosting.update(jobPostingOBJ, snapshotKey);
 

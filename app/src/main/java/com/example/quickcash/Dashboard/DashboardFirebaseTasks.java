@@ -1,9 +1,12 @@
 package com.example.quickcash.Dashboard;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.example.quickcash.JobPosting.JobPosting;
 import com.example.quickcash.TaskList.TaskListRecyclerAdapter;
+import com.example.quickcash.common.Constants;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -13,6 +16,7 @@ import com.google.firebase.database.ValueEventListener;
 public class DashboardFirebaseTasks {
 
     FirebaseDatabase db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
+
     public void getDashboardJobs(EmployeeDashboardActivity employeeDashboardActivity, String email) {
         DatabaseReference jobPostingReference = db.getReference("JobPosting");
         jobPostingReference.addValueEventListener(new ValueEventListener() {
@@ -20,7 +24,7 @@ public class DashboardFirebaseTasks {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot adSnapshot : dataSnapshot.getChildren()) {
                     JobPosting jp = adSnapshot.getValue(JobPosting.class);
-                    if(jp.getLstAppliedBy() != null && jp.getLstAppliedBy().contains(email)) {
+                    if (jp.getLstAppliedBy() != null && jp.getLstAppliedBy().contains(email)) {
                         employeeDashboardActivity.addJobToArray(jp);
                     }
                 }
@@ -29,7 +33,7 @@ public class DashboardFirebaseTasks {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                return;
+                Log.println(Log.WARN, Constants.TAG_ERROR_FIREBASE, error.toString());
             }
         });
     }
@@ -41,7 +45,7 @@ public class DashboardFirebaseTasks {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot adSnapshot : dataSnapshot.getChildren()) {
                     JobPosting jp = adSnapshot.getValue(JobPosting.class);
-                    if(jp.getCreatedBy().equals(email)) {
+                    if (jp.getCreatedBy().equals(email)) {
                         employerDashboardActivity.addJobToArray(jp);
                     }
                 }
@@ -50,7 +54,7 @@ public class DashboardFirebaseTasks {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                return;
+                Log.println(Log.WARN, Constants.TAG_ERROR_FIREBASE, error.toString());
             }
         });
     }

@@ -3,11 +3,6 @@
   <component name="issues">
     <option name="index">
       <map>
-        <entry key="$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-          <value>
-            <set />
-          </value>
-        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/example/quickcash/AcceptDeclineTasks/AcceptDeclineObject.java">
           <value>
             <set />
@@ -23,17 +18,12 @@
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/quickcash/Paypal/DAOInvoice.java">
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/quickcash/JobPosting/JobPostingDetailsActivity.java">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/quickcash/Paypal/Invoice.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/quickcash/Paypal/PaypalActivity.java">
+        <entry key="$PROJECT_DIR$/app/src/main/res/layout/activity_job_posting_details.xml">
           <value>
             <set />
           </value>

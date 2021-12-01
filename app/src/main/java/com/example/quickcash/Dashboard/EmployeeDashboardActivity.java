@@ -18,6 +18,7 @@ import com.example.quickcash.TaskList.TaskListRecyclerAdapter;
 import com.example.quickcash.UserManagement.SessionManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class EmployeeDashboardActivity extends AppCompatActivity {
 
@@ -31,9 +32,8 @@ public class EmployeeDashboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_list);
-        Intent intent = getIntent();
         SessionManager sessionManager = new SessionManager(getApplicationContext());
-        dashboardFirebaseTasks.getDashboardJobs(this,sessionManager.getKeyEmail());
+        dashboardFirebaseTasks.getDashboardJobs(this, sessionManager.getKeyEmail());
         recyclerView = findViewById(R.id.recyclerview);
         jobSearchView = findViewById(R.id.jobsearch);
         jobSearchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
@@ -73,7 +73,7 @@ public class EmployeeDashboardActivity extends AppCompatActivity {
         jobsAppliedForArray.add(jobPosting);
     }
 
-    public ArrayList<JobPosting> getJobsAppliedForArray() {
+    public List<JobPosting> getJobsAppliedForArray() {
         return jobsAppliedForArray;
     }
 }
