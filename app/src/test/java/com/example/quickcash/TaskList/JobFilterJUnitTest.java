@@ -1,10 +1,8 @@
-package com.example.quickcash.UserManagement.TaskList;
+package com.example.quickcash.TaskList;
 
 import static org.junit.Assert.assertEquals;
 
 import com.example.quickcash.JobPosting.JobPosting;
-import com.example.quickcash.TaskList.TaskListJobFilter;
-import com.example.quickcash.TaskList.JobTypeStringGetter;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -32,13 +30,15 @@ public class JobFilterJUnitTest {
 
     @Test
     public void testFilterByJobName() {
-        ArrayList<JobPosting> filteredArrList = TaskListJobFilter.filter(jobPostingArrayList,"Test2");
+        TaskListRecyclerAdapter taskListRecyclerAdapter = new TaskListRecyclerAdapter();
+        ArrayList<JobPosting> filteredArrList = taskListRecyclerAdapter.getFilter().filter(jobPostingArrayList,"Test2");
         assertEquals(jobPosting2,filteredArrList.get(0));
     }
 
     @Test
     public void testFilterByJobType() {
-        ArrayList<JobPosting> filteredArrList = TaskListJobFilter.filter(jobPostingArrayList, JobTypeStringGetter.getJobType(1));
+        TaskListRecyclerAdapter taskListRecyclerAdapter = new TaskListRecyclerAdapter();
+        ArrayList<JobPosting> filteredArrList = taskListRecyclerAdapter.getFilter().filter(jobPostingArrayList, JobTypeStringGetter.getJobType(1));
         assertEquals(jobPosting2,filteredArrList.get(0));
     }
 }

@@ -7,8 +7,8 @@ public class Constants {
     public static final String EMPTY_PASSWORD = "Empty Password.";
     public static final String IMPROPER_EMAIL_ADDRESS = "Improper Email Address";
     public static final String VERIFYING_CREDENTIALS = "Verifying credentials";
-    public static final String DURATION_OF_A_TASK_MUST_BE_GREATOR_THAN_ONE_DAY = "Duration of a task must be greator than one day";
-    public static final String WAGE_MUST_BE_GREATOR_OR_EQUAL_$_15 = "Wage must be greator or equal $15.";
+    public static final String TASK_DURATION_ERROR = "Duration of a task must be greater than one day";
+    public static final String WAGE_AMOUNT_ERROR = "Wage must be greater or equal $15.";
     public static final String REGEX_PASSWORD_RULE = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
     public static final String FIREBASE_CONNECTED_DATA_SAVED = "Firebase Connected! Data Saved";
     public static final String DATA_NOT_SAVED = "Data not Saved";
@@ -17,7 +17,17 @@ public class Constants {
     public static final String EMAIL_ERROR = "Please Enter your email address";
     public static final String INVALID_EMAIL_ADDRESS = "Please Enter valid email address";
     public static final String PHONE_NUMBER_MANDATORY = "Please enter your phone number";
-    public static final String PHONE_INVALID_ERROR = "Phone number should be atleast 10 digits";
-    public static final String STRING_INTENT_KEY = "com.example.quickcash.Employer";
-    public static final String TAG_ERROR_FIREBASE = "Error";
+    public static final String PHONE_INVALID_ERROR = "Phone number should be at least 10 digits";
+    public static final String CITY_INTENT = "City";
+    public static final String PREFERENCE_INTENT = "Preference";
+    public static final String FIREBASE_ERROR = "Firebase Error: ";
+    public static final String REPAIRING_COMPUTER = "Repairing Computer";
+    public static final String MOWING_THE_LAWN = "Mowing the Lawn";
+    public static final String DESIGN_WEBSITE = "Design Website";
+    public static final String WALKING_A_DOG = "Walking A Dog";
+    public static final String PICKING_UP_GROCERY = "Picking Up Grocery";
+    public static final String UNEXPECTED_JOBTYPE = "Unexpected value: ";
+    public  static final String TAG_ERROR_FIREBASE = "Firebase Error: ";
+    public static  final  String STRING_INTENT_KEY = "com.example.quickcash.Employer";
+
 }

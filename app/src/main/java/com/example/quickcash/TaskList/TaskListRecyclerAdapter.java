@@ -5,10 +5,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,41 +20,20 @@ import com.example.quickcash.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskListRecyclerAdapter extends RecyclerView.Adapter<TaskListRecyclerAdapter.MyViewHolder> implements Filterable {
+public class TaskListRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerViewHolder> implements Filterable {
 
     private ArrayList<JobPosting> jobPostingArrayList;
-    private ArrayList<JobPosting> jobPostingArrayListFull;
     private Context context;
+    private Filter jobFilter;
+
     //Code adapted from https://www.youtube.com/watch?v=sJ-Z9G0SDhc
-    private Filter jobFilter = new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            ArrayList<JobPosting> filteredJobList = TaskListJobFilter.filter(jobPostingArrayListFull, constraint);
-            FilterResults results = new FilterResults();
-            results.values = filteredJobList;
-            return results;
-        }
-
-        @Override
-        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            jobPostingArrayList.clear();
-            jobPostingArrayList.addAll((List) filterResults.values);
-            notifyDataSetChanged();
-        }
-    };
-
-    public ArrayList<JobPosting> getJobPostingArrayList() {
-        return jobPostingArrayList;
-    }
-
-    public void setJobPostingArrayList(ArrayList<JobPosting> jobPostingArrayList) {
-        this.jobPostingArrayList = jobPostingArrayList;
-    }
 
     public TaskListRecyclerAdapter(Context context, List<JobPosting> jobPostingArrayList) {
-        this.jobPostingArrayList = (ArrayList<JobPosting>) jobPostingArrayList;
-        jobPostingArrayListFull = new ArrayList<>(jobPostingArrayList);
         this.context = context;
+        this.jobPostingArrayList = (ArrayList<JobPosting>) jobPostingArrayList;
+        ArrayList<JobPosting> jobPostingArrayListFull = new ArrayList<>(jobPostingArrayList);
+        TaskListFilterFactory taskListFilterFactory = new TaskListFilterFactory();
+        jobFilter = taskListFilterFactory.getFilter(this, jobPostingArrayListFull);
     }
 
     public TaskListRecyclerAdapter(EmployeeDashboardActivity employeeDashboardActivity, List<JobPosting> jobsAppliedForArray) {
@@ -64,28 +41,25 @@ public class TaskListRecyclerAdapter extends RecyclerView.Adapter<TaskListRecycl
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public TaskRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_items, parent, false);
-        return new MyViewHolder(itemView);
+        return new TaskRecyclerViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TaskRecyclerViewHolder holder, int position) {
         JobPosting jobPosting = jobPostingArrayList.get(position);
         String title = jobPosting.getJobTitle();
         String location = jobPosting.getLocation();
         int jobTypeInt = jobPosting.getJobType();
         String jobTypeString = JobTypeStringGetter.getJobType(jobTypeInt);
-        holder.nameText.setText(title);
-        holder.locationText.setText(location);
-        holder.jobTypeText.setText(jobTypeString);
-        holder.viewJobButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent jobDetailIntent = new Intent(context, JobPostingDetailsActivity.class);
-                jobDetailIntent.putExtra(JobPostingActivity.EXTRA_MESSAGE, jobPosting.getJobPostingId());
-                context.startActivity(jobDetailIntent);
-            }
+        holder.getNameText().setText(title);
+        holder.getLocationText().setText(location);
+        holder.getJobTypeText().setText(jobTypeString);
+        holder.getViewJobButton().setOnClickListener(view -> {
+            Intent jobDetailIntent = new Intent(context, JobPostingDetailsActivity.class);
+            jobDetailIntent.putExtra(JobPostingActivity.EXTRA_MESSAGE, jobPosting.getJobPostingId());
+            context.startActivity(jobDetailIntent);
         });
     }
 
@@ -99,21 +73,13 @@ public class TaskListRecyclerAdapter extends RecyclerView.Adapter<TaskListRecycl
         return jobFilter;
     }
 
-    //Refactor, move to new class
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        Button viewJobButton;
-        private TextView nameText;
-        private TextView locationText;
-        private TextView jobTypeText;
-
-        public MyViewHolder(final View view) {
-            super(view);
-            nameText = view.findViewById(R.id.employeename);
-            locationText = view.findViewById(R.id.location);
-            jobTypeText = view.findViewById(R.id.jobtype);
-            viewJobButton = view.findViewById(R.id.viewjobbutton);
-
-        }
-
+    public List<JobPosting> getJobPostingArrayList() {
+        return jobPostingArrayList;
     }
+
+    public void setJobPostingArrayList(List<JobPosting> jobPostingArrayList) {
+        this.jobPostingArrayList = (ArrayList<JobPosting>) jobPostingArrayList;
+        notifyDataSetChanged();
+    }
+
 }
