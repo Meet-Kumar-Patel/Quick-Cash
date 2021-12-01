@@ -16,10 +16,6 @@ import com.google.firebase.FirebaseApp;
 
 public class EmployerHomeActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "locationOfEmployer";
-    private Button createTasks;
-    private Button dashboard;
-    private Button acceptdecline;
-
     // Created intents for navigating to the pages
     protected void navigateToCreateTasksPage() {
         Intent createTasksPageIntent = new Intent(this, JobPostingActivity.class);
@@ -45,31 +41,18 @@ public class EmployerHomeActivity extends AppCompatActivity {
         sessionManager.checkLogin();
 
         //Created 2 buttons: createTasks, dashboard and their respective event listeners to navigate to those pages
-        createTasks = (Button) findViewById(R.id.btnCreateTasksEmployerPage);
-        createTasks.setOnClickListener(view -> {
-            navigateToCreateTasksPage();
-        });
+        Button createTasks = findViewById(R.id.btnCreateTasksEmployerPage);
+        createTasks.setOnClickListener(view ->navigateToCreateTasksPage());
 
-        dashboard = (Button) findViewById(R.id.btnDashboardEmployerPage);
-        dashboard.setOnClickListener(view -> {
-            navigateToDashboardPage();
-        });
+        Button dashboard = findViewById(R.id.btnDashboardEmployerPage);
+        dashboard.setOnClickListener(view -> navigateToDashboardPage());
 
-        acceptdecline = (Button) findViewById(R.id.acceptdecline);
-        acceptdecline.setOnClickListener(view -> {
-            navigateToAcceptDecline();
-        });
+        Button acceptDecline = findViewById(R.id.acceptdecline);
+        acceptDecline.setOnClickListener(view -> navigateToAcceptDecline());
 
         FirebaseApp.initializeApp(this);
-
         Button btnLogOut = findViewById(R.id.btnLogOutEmployer);
-        btnLogOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sessionManager.logoutUser();
-            }
-        });
-
+        btnLogOut.setOnClickListener(view -> sessionManager.logoutUser());
     }
 }
 

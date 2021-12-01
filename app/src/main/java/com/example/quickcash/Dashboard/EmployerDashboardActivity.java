@@ -17,13 +17,11 @@ import com.example.quickcash.JobPosting.JobPosting;
 import com.example.quickcash.R;
 import com.example.quickcash.TaskList.TaskListRecyclerAdapter;
 import com.example.quickcash.UserManagement.SessionManager;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class EmployerDashboardActivity extends AppCompatActivity {
-
-    private FirebaseDatabase db;
     TaskListRecyclerAdapter adapter;
     RecyclerView recyclerView;
     SearchView jobSearchView;
@@ -52,12 +50,9 @@ public class EmployerDashboardActivity extends AppCompatActivity {
             }
         });
         Button resetButton = findViewById(R.id.resetbutton);
-        resetButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                jobSearchView.setQuery("", false);
-                jobSearchView.clearFocus();
-            }
+        resetButton.setOnClickListener(view -> {
+            jobSearchView.setQuery("", false);
+            jobSearchView.clearFocus();
         });
         Button homeButton = findViewById(R.id.backToEmployerHomeBtn);
         homeButton.setOnClickListener(view -> {
@@ -78,7 +73,5 @@ public class EmployerDashboardActivity extends AppCompatActivity {
         jobsCreatedArray.add(jobPosting);
     }
 
-    public ArrayList<JobPosting> getJobsCreatedArray() {
-        return jobsCreatedArray;
-    }
+    public List<JobPosting> getJobsCreatedArray() { return jobsCreatedArray; }
 }

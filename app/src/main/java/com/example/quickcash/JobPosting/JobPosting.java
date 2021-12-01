@@ -1,14 +1,11 @@
 package com.example.quickcash.JobPosting;
-import com.example.quickcash.UserManagement.SessionManager;
 
-import java.util.UUID;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
-
-public class JobPosting extends Object {
-
-    // Variables
-    private String jobPostingId;
+public class JobPosting {
+    private final String jobPostingId;
     private String jobTitle;
     private int jobType;
     private int duration;
@@ -18,7 +15,6 @@ public class JobPosting extends Object {
     private boolean isTaskComplete;
     private ArrayList<String> lstAppliedBy;
     private String accepted;
-
     private String createdByName;
 
     public JobPosting(String jobTitle, int type, int duration, String location, int wage, String createdBy, String createdByName) {
@@ -30,29 +26,24 @@ public class JobPosting extends Object {
         this.wage = wage;
         this.createdBy = createdBy;
         this.isTaskComplete = false;
-        this.lstAppliedBy = new ArrayList();
+        this.lstAppliedBy = new ArrayList<>();
         this.accepted = "";
         this.createdByName = createdByName;
     }
 
-    public JobPosting() {}
+    public JobPosting() {
+        this.jobPostingId = UUID.randomUUID().toString();
+    }
 
     public String getJobPostingId() {
         return jobPostingId;
     }
 
-    private void setJobPostingId(String jobPostingId) {
-        this.jobPostingId = jobPostingId;
-    }
-
-    // Getter and Setters
     public String getJobTitle() {
         return jobTitle;
     }
 
-    public void setJobTitle(String jobTitle) {
-        this.jobTitle = jobTitle;
-    }
+    public void setJobTitle(String jobTitle) { this.jobTitle = jobTitle; }
 
     public int getDuration() {
         return duration;
@@ -94,16 +85,14 @@ public class JobPosting extends Object {
         isTaskComplete = taskComplete;
     }
 
-    public ArrayList getLstAppliedBy() {
-        if(lstAppliedBy == null) {
-            return new ArrayList<String> ();
+    public List<String> getLstAppliedBy() {
+        if (lstAppliedBy == null) {
+            return new ArrayList<>();
         }
         return lstAppliedBy;
     }
 
-    public void setLstAppliedBy(ArrayList<String> lstAppliedBy) {
-        this.lstAppliedBy = lstAppliedBy;
-    }
+    public void setLstAppliedBy(List<String> lstAppliedBy) { this.lstAppliedBy = (ArrayList) lstAppliedBy; }
 
     public String getAccepted() {
         return accepted;

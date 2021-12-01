@@ -1,5 +1,7 @@
 package com.example.quickcash.UserManagement;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.example.quickcash.common.Constants;
@@ -30,7 +32,7 @@ public class SessionManagerFirebaseUser implements ISessionManagerFirebaseUser {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                return;
+                Log.println(Log.WARN, Constants.TAG_ERROR_FIREBASE, error.toString());
             }
         });
     }

@@ -31,15 +31,15 @@ public class SessionManager implements ISessionManager {
     // Editor for Shared preferences
     SharedPreferences.Editor editor;
     // Context
-    Context _context;
+    Context context;
     // Shared pref mode
-    int PRIVATE_MODE = 0;
+    static final int PRIVATE_MODE = 0;
 
     // Constructor
     @SuppressLint("CommitPrefEdits")
     public SessionManager(Context context) {
-        this._context = context;
-        pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+        this.context = context;
+        pref = this.context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
     }
 
@@ -70,13 +70,13 @@ public class SessionManager implements ISessionManager {
         // Check login status
         if (!this.isLoggedIn()) {
             // user is not logged in redirect him to Login Activity
-            Intent i = new Intent(_context, LogInActivity.class);
+            Intent i = new Intent(context, LogInActivity.class);
             // Closing all the Activities
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             // Add new Flag to start new Activity
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             // Staring Login Activity
-            _context.startActivity(i);
+            context.startActivity(i);
         }
     }
 
@@ -85,7 +85,7 @@ public class SessionManager implements ISessionManager {
      */
     @Override
     public HashMap<String, String> getUserDetails() {
-        HashMap<String, String> user = new HashMap<String, String>();
+        HashMap<String, String> user = new HashMap<>();
         // email
         user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
         // password
@@ -105,13 +105,13 @@ public class SessionManager implements ISessionManager {
         editor.clear();
         editor.commit();
         // After logout redirect user to Login Activity
-        Intent i = new Intent(_context, WelcomePage.class);
+        Intent i = new Intent(context, WelcomePage.class);
         // Closing all the Activities
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         // Add new Flag to start new Activity
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         // Staring welcomePage
-        _context.startActivity(i);
+        context.startActivity(i);
     }
 
     /**

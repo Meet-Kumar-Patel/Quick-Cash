@@ -27,4 +27,7 @@ public class Constants {
     public static final String WALKING_A_DOG = "Walking A Dog";
     public static final String PICKING_UP_GROCERY = "Picking Up Grocery";
     public static final String UNEXPECTED_JOBTYPE = "Unexpected value: ";
+    public  static final String TAG_ERROR_FIREBASE = "Firebase Error: ";
+    public static  final  String STRING_INTENT_KEY = "com.example.quickcash.Employer";
+
 }

@@ -3,7 +3,7 @@ package com.example.quickcash.AcceptDeclineTasks;
 import java.util.UUID;
 
 public class AcceptDeclineObject {
-    private final String ID;
+    private final String id;
     private String userName;
     private String userEmail;
     private String jobPostingID;
@@ -12,7 +12,7 @@ public class AcceptDeclineObject {
     private boolean isAccepted;
 
     public AcceptDeclineObject(String userName, String userEmail, String jobPostingID, String jobPostingName, String jobKey, boolean isAccepted) {
-        ID = UUID.randomUUID().toString();
+        id = UUID.randomUUID().toString();
         this.userName = userName;
         this.userEmail = userEmail;
         this.jobPostingID = jobPostingID;
@@ -21,8 +21,8 @@ public class AcceptDeclineObject {
         this.isAccepted = isAccepted;
     }
 
-    public String getID() {
-        return ID;
+    public String getId() {
+        return id;
     }
 
     public String getUserName() {
@@ -56,6 +56,7 @@ public class AcceptDeclineObject {
     public void setJobPostingName(String jobPostingName) {
         this.jobPostingName = jobPostingName;
     }
+
     public String getJobKey() {
         return jobKey;
     }

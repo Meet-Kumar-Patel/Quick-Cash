@@ -11,30 +11,29 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.quickcash.Home.EmployeeHomeActivity;
-import com.example.quickcash.Home.EmployerHomeActivity;
 import com.example.quickcash.JobPosting.DAOJobPosting;
 import com.example.quickcash.JobPosting.JobPosting;
 import com.example.quickcash.JobPosting.JobPostingActivity;
 import com.example.quickcash.R;
 import com.example.quickcash.Ratings.GiveRatingsActivity;
 import com.example.quickcash.Ratings.ViewRatingActivity;
-import com.example.quickcash.UserManagement.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDeclineRecyclerAdapter.MyViewHolder> {
 
+    HashMap<String, JobPosting> hashMap;
     private ArrayList<AcceptDeclineObject> acceptDeclineObjects;
     private Context context;
-    HashMap<String, JobPosting> hashMap;
-    //Code adapted from https://www.youtube.com/watch?v=sJ-Z9G0SDhc
 
-    public AcceptDeclineRecyclerAdapter(Context context, ArrayList<AcceptDeclineObject> acceptDeclineObjects, HashMap hashMap) {
-        this.acceptDeclineObjects = acceptDeclineObjects;
+    //Code adapted from https://www.youtube.com/watch?v=sJ-Z9G0SDhc
+    public AcceptDeclineRecyclerAdapter(Context context, List<AcceptDeclineObject> acceptDeclineObjects, Map<? extends Object, ? extends Object> hashMap) {
+        this.acceptDeclineObjects = (ArrayList<AcceptDeclineObject>) acceptDeclineObjects;
         this.context = context;
-        this.hashMap = hashMap;
+        this.hashMap = (HashMap<String, JobPosting>) hashMap;
     }
 
     public AcceptDeclineRecyclerAdapter() {
@@ -55,7 +54,7 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
         holder.jobTitleButton.setText(acceptDeclineObject.getJobPostingName());
         DAOJobPosting daoJobPosting = new DAOJobPosting();
         String jpKey = acceptDeclineObject.getJobKey();
-        JobPosting jobPosting =  hashMap.get(jpKey);
+        JobPosting jobPosting = hashMap.get(jpKey);
         holder.acceptButton.setOnClickListener(view -> {
             jobPosting.setAccepted(acceptDeclineObject.getUserEmail());
             daoJobPosting.update(jobPosting, jpKey);
@@ -63,20 +62,45 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
         });
 
         // If the candidate has been accepted then the btn should say Selected and should not be clickable
-        if(acceptDeclineObject.isAccepted()) {disableAcceptBtn(holder);}
+        if (acceptDeclineObject.isAccepted()) {
+            disableAcceptBtn(holder);
+        }
 
 
         holder.ratingsButton.setOnClickListener(view -> openIntent(jpKey, acceptDeclineObject.getUserName(), acceptDeclineObject.getUserEmail()));
     }
 
     public void disableAcceptBtn(MyViewHolder holder) {
-            holder.acceptButton.setClickable(false);
-            holder.acceptButton.setText("Selected");
+        holder.acceptButton.setClickable(false);
+        holder.acceptButton.setText("Selected");
     }
 
     @Override
     public int getItemCount() {
         return acceptDeclineObjects.size();
+    }
+
+    public List<AcceptDeclineObject> getAcceptDeclineArraylist() {
+        return acceptDeclineObjects;
+    }
+
+    public void setAcceptDeclineArrayList(List<AcceptDeclineObject> acceptDeclineObjects) {
+        this.acceptDeclineObjects = (ArrayList<AcceptDeclineObject>) acceptDeclineObjects;
+    }
+
+    public void openIntent(String key, String userName, String userEmail) {
+        JobPosting jobPosting = hashMap.get(key);
+        Intent intent;
+        if (jobPosting.isTaskComplete()) {
+            intent = new Intent(context, GiveRatingsActivity.class);
+        } else {
+            intent = new Intent(context, ViewRatingActivity.class);
+        }
+        intent.putExtra(JobPostingActivity.EXTRA_MESSAGE, userEmail);
+        intent.putExtra("jobPostingID", jobPosting.getJobPostingId());
+        intent.putExtra("userToRate", userName);
+        intent.putExtra("page", "acceptDecline");
+        context.startActivity(intent);
     }
 
     //Refactor, move to new class
@@ -93,26 +117,6 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
             acceptButton = view.findViewById(R.id.acceptbutton);
             jobTitleButton = view.findViewById(R.id.txt_job_title);
         }
-    }
-
-    public ArrayList<AcceptDeclineObject> getAcceptDeclineArraylist() { return acceptDeclineObjects;}
-
-    public void setAcceptDeclineArrayList(ArrayList<AcceptDeclineObject> acceptDeclineObjects) {this.acceptDeclineObjects = acceptDeclineObjects; }
-
-    public void openIntent(String key, String userName, String userEmail) {
-        JobPosting jobPosting = hashMap.get(key);
-        Intent intent;
-        if(jobPosting.isTaskComplete()) {
-            intent = new Intent(context, GiveRatingsActivity.class);
-        }
-        else {
-            intent = new Intent(context, ViewRatingActivity.class);
-        }
-        intent.putExtra(JobPostingActivity.EXTRA_MESSAGE, userEmail);
-        intent.putExtra("jobPostingID", jobPosting.getJobPostingId());
-        intent.putExtra("userToRate", userName);
-        intent.putExtra("page", "acceptDecline");
-        context.startActivity(intent);
     }
 
 

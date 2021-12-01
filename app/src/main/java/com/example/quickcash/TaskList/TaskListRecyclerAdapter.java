@@ -11,6 +11,7 @@ import android.widget.Filterable;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.quickcash.Dashboard.EmployeeDashboardActivity;
 import com.example.quickcash.JobPosting.JobPosting;
 import com.example.quickcash.JobPosting.JobPostingActivity;
 import com.example.quickcash.JobPosting.JobPostingDetailsActivity;
@@ -35,7 +36,7 @@ public class TaskListRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerVi
         jobFilter = taskListFilterFactory.getFilter(this, jobPostingArrayListFull);
     }
 
-    public TaskListRecyclerAdapter() {
+    public TaskListRecyclerAdapter(EmployeeDashboardActivity employeeDashboardActivity, List<JobPosting> jobsAppliedForArray) {
     }
 
     @NonNull

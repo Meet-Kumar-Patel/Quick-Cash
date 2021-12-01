@@ -2,6 +2,7 @@ package com.example.quickcash.UserManagement;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -79,7 +80,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                System.out.println("Could retrieve: " + error.getCode());
+                Log.println(Log.WARN, Constants.TAG_ERROR_FIREBASE, error.toString());
             }
         });
     }
