@@ -4,6 +4,7 @@ import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
@@ -17,6 +18,7 @@ import com.example.quickcash.JobPosting.JobPostingActivity;
 import com.example.quickcash.JobPosting.JobPostingDetailsActivity;
 import com.example.quickcash.R;
 import com.example.quickcash.UserManagement.SessionManager;
+import com.example.quickcash.common.Constants;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -81,7 +83,7 @@ public class ViewRatingActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                System.out.println("Could retrieve: " + error.getCode());
+                Log.println(Log.WARN, Constants.TAG_ERROR_FIREBASE, error.toString());
             }
         });
     }

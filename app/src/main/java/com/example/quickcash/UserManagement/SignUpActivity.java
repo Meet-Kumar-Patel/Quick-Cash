@@ -2,6 +2,7 @@ package com.example.quickcash.UserManagement;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,7 +31,7 @@ import java.util.regex.Pattern;
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
     static boolean userExists = true;   // boolean to check whether the user Exists or not.
     static FirebaseDatabase db;         // reference to the fireBase.
-    String AES = "AES";                 // String required for encryption
+    String aes = Constants.AES;                 // String required for encryption
     // The instance variable for the Activity
     private EditText firstName;         // firstName of the user
     private EditText lastName;          // LastName of the user
@@ -282,16 +283,16 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                         phone.getText().toString(), encryptedPassword,
                         encryptedConfirmPassword, type);
         // pushes the information entered by the user to the firebase
-        userDAO.add(user).addOnSuccessListener(saved -> {
-            // Message if push was successful
+        userDAO.add(user).addOnSuccessListener(saved ->
+                // Message if push was successful
             Toast.makeText(SignUpActivity.this,
                     Constants.FIREBASE_CONNECTED_DATA_SAVED,
-                    Toast.LENGTH_LONG).show();
+                    Toast.LENGTH_LONG).show()
             // Message if push was not successful
-        }).addOnFailureListener(failed -> {
+        ).addOnFailureListener(failed ->
             Toast.makeText(SignUpActivity.this, Constants.DATA_NOT_SAVED,
-                    Toast.LENGTH_LONG).show();
-        });
+                    Toast.LENGTH_LONG).show()
+        );
         // switch to the login page
         switch2Login();
     }
@@ -324,29 +325,25 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
      */
     public void onClick(View view) {
         // all the user entered details
-        String firstName = getFirstName();
-        String lastName = getLastName();
+        String firstNameStr = getFirstName();
+        String lastNameStr = getLastName();
         String emailAddress = getEmail();
-        String phone = getPhoneNumber();
+        String phoneStr = getPhoneNumber();
         String userEnteredPassword = getUserEnteredPassword();
-        String confirmPassword = getConfirmPassword();
-        String errorMessage = "ERROR MESSAGE";
+        String confirmEnteredPassword = getConfirmPassword();
+        String errorMessage = "";
         // Sign Up logic
         // loop to check whether all the information is added correctly or not.
         for (int i = 0; i < 1; i++) {
             // to check for empty first Name
-            if (isEmptyFirstName(firstName)) {
+            if (isEmptyFirstName(firstNameStr)) {
                 errorMessage = Constants.FIRST_NAME_ERROR;
                 break;
-            } else {
-                errorMessage = "";
             }
             // to check for empty last name
-            if (isEmptyLastName(lastName)) {
+            if (isEmptyLastName(lastNameStr)) {
                 errorMessage = Constants.LAST_NAME_ERROR;
                 break;
-            } else {
-                errorMessage = "";
             }
             // to check for empty email address
             if (isEmptyEmail(emailAddress)) {
@@ -357,21 +354,17 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 if (!isEmailValid(emailAddress)) {
                     errorMessage = Constants.INVALID_EMAIL_ADDRESS;
                     break;
-                } else {
-                    errorMessage = "";
                 }
             }
             // to check for empty phone number
-            if (isEmptyPhoneNumber(phone)) {
+            if (isEmptyPhoneNumber(phoneStr)) {
                 errorMessage = Constants.PHONE_NUMBER_MANDATORY;
                 break;
             } else {
                 // to check for valid phone number
-                if (!isValidPhoneNumber(phone)) {
+                if (!isValidPhoneNumber(phoneStr)) {
                     errorMessage = Constants.PHONE_INVALID_ERROR;
                     break;
-                } else {
-                    errorMessage = "";
                 }
             }
             // to check for empty user entered password
@@ -388,12 +381,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 }
             }
             // to check the confirm Password
-            if (isEmptyConfirmPassword(confirmPassword)) {
+            if (isEmptyConfirmPassword(confirmEnteredPassword)) {
                 errorMessage = "Please Enter to confirm your password";
                 break;
             } else {
                 // to check whether the user entered password and confirm password match or not.
-                if (isPasswordMatch(userEnteredPassword, confirmPassword)) {
+                if (isPasswordMatch(userEnteredPassword, confirmEnteredPassword)) {
                     errorMessage = "";
                 } else {
                     errorMessage = "Passwords don't match. Please Enter again";
@@ -404,8 +397,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             if (getSelectedRadioButton() == null) {
                 errorMessage = "Please Select one of the two given options";
                 break;
-            } else {
-                errorMessage = "";
             }
         }
         // to set the error message in the status Label
@@ -453,7 +444,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                System.out.println("Could retrieve: " + error.getCode());
+                Log.println(Log.WARN, Constants.TAG_ERROR_FIREBASE, error.toString());
             }
         });
     }
@@ -495,7 +486,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     protected IUser getUserFromDataSnapshot(DataSnapshot dataSnapshot, String email) {
         IUserManagementAbstractFactory userManagementAbstractFactory = UserManagementInjector.
                 getInstance().getUserManagementAbstractFactory();
-        System.out.println(dataSnapshot.toString());
         // loop to transverse over the data in the firebase and find the email of the current user.
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
             IUser user = snapshot.getValue(User.class);

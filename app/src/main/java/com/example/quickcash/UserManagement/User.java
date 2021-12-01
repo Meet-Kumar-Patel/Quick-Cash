@@ -1,5 +1,9 @@
 package com.example.quickcash.UserManagement;
 
+import android.util.Log;
+
+import com.example.quickcash.common.Constants;
+
 public class User implements IUser {
 
     private String firstName;
@@ -30,7 +34,7 @@ public class User implements IUser {
         if (isEmployee.equals("y")) {
             return employeePreferenceID;
         } else {
-            System.out.println("The user is not an Employee");
+            Log.println(Log.WARN, Constants.TAG_ERROR_FIREBASE, "The user is not an employer");
             return null;
         }
     }
@@ -40,7 +44,7 @@ public class User implements IUser {
         if (isEmployee.equals("y")) {
             this.employeePreferenceID = employeePreferenceID;
         } else {
-            System.out.println("The user is not an Employee");
+            Log.println(Log.WARN, Constants.TAG_ERROR_FIREBASE, "The user is not an employer");
         }
     }
 

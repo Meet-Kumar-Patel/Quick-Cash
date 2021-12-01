@@ -14,7 +14,7 @@ public class AESUtils implements IAESUtils{
 
     private static final byte[] keyValue =
             new byte[]{'c', 'o', 'd', 'i', 'n', 'g', 'a', 'f', 'f', 'a', 'i', 'r', 's', 'c', 'o', 'm'};
-    private final static String HEX = "0123456789ABCDEF";
+    private static final String HEX = "0123456789ABCDEF";
 
     @Override
     public String encrypt(String cleartext)
@@ -32,18 +32,16 @@ public class AESUtils implements IAESUtils{
         return new String(result);
     }
 
-    private static byte[] getRawKey() throws Exception {
+    private static byte[] getRawKey() {
         SecretKey key = new SecretKeySpec(keyValue, Constants.AES);
-        byte[] raw = key.getEncoded();
-        return raw;
+        return key.getEncoded();
     }
 
     private static byte[] encrypt(byte[] raw, byte[] clear) throws Exception {
         SecretKey secretKeySpec = new SecretKeySpec(raw, Constants.AES);
         Cipher cipher = Cipher.getInstance(Constants.AES);
         cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
-        byte[] encrypted = cipher.doFinal(clear);
-        return encrypted;
+        return cipher.doFinal(clear);
     }
 
     private static byte[] decrypt(byte[] encrypted)
@@ -51,8 +49,7 @@ public class AESUtils implements IAESUtils{
         SecretKey secretKeySpec = new SecretKeySpec(keyValue, Constants.AES);
         Cipher cipher = Cipher.getInstance(Constants.AES);
         cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
-        byte[] decrypted = cipher.doFinal(encrypted);
-        return decrypted;
+        return cipher.doFinal(encrypted);
     }
 
     @Override

@@ -1,14 +1,16 @@
 package com.example.quickcash.JobPosting;
 
+import com.example.quickcash.common.Constants;
+import com.example.quickcash.common.DAO;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class DAOJobPosting {
+public class DAOJobPosting extends DAO {
     private DatabaseReference databaseReference;
 
     public DAOJobPosting() {
-        FirebaseDatabase db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
+        FirebaseDatabase db = FirebaseDatabase.getInstance(Constants.FIREBASE_URL);
         databaseReference = db.getReference(JobPosting.class.getSimpleName());
     }
 

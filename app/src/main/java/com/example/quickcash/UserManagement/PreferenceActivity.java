@@ -2,6 +2,7 @@ package com.example.quickcash.UserManagement;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,7 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 public class PreferenceActivity extends AppCompatActivity implements
         AdapterView.OnItemSelectedListener {
     static FirebaseDatabase db;
-    private Spinner jobType;
+    Spinner jobType;
     private EditText duration;
     private EditText wage;
     private Button submitButton;
@@ -115,13 +116,13 @@ public class PreferenceActivity extends AppCompatActivity implements
 
 
     protected void createNewPreference() {
-        int duration = getDuration();
-        int wage = getWage();
+        int durationInt = getDuration();
+        int wageInt = getWage();
         IUserManagementAbstractFactory userManagementAbstractFactory = UserManagementInjector.
                 getInstance().getUserManagementAbstractFactory();
-        if (isDurationLessThanOne(duration)) {
+        if (isDurationLessThanOne(durationInt)) {
             setStatusMessage(Constants.DURATION_OF_A_TASK_MUST_BE_GREATOR_THAN_ONE_DAY);
-        } else if (isWageLessThan15(wage)) {
+        } else if (isWageLessThan15(wageInt)) {
             setStatusMessage(Constants.WAGE_MUST_BE_GREATOR_OR_EQUAL_$_15);
         } else {
             ISessionManager sessionManager = userManagementAbstractFactory.
@@ -129,7 +130,7 @@ public class PreferenceActivity extends AppCompatActivity implements
             String employeeName = sessionManager.getKeyName();
             String employeeEmail = sessionManager.getKeyEmail();
             IPreference preference = userManagementAbstractFactory.
-                    getPreferenceInstance(employeeEmail, jobTypeId, duration, wage,
+                    getPreferenceInstance(employeeEmail, jobTypeId, durationInt, wageInt,
                             employeeName);
             updatePreferenceFromFirebase(preference);
         }
@@ -138,8 +139,8 @@ public class PreferenceActivity extends AppCompatActivity implements
     private void updatePreferenceFromFirebase(IPreference preference) {
         IUserManagementAbstractFactory userManagementAbstractFactory = UserManagementInjector.
                 getInstance().getUserManagementAbstractFactory();
-        DAO DAOPreference = userManagementAbstractFactory.getPreferenceDAOInstance();
-        DatabaseReference preferenceReference = DAOPreference.getDatabaseReference();
+        DAO daoPreference = userManagementAbstractFactory.getPreferenceDAOInstance();
+        DatabaseReference preferenceReference = daoPreference.getDatabaseReference();
         ValueEventListener valueEventListener = new ValueEventListener() {
 
             @Override
@@ -163,13 +164,13 @@ public class PreferenceActivity extends AppCompatActivity implements
 
                 }
                 if (!emailFound) {
-                    DAOPreference.add(preference);
+                    daoPreference.add(preference);
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                System.out.println("Could retrieve: " + error.getCode());
+                Log.println(Log.WARN, Constants.TAG_ERROR_FIREBASE, error.toString());
             }
         };
         preferenceReference.addListenerForSingleValueEvent(valueEventListener);

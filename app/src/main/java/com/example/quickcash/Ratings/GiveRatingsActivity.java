@@ -2,6 +2,7 @@ package com.example.quickcash.Ratings;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
@@ -15,6 +16,7 @@ import com.example.quickcash.JobPosting.JobPostingActivity;
 import com.example.quickcash.JobPosting.JobPostingDetailsActivity;
 import com.example.quickcash.R;
 import com.example.quickcash.UserManagement.SessionManager;
+import com.example.quickcash.common.Constants;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,7 +26,6 @@ import com.google.firebase.database.ValueEventListener;
 public class GiveRatingsActivity extends AppCompatActivity {
 
     private TextView statusView;
-    private TextView ratingHeader;
     private String senderEmail;
 
     @Override
@@ -42,7 +43,7 @@ public class GiveRatingsActivity extends AppCompatActivity {
         senderEmail = sessionManager.getKeyEmail();
 
         RatingBar starRatingBar = (RatingBar) findViewById(R.id.star_rating_bar);
-        ratingHeader = findViewById(R.id.give_rate_header);
+        TextView ratingHeader = findViewById(R.id.give_rate_header);
         ratingHeader.setText(userToRate + "'s Rating");
         statusView = (TextView) findViewById(R.id.give_rating_status);
         statusView.setVisibility(View.INVISIBLE);
@@ -57,19 +58,16 @@ public class GiveRatingsActivity extends AppCompatActivity {
             addRatingToFirebase(rating, jobPostingID);
         });
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent jobDetailsIntent;
-                if(page.equals("acceptDecline")) {
-                    jobDetailsIntent = new Intent(GiveRatingsActivity.this, AcceptDeclineTasks.class);
-                }
-                else {
-                    jobDetailsIntent =new Intent(GiveRatingsActivity.this, JobPostingDetailsActivity.class);
-                    jobDetailsIntent.putExtra(JobPostingActivity.EXTRA_MESSAGE, jobPostingID);
-                }
-                startActivity(jobDetailsIntent);
+        backButton.setOnClickListener(view -> {
+            Intent jobDetailsIntent;
+            if(page.equals("acceptDecline")) {
+                jobDetailsIntent = new Intent(GiveRatingsActivity.this, AcceptDeclineTasks.class);
             }
+            else {
+                jobDetailsIntent =new Intent(GiveRatingsActivity.this, JobPostingDetailsActivity.class);
+                jobDetailsIntent.putExtra(JobPostingActivity.EXTRA_MESSAGE, jobPostingID);
+            }
+            startActivity(jobDetailsIntent);
         });
         //FirebaseDatabase.getInstance().getReference()
 
@@ -90,7 +88,7 @@ public class GiveRatingsActivity extends AppCompatActivity {
                 }
                 if(jobPostingIDFound) {
                     // A job can have 2 rating (one from the employee to the employer, the other from the employer to the employee)
-                    if(rating.getSenderUserEmail() == senderEmail) {
+                    if(rating.getSenderUserEmail().equals(senderEmail)) {
                         setStatus("Error: You have already sent a rating for this job.");
                     }
                     else {
@@ -105,7 +103,7 @@ public class GiveRatingsActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                System.out.println("Could retrieve: " + error.getCode());
+                Log.println(Log.WARN, Constants.TAG_ERROR_FIREBASE, error.toString());
             }
         };
 

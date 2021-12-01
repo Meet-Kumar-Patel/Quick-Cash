@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.quickcash.Dashboard.EmployeeDashboardActivity;
 import com.example.quickcash.JobPosting.JobPosting;
 import com.example.quickcash.JobPosting.JobPostingActivity;
 import com.example.quickcash.JobPosting.JobPostingDetailsActivity;
@@ -52,13 +53,13 @@ public class TaskListRecyclerAdapter extends RecyclerView.Adapter<TaskListRecycl
         this.jobPostingArrayList = jobPostingArrayList;
     }
 
-    public TaskListRecyclerAdapter(Context context, ArrayList<JobPosting> jobPostingArrayList) {
-        this.jobPostingArrayList = jobPostingArrayList;
+    public TaskListRecyclerAdapter(Context context, List<JobPosting> jobPostingArrayList) {
+        this.jobPostingArrayList = (ArrayList<JobPosting>) jobPostingArrayList;
         jobPostingArrayListFull = new ArrayList<>(jobPostingArrayList);
         this.context = context;
     }
 
-    public TaskListRecyclerAdapter() {
+    public TaskListRecyclerAdapter(EmployeeDashboardActivity employeeDashboardActivity, List<JobPosting> jobsAppliedForArray) {
     }
 
     @NonNull

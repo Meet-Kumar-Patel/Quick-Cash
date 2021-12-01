@@ -18,4 +18,6 @@ public class Constants {
     public static final String INVALID_EMAIL_ADDRESS = "Please Enter valid email address";
     public static final String PHONE_NUMBER_MANDATORY = "Please enter your phone number";
     public static final String PHONE_INVALID_ERROR = "Phone number should be atleast 10 digits";
+    public static final String STRING_INTENT_KEY = "com.example.quickcash.Employer";
+    public static final String TAG_ERROR_FIREBASE = "Error";
 }
