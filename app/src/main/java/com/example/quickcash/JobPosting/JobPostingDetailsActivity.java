@@ -2,6 +2,8 @@ package com.example.quickcash.JobPosting;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,6 +16,7 @@ import com.example.quickcash.R;
 import com.example.quickcash.Ratings.ViewRatingActivity;
 import com.example.quickcash.Ratings.GiveRatingsActivity;
 import com.example.quickcash.TaskList.TaskListActivity;
+import com.example.quickcash.UserManagement.EmailNotification;
 import com.example.quickcash.UserManagement.SessionManager;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -75,6 +78,10 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         btnTaskCompleted = (Button) findViewById(R.id.btnJPDMarkCompleted);
         btnTaskCompleted.setOnClickListener(view -> markCompleted());
         btnTaskCompleted.setVisibility(View.INVISIBLE);
+
+        // For on Create method only.
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
     }
 
 
@@ -288,6 +295,14 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
 
         // Show confirmation message
         setStatusMessage("Your application was send successfully!");
+
+        // notify employer when the employee applies.
+        EmailNotification emailNotification = new EmailNotification();
+
+        // sender email will be the noreply email
+        // the receipitent email would be the employer email.
+
+        emailNotification.sendEmailNotification("noreplycsci3130@gmail.com",userEmail,"Joben@1999","Hi "+ employer +" an employee applied for your the job posting.");
 
         // Change btn text
         btnApply.setText("Applied");

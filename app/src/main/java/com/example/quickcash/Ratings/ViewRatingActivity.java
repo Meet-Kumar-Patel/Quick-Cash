@@ -1,10 +1,7 @@
 package com.example.quickcash.Ratings;
 
-import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -22,7 +19,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import android.content.Intent;
 
 public class ViewRatingActivity extends AppCompatActivity {
     Rating rating = null;

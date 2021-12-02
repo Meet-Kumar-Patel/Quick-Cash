@@ -1,5 +1,7 @@
 package com.example.quickcash.UserManagement;
 import static android.content.ContentValues.TAG;
+import static com.example.quickcash.UserManagement.AESUtils.decrypt;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -18,7 +20,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.quickcash.JobPosting.JobPostingActivity;
-import com.example.quickcash.MainActivity;
 import com.example.quickcash.R;
 import com.example.quickcash.TaskList.TaskListActivity;
 import com.example.quickcash.databinding.ActivityMapsBinding;
@@ -32,6 +33,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -52,10 +59,26 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Boolean mLocationPermissionGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     // boolean variable to check whether it is an employee or an employer.
-    private boolean isEmployee = true;
+
+    private String isEmployee;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+        SessionManager sessionManager = new SessionManager(getApplicationContext());
+
+        SessionManagerFirebaseUser sessionManagerFirebaseUser = sessionManager.getSessionManagerFirebaseUser();
+
+        User user = sessionManagerFirebaseUser.getLoggedInUser();
+
+        if(user!=null){
+            isEmployee = user.getIsEmployee();
+        }
+        else{
+            Log.d(TAG,"User is null");
+        }
+
 
         super.onCreate(savedInstanceState);
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
@@ -67,8 +90,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Button searchByManual = (Button) findViewById(R.id.search_Manual);
         Button createTask = (Button) findViewById(R.id.create_Tasks);
 
+
         // to check if is the employee or the employer.
-        if(!isEmployee){
+        if(isEmployee.equals("yes")){
             searchByPreference.setVisibility(View.INVISIBLE);
             searchByManual.setVisibility(View.INVISIBLE);
             createTask.setVisibility(View.VISIBLE);
@@ -110,7 +134,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onClick(View view) {
                 // Switching the user to Create Task Activity.
                 // -- Please change this from MainActivity to the Create Task activity and comment the Toast.
-                Intent intent = new Intent(getApplicationContext(),JobPostingActivity.class);
+                Intent intent = new Intent(getApplicationContext(), JobPostingActivity.class);
                 Toast.makeText(MapsActivity.this, "create Task clicked", Toast.LENGTH_LONG).show();
                 startActivity(intent);
             }
@@ -286,4 +310,71 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void hideSoftKeyboard(){
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
+
+    /**
+     * The method returns the data snapshot from firebase and it calls the method responsible for
+     * checking the credentials.
+     *
+     * @param email    - Email provided by the user.
+     * @param password - Password provided by the user.
+     */
+    private void retrieveDataFromFirebase(String email, String password) {
+
+        //can be refactored.
+        DatabaseReference userReference = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/").getReference(User.class.getSimpleName());
+        userReference.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // When the data is received, verify the user credential
+                if (dataSnapshot.exists()) {
+
+                    try {
+                        verifyUserCredentials(dataSnapshot, email, password);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println("Could retrieve: " + error.getCode());
+            }
+
+        });
+    }
+
+    protected User getUserFromDataSnapshot(DataSnapshot dataSnapshot, String email, String password) throws Exception {
+        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+            User user = snapshot.getValue(User.class);
+            boolean emailMatches = user.getEmail().equals(email);
+            boolean passwordMatches = decrypt(user.getPassword()).equals(password);
+            if (emailMatches && passwordMatches) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    private void verifyUserCredentials(DataSnapshot dataSnapshot, String email, String password) throws Exception {
+        User userWithGivenEmail;
+
+        if (dataSnapshot != null) {
+                       // Find user with the given email and password.
+            userWithGivenEmail = getUserFromDataSnapshot(dataSnapshot, email, password);
+            // If the user if found => switch to the proper homepage.
+            if (userWithGivenEmail != null)
+               {
+                // Creates login session
+                SessionManager sessionManager = new SessionManager(this);
+                sessionManager.createLoginSession(email, password, userWithGivenEmail.getFirstName() + " " + userWithGivenEmail.getLastName());
+                userWithGivenEmail.getIsEmployee().equals("y");
+
+            }
+
+        }
+
+    }
+
 }

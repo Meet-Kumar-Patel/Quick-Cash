@@ -11,15 +11,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.quickcash.Home.EmployeeHomeActivity;
-import com.example.quickcash.Home.EmployerHomeActivity;
 import com.example.quickcash.JobPosting.DAOJobPosting;
 import com.example.quickcash.JobPosting.JobPosting;
 import com.example.quickcash.JobPosting.JobPostingActivity;
 import com.example.quickcash.R;
 import com.example.quickcash.Ratings.GiveRatingsActivity;
 import com.example.quickcash.Ratings.ViewRatingActivity;
-import com.example.quickcash.UserManagement.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
