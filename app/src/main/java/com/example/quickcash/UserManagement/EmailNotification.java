@@ -26,7 +26,6 @@ public class EmailNotification extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email_notification);
 
-
     }
 
     public void sendEmailNotification(String senderEmailAddress, String recipientEmailAddress, String senderPassword, String senderMessage){

@@ -12,6 +12,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -23,8 +24,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.quickcash.AcceptDeclineTasks.AcceptDeclineTasks;
 import com.example.quickcash.Home.EmployerHomeActivity;
 import com.example.quickcash.R;
+import com.example.quickcash.TaskList.JobTypeStringGetter;
+import com.example.quickcash.UserManagement.EmailNotification;
+import com.example.quickcash.UserManagement.Preference;
 import com.example.quickcash.UserManagement.SessionManager;
 import com.example.quickcash.databinding.ActivityJobPostingBinding;
 import com.example.quickcash.databinding.ActivityJobPostingBinding;
@@ -70,6 +75,7 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
     private EditText duration; // int number of days
     private EditText location; // String taken from map
     private EditText wage; // Double payment for doing the job
+    ArrayList<Preference> preferences = new ArrayList<>();
     private TextView errorMessage; // Message if the creation was successful or not
 
     // Button
@@ -96,6 +102,10 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
         //access the intents & show the welcome message
         Intent intent = getIntent();
 
+        // For on Create method only.
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
     }
 
     private void remainingStuff(){
@@ -114,12 +124,39 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
         initializeFirebase();
         retrieveDataFromFirebase();
 
+        retrieveAllPreferencesFromFirebase();
+
         // Declare, Initialize and set on click listener to each btn
         homePage = (Button) findViewById(R.id.btnJPHomePage);
         homePage.setOnClickListener(view -> returnToHomePage());
 
         createJP = (Button) findViewById(R.id.btnCreateJP);
         createJP.setOnClickListener(view->createNewPosting());
+        
+
+    }
+
+    private void retrieveAllPreferencesFromFirebase() {
+        DatabaseReference preferenceReference = db.getReference("Preference");
+        preferenceReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot adSnapshot : dataSnapshot.getChildren()) {
+                    Preference pref = adSnapshot.getValue(Preference.class);
+
+                    preferences.add(pref);
+//                    if(pref.getJobType() == jobType) {
+//                        int taskPrefType = pref.getJobType();
+//                        String taskPref = JobTypeStringGetter.getJobType(taskPrefType);
+//                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     // Maps Stuff
@@ -378,6 +415,8 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
             // Adding the Job Posting obj to the database.
             daoJobPosting.add(jobPosting);
 
+            notifyAllEmployee(jobPosting.getJobType());
+
             switchToJPDetails(jobPosting.getJobPostingId());
 
         }
@@ -424,6 +463,19 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
 
     public void onNothingSelected(AdapterView<?> parent) {
         // Another interface callback. (Default=0)
+    }
+
+    public void notifyAllEmployee(int jobType){
+
+        for(Preference pref : preferences){
+            if(pref.getJobType() == jobType){
+                EmailNotification emailNotification = new EmailNotification();
+                String employeeEmail = pref.getemployeeEmail() ;
+                emailNotification.sendEmailNotification("noreplycsci3130@gmail.com",employeeEmail,"Joben@1999","Hi "+ pref.getemployeeName() +", There is a job posting matching your preference. Please login to check out details");
+
+            }
+        }
+
     }
 
 }

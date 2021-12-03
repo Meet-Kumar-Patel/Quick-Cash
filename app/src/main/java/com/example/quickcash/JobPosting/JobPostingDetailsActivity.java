@@ -46,7 +46,7 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
     // Logged user info
     private String userEmail = "";
     private String snapshotKey;
-
+    private String employerEmail = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -277,6 +277,14 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         DAOJobPosting daoJobPosting = new DAOJobPosting();
         daoJobPosting.update(jobPostingOBJ, snapshotKey);
 
+        // to notify the employer when the employee marks the task as completed.
+        EmailNotification emailNotification = new EmailNotification();
+        employerEmail =  jobPostingOBJ.getCreatedBy();
+        // sender email will be the noreply email
+        // the receipitent email would be the employer email.
+        emailNotification.sendEmailNotification("noreplycsci3130@gmail.com",employerEmail,"Joben@1999","Hi "+ jobPostingOBJ.getCreatedByName() +", an employee completed the assigned task for your posted job posting. Please login to check out details");
+
+
     }
 
     protected void addApplicant(String userEmail) {
@@ -299,10 +307,11 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         // notify employer when the employee applies.
         EmailNotification emailNotification = new EmailNotification();
 
+        employerEmail =  jobPostingOBJ.getCreatedBy();
+
         // sender email will be the noreply email
         // the receipitent email would be the employer email.
-
-        emailNotification.sendEmailNotification("noreplycsci3130@gmail.com",userEmail,"Joben@1999","Hi "+ employer +" an employee applied for your the job posting.");
+        emailNotification.sendEmailNotification("noreplycsci3130@gmail.com",employerEmail,"Joben@1999","Hi "+ jobPostingOBJ.getCreatedByName() +", an employee applied for your posted job posting. Please login to check out details");
 
         // Change btn text
         btnApply.setText("Applied");

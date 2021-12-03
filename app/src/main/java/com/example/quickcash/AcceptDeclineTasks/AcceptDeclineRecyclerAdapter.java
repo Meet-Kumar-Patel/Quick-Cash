@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +18,7 @@ import com.example.quickcash.JobPosting.JobPostingActivity;
 import com.example.quickcash.R;
 import com.example.quickcash.Ratings.GiveRatingsActivity;
 import com.example.quickcash.Ratings.ViewRatingActivity;
+import com.example.quickcash.UserManagement.EmailNotification;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,6 +57,12 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
         JobPosting jobPosting =  hashMap.get(jpKey);
         holder.acceptButton.setOnClickListener(view -> {
             jobPosting.setAccepted(acceptDeclineObject.getUserEmail());
+
+// --------------- Notify employee when employer accepts the employee for the job.//----------------
+            EmailNotification emailNotification = new EmailNotification();
+            String employeeEmail = acceptDeclineObject.getUserEmail();
+            emailNotification.sendEmailNotification("noreplycsci3130@gmail.com",employeeEmail,"Joben@1999","Hi "+ acceptDeclineObject.getUserName() +", Congratulations! You have been accepted for a job posting. Please login to check out details");
+
             daoJobPosting.update(jobPosting, jpKey);
             disableAcceptBtn(holder);
         });

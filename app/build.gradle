@@ -5,6 +5,10 @@
 android {
     compileSdk 31
 
+    packagingOptions {
+        exclude 'META-INF/NOTICE.md'
+        exclude 'META-INF/LICENSE.md'
+    }
 
     defaultConfig {
         applicationId "com.example.quickcash"
@@ -60,8 +64,8 @@ dependencies {
     testImplementation "org.mockito:mockito-inline:3.4.0"
     implementation 'com.google.android.gms:play-services-maps:18.0.0'
     implementation 'com.google.android.gms:play-services-location:18.0.0'
-    implementation 'com.sun.mail:android-mail:1.6.0'
-    implementation 'com.sun.mail:android-activation:1.6.0'
+    implementation 'com.sun.mail:android-mail:1.6.6'
+    implementation 'com.sun.mail:android-activation:1.6.6'
 }
 
 apply plugin: 'com.google.gms.google-services'
