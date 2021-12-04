@@ -65,7 +65,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
         SessionManager sessionManager = new SessionManager(getApplicationContext());
 
         SessionManagerFirebaseUser sessionManagerFirebaseUser = sessionManager.getSessionManagerFirebaseUser();
@@ -88,19 +87,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         // referencing all the buttons in variables.
         Button searchByPreference = (Button) findViewById(R.id.Search_Preference);
         Button searchByManual = (Button) findViewById(R.id.search_Manual);
-        Button createTask = (Button) findViewById(R.id.create_Tasks);
+
 
 
         // to check if is the employee or the employer.
         if(isEmployee.equals("yes")){
             searchByPreference.setVisibility(View.INVISIBLE);
             searchByManual.setVisibility(View.INVISIBLE);
-            createTask.setVisibility(View.VISIBLE);
-        }
-        else{
-            searchByPreference.setVisibility(View.VISIBLE);
-            searchByManual.setVisibility(View.VISIBLE);
-            createTask.setVisibility(View.INVISIBLE);
+
         }
         // setting up an on click listener for the search by preference button.
         searchByPreference.setOnClickListener(new View.OnClickListener() {
@@ -128,17 +122,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 startActivity(intent);
             }
         });
-        // setting up an on click listener for the search by create Task button for the employer.
-        createTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Switching the user to Create Task Activity.
-                // -- Please change this from MainActivity to the Create Task activity and comment the Toast.
-                Intent intent = new Intent(getApplicationContext(), JobPostingActivity.class);
-                Toast.makeText(MapsActivity.this, "create Task clicked", Toast.LENGTH_LONG).show();
-                startActivity(intent);
-            }
-        });
+
     }
 
     /**

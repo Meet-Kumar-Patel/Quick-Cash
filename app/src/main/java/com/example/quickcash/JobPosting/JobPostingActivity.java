@@ -132,7 +132,7 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
 
         createJP = (Button) findViewById(R.id.btnCreateJP);
         createJP.setOnClickListener(view->createNewPosting());
-        
+
 
     }
 
