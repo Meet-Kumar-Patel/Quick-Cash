@@ -144,7 +144,7 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
     public void showCorrectStatusBtn(JobPosting jobPosting) {
         // If the user has already applied to the job => show applied.
         btnApply.setText("Apply Now");
-        btnApply.setClickable(false);
+//        btnApply.setClickable(false);
         
         if(jobPosting.getLstAppliedBy().size() > 0) {
             // If the user has applied and 
