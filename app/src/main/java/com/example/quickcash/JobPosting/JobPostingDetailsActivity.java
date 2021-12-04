@@ -144,8 +144,7 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
     public void showCorrectStatusBtn(JobPosting jobPosting) {
         // If the user has already applied to the job => show applied.
         btnApply.setText("Apply Now");
-        btnApply.setClickable(false);
-        
+        btnApply.setClickable(true);
         if(jobPosting.getLstAppliedBy().size() > 0) {
             // If the user has applied and 
             if(jobPosting.getLstAppliedBy().contains(userEmail)) {
@@ -162,15 +161,14 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
                         btnApply.setText("Sorry Rejected");
                     }
                 }
+                btnApply.setClickable(false);
             }
             // User has not applied
             else if (!jobPosting.getAccepted().isEmpty()) {
                 btnApply.setText("Candidate Already Selected");
+                btnApply.setClickable(false);
             }
             
-        }
-        else {
-            btnApply.setClickable(true);
         }
         btnApply.setVisibility(View.VISIBLE);
     }
