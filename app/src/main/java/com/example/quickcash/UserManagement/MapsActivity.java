@@ -90,7 +90,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         // to check if is the employee or the employer.
-        if(isEmployee.equals("yes")){
+        if(!isEmployee.equals("y")){
             searchByPreference.setVisibility(View.INVISIBLE);
             searchByManual.setVisibility(View.INVISIBLE);
 
