@@ -28,7 +28,7 @@ import androidx.core.content.ContextCompat;
 
 import com.example.quickcash.Home.EmployerHomeActivity;
 import com.example.quickcash.R;
-import com.example.quickcash.UserManagement.EmailNotification;
+import com.example.quickcash.UserManagement.IPreference;
 import com.example.quickcash.UserManagement.Preference;
 import com.example.quickcash.UserManagement.SessionManager;
 import com.example.quickcash.UserManagement.User;
@@ -63,7 +63,7 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private final ArrayList<String> titleList = new ArrayList<>();
     private final DAOJobPosting daoJobPosting = new DAOJobPosting();
-    private final ArrayList<Preference> preferences = new ArrayList<>();
+    private final ArrayList<IPreference> preferences = new ArrayList<>();
     private EditText location;
     private GoogleMap mMap;
     private ActivityJobPostingBinding binding;
@@ -111,7 +111,7 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot adSnapshot : dataSnapshot.getChildren()) {
-                    Preference pref = adSnapshot.getValue(Preference.class);
+                    IPreference pref = adSnapshot.getValue(Preference.class);
                     preferences.add(pref);
                 }
             }
@@ -361,7 +361,8 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
                 locationStr = getLocation();
             }
             JobPosting jobPosting = createJobPosting(jobTitleStr, durationInt, wageInt);
-            notifyAllEmployee(jobPosting.getJobType());
+            Observer preference = new Preference();
+            preference.notifyUsersWithPreferredJobs(jobPosting, preferences);
             switchToJPDetails(jobPosting.getJobPostingId());
         }
     }
@@ -402,18 +403,4 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
     public void onNothingSelected(AdapterView<?> parent) {
         // Another interface callback. (Default=0)
     }
-
-    public void notifyAllEmployee(int jobType) {
-
-        for (Preference pref : preferences) {
-            if (pref.getJobType() == jobType) {
-                EmailNotification emailNotification = new EmailNotification();
-                String employeeEmail = pref.getEmployeeEmail();
-                emailNotification.sendEmailNotification("noreplycsci3130@gmail.com", employeeEmail, "Joben@1999", "Hi " + pref.getEmployeeEmail() + ", There is a job posting matching your preference. Please login to check out details");
-
-            }
-        }
-
-    }
-
 }

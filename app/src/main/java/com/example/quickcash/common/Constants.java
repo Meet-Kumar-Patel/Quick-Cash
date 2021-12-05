@@ -33,7 +33,14 @@ public class Constants {
     public static final String ACCEPT_BUTTON_DISABLE_TEXT = "Selected";
     public static final String EMAIL_REGEX_RULE = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@" +
             "(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+    public static final String EMAIL_ADDRESS = "noreplycsci3130@gmail.com";
+    public static final String SENDER_PASSWORD = "Joben@1999";
+    public static final String CHECK_OUT_DETAILS = "posted a job that is matching your preference. Please login to check out details";
+    public static final String THE_FOLLOWING_EMPLOYER = " the following Employer";
+    public static final String HI = "Hi ";
+    public static final String JOHN_EMAIL_ADDRESS = "john@smith.ca";
 
     private Constants() {
     }
+
 }

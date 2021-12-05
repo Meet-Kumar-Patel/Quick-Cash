@@ -1,8 +1,13 @@
 package com.example.quickcash.UserManagement;
 
+import com.example.quickcash.JobPosting.IJobPosting;
+import com.example.quickcash.JobPosting.Observer;
+import com.example.quickcash.common.Constants;
+
+import java.util.ArrayList;
 import java.util.UUID;
 
-public class Preference implements IPreference {
+public class Preference extends Observer implements IPreference{
     private String preferenceId;
     private int jobType;
     private int duration;
@@ -37,6 +42,18 @@ public class Preference implements IPreference {
 
     public String getEmployeeEmail() {
         return employeeEmail;
+    }
+
+    @Override
+    public void notifyUsersWithPreferredJobs(IJobPosting jobPosting, ArrayList<IPreference> preferences) {
+        for (IPreference pref : preferences) {
+            if (pref.getJobType() == jobPosting.getJobType() && pref.getWage() >= jobPosting.getWage() && pref.getDuration() >= jobPosting.getDuration()) {
+                EmailNotification emailNotification = new EmailNotification();
+                String employeeEmail = pref.getEmployeeEmail();
+                emailNotification.sendEmailNotification(Constants.EMAIL_ADDRESS, employeeEmail, Constants.SENDER_PASSWORD, Constants.HI +pref.getEmployeeName()+ Constants.THE_FOLLOWING_EMPLOYER +jobPosting.getCreatedByName() + Constants.CHECK_OUT_DETAILS);
+
+            }
+        }
     }
 
     public int getDuration() {
