@@ -26,17 +26,17 @@ public class JobPostingActivityJUnitTest {
     }
     @Test
     public void CheckIfGetJobTitleReturns() {
-        Assert.assertEquals(jobPostingActivityMock.getJobTitle(), "Repairing Computer");
+        Assert.assertEquals("Repairing Computer", jobPostingActivityMock.getJobTitle());
     }
 
     @Test
     public void CheckIfGetDurationReturns() {
-        Assert.assertEquals(jobPostingActivityMock.getDuration(), 2);
+        Assert.assertEquals(2, jobPostingActivityMock.getDuration());
     }
 
     @Test
     public void CheckIfGetLocationReturns() {
-        Assert.assertEquals(jobPostingActivityMock.getLocation(), "Halifax");
+        Assert.assertEquals("Halifax", jobPostingActivityMock.getLocation());
     }
 
 }

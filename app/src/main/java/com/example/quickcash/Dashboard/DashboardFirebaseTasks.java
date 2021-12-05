@@ -17,7 +17,13 @@ public class DashboardFirebaseTasks {
 
     FirebaseDatabase db = FirebaseDatabase.getInstance(Constants.FIREBASE_URL);
 
-    public void getDashboardJobs(EmployeeDashboardActivity employeeDashboardActivity, String email) {
+    /**
+     * Gets from Firebase the jobs that the employee has applied to.
+     * @param employeeDashboardActivity
+     * @param email, employee email
+     */
+    public void getDashboardJobs(EmployeeDashboardActivity employeeDashboardActivity,
+                                 String email) {
         DatabaseReference jobPostingReference = db.getReference(JobPosting.class.getSimpleName());
         jobPostingReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -28,8 +34,11 @@ public class DashboardFirebaseTasks {
                         employeeDashboardActivity.addJobToArray(jp);
                     }
                 }
-                employeeDashboardActivity.setAdapter(new TaskListRecyclerAdapter(employeeDashboardActivity, employeeDashboardActivity.getJobsAppliedForArray()));
+                employeeDashboardActivity.setAdapter(new TaskListRecyclerAdapter(
+                        employeeDashboardActivity,
+                        employeeDashboardActivity.getJobsAppliedForArray()));
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.println(Log.WARN, Constants.TAG_ERROR_FIREBASE, error.toString());
@@ -37,6 +46,11 @@ public class DashboardFirebaseTasks {
         });
     }
 
+    /**
+     * Gets from Firebase the jobs created by the current employer
+     * @param employerDashboardActivity
+     * @param email, employer email
+     */
     public void getDashboardJobs(EmployerDashboardActivity employerDashboardActivity, String email) {
         DatabaseReference jobPostingReference = db.getReference(JobPosting.class.getSimpleName());
         jobPostingReference.addValueEventListener(new ValueEventListener() {
@@ -50,6 +64,7 @@ public class DashboardFirebaseTasks {
                 }
                 employerDashboardActivity.setAdapter(new TaskListRecyclerAdapter(employerDashboardActivity, employerDashboardActivity.getJobsCreatedArray()));
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.println(Log.WARN, Constants.TAG_ERROR_FIREBASE, error.toString());

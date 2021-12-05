@@ -40,6 +40,9 @@ public class EmployeeDashboardActivity extends AppCompatActivity {
         initializeButtons();
     }
 
+    /**
+     * Initializes the buttons
+     */
     private void initializeButtons() {
         Button resetButton = findViewById(R.id.resetbutton);
         resetButton.setOnClickListener(view -> {

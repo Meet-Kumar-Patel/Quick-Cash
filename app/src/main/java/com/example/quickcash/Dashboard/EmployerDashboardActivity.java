@@ -53,6 +53,9 @@ public class EmployerDashboardActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Initializes the filter for jobs
+     */
     private void initializeJobSearchView() {
         jobSearchView = findViewById(R.id.jobsearch);
         jobSearchView.setImeOptions(EditorInfo.IME_ACTION_DONE);

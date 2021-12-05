@@ -44,7 +44,7 @@ public class ViewRatingActivity extends AppCompatActivity {
         String page = intent.getStringExtra("page");
         SessionManager sessionManager = new SessionManager(getApplicationContext());
         String senderEmail = sessionManager.getKeyEmail();
-        retrieveDataFromFirebase(receiverEmail, senderEmail, jobPostingID);
+        retrieveDataFromFirebase(receiverEmail);
         initializeBackButton(jobPostingID, page);
     }
 
@@ -53,16 +53,18 @@ public class ViewRatingActivity extends AppCompatActivity {
         backButton.setOnClickListener(view -> {
             Intent jobDetailsIntent;
             if (page.equals("acceptDecline")) {
-                jobDetailsIntent = new Intent(ViewRatingActivity.this, AcceptDeclineTasks.class);
+                jobDetailsIntent = new Intent(ViewRatingActivity.this,
+                        AcceptDeclineTasks.class);
             } else {
-                jobDetailsIntent = new Intent(ViewRatingActivity.this, JobPostingDetailsActivity.class);
+                jobDetailsIntent = new Intent(ViewRatingActivity.this,
+                        JobPostingDetailsActivity.class);
                 jobDetailsIntent.putExtra(JobPostingActivity.EXTRA_MESSAGE, jobPostingID);
             }
             startActivity(jobDetailsIntent);
         });
     }
 
-    protected void retrieveDataFromFirebase(String receiverEmail, String senderEmail, String jobID) {
+    protected void retrieveDataFromFirebase(String receiverEmail) {
         DatabaseReference jpDatabase = FirebaseDatabase.getInstance(Constants.FIREBASE_URL)
                 .getReference(Rating.class.getSimpleName());
         jpDatabase.addValueEventListener(new ValueEventListener() {
@@ -71,7 +73,7 @@ public class ViewRatingActivity extends AppCompatActivity {
                 // When the data is received, verify the user credential
                 if (dataSnapshot.exists()) {
                     try {
-                        getRatingByID(dataSnapshot, receiverEmail, senderEmail, jobID);
+                        getRatingByID(dataSnapshot, receiverEmail);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -85,10 +87,11 @@ public class ViewRatingActivity extends AppCompatActivity {
         });
     }
 
-    protected Rating getRatingByID(DataSnapshot dataSnapshot, String receiverEmail, String senderEmail, String jobID) {
+    protected Rating getRatingByID(DataSnapshot dataSnapshot, String receiverEmail) {
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
             Rating ratingInFirebase = snapshot.getValue(Rating.class);
-            boolean receiverEmailMatches = ratingInFirebase.getReceiverUserEmail().equals(receiverEmail);
+            boolean receiverEmailMatches = ratingInFirebase.getReceiverUserEmail()
+                    .equals(receiverEmail);
             if (receiverEmailMatches) {
                 ratingSum += ratingInFirebase.getRatingValue();
                 numRatings++;

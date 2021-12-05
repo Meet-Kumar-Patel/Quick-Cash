@@ -54,7 +54,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class JobPostingActivity extends AppCompatActivity implements OnMapReadyCallback, AdapterView.OnItemSelectedListener {
+public class JobPostingActivity extends AppCompatActivity implements OnMapReadyCallback,
+        AdapterView.OnItemSelectedListener {
     public static final String EXTRA_MESSAGE = Constants.STRING_INTENT_KEY;
     // all the instance variables for the method.
     private static final float DEFAULT_ZOOM = 15f;
@@ -88,9 +89,8 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
 
     /**
      * This method initializes the buttons, calls methods to retrieve data from firebase
-     * and
      */
-    private void remainingStuff() {
+    private void initializeLayout() {
         Log.d(TAG, "cityName in remaining stuff:" + cityName);
         locationStr = cityName;
         location = findViewById(R.id.etLocation);
@@ -108,8 +108,12 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
         createJP.setOnClickListener(view -> createNewPosting());
     }
 
+    /**
+     * Populates the preferences list with all the available preferences.
+     */
     private void retrieveAllPreferencesFromFirebase() {
-        DatabaseReference preferenceReference = FirebaseDatabase.getInstance(Constants.FIREBASE_URL).getReference("Preference");
+        DatabaseReference preferenceReference = FirebaseDatabase.getInstance(Constants.FIREBASE_URL)
+                .getReference("Preference");
         preferenceReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -121,31 +125,44 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Log.e(Constants.TAG_ERROR_FIREBASE, error.toString());
             }
         });
     }
 
-    // Maps Stuff
+    /**
+     * Requests the location permission
+     */
     private void getLocationPermission() {
         Log.d(TAG, "getLocationPermission : starts");
         String[] permissions = {FINE_LOCATION, COURSE_LOCATION};
         // to check if the application has permission to access the fine Location
-        if (ContextCompat.checkSelfPermission(this.getApplicationContext(), FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(), FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED) {
             // to check if the application has permission to access the fine Location
-            if (ContextCompat.checkSelfPermission(this.getApplicationContext(), COURSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(this.getApplicationContext(), COURSE_LOCATION) ==
+                    PackageManager.PERMISSION_GRANTED) {
                 mLocationPermissionGranted = true;
                 initMap();
             } else {
-                ActivityCompat.requestPermissions(this, permissions, LOCATION_PERMISSION_REQUEST_CODE);
+                ActivityCompat.requestPermissions(this, permissions,
+                        LOCATION_PERMISSION_REQUEST_CODE);
             }
         } else {
-            ActivityCompat.requestPermissions(this, permissions, LOCATION_PERMISSION_REQUEST_CODE);
+            ActivityCompat.requestPermissions(this, permissions,
+                    LOCATION_PERMISSION_REQUEST_CODE);
         }
     }
 
+    /**
+     * Starts the location permission if the location permission is granted.
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         mLocationPermissionGranted = false;
         switch (requestCode) {
@@ -165,14 +182,21 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
         }
     }
 
+    /**
+     * Starts the map fragment
+     */
     private void initMap() {
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        // getting a asynchrounous call to the map fragment.
+        // getting a asynchronous call to the map fragment.
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
     }
 
+    /**
+     *
+     * @param googleMap
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -180,7 +204,11 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
         // check if the map location permission is granted or not.
         if (mLocationPermissionGranted) {
             getDeviceLocation();
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                    PackageManager.PERMISSION_GRANTED) {
                 return;
             }
             mMap.setMyLocationEnabled(true);
@@ -188,6 +216,9 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
         }
     }
 
+    /**
+     * Gets the location and initializes the layout.
+     */
     public void getDeviceLocation() {
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -205,22 +236,25 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
                         if (currentLocation != null) {
                             try {
                                 // to get call the method to get the current address of the user.
-                                getAddress(currentLocation.getLatitude(), currentLocation.getLongitude());
+                                getAddress(currentLocation.getLatitude(),
+                                        currentLocation.getLongitude());
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
                             // move the camera to the user's location.
-                            moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
+                            moveCamera(new LatLng(currentLocation.getLatitude(),
+                                            currentLocation.getLongitude()),
                                     DEFAULT_ZOOM, "current location");
 
                             // call the other implementation once the city name has been retrieved.
-                            remainingStuff();
+                            initializeLayout();
                         } else
                             Log.d(TAG, "getDeviceLocation: Current location is null");
                     } else {
                         // to show a toast message if the user's location is null.
                         Log.d(TAG, "getDeviceLocation: Current location is null");
-                        Toast.makeText(JobPostingActivity.this, "Unable to get curent location", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(JobPostingActivity.this,
+                                "Unable to get current location", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -266,7 +300,6 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // When the data is received, verify the user credential
                 if (dataSnapshot.exists()) {
-
                     try {
                         getAllTitles(dataSnapshot);
                     } catch (Exception e) {
@@ -283,6 +316,11 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
         });
     }
 
+    /**
+     * Gets a list of titles, to make sure that the title is unique
+     * @param dataSnapshot
+     * @return
+     */
     protected User getAllTitles(DataSnapshot dataSnapshot) {
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
             // get all the titles
@@ -321,6 +359,10 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
         return location.getText().toString().trim();
     }
 
+    /**
+     * Fills the location in the layout from the intent
+     * @param intent
+     */
     private void setLocation(Intent intent) {
         locationStr = intent.getStringExtra(Constants.STRING_INTENT_KEY);
         location = findViewById(R.id.etLocation);
@@ -334,11 +376,17 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
         return Integer.parseInt(wageString.trim());
     }
 
+    /**
+     * Returns to employer homepage
+     */
     protected void returnToHomePage() {
         Intent intent = new Intent(this, EmployerHomeActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Gets the input fromt he layout and verifies the fields.
+     */
     protected void createNewPosting() {
         location = findViewById(R.id.etLocation);
         String jobTitleStr = getJobTitle();
@@ -348,6 +396,13 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
         verifyJobPostingIsValid(jobTitleStr, durationInt, wageInt);
     }
 
+    /**
+     * If the user input are valid, it notifies the preferred users using
+     * the observer and calla createJobPosting. Else it displays an error message.
+     * @param jobTitleStr
+     * @param durationInt
+     * @param wageInt
+     */
     private void verifyJobPostingIsValid(String jobTitleStr, int durationInt, int wageInt) {
         if (jobTitleStr == null || jobTitleStr.isEmpty()) {
             setStatusMessage("Job title is required.");
@@ -370,6 +425,13 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
         }
     }
 
+    /**
+     * Adds the job posting to the database
+     * @param jobTitleStr
+     * @param durationInt
+     * @param wageInt
+     * @return
+     */
     @NonNull
     private JobPosting createJobPosting(String jobTitleStr, int durationInt, int wageInt) {
         SessionManager sessionManager = new SessionManager(getApplicationContext());

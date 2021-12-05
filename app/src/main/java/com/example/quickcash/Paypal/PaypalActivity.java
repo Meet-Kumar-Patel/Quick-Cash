@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -61,24 +62,12 @@ public class PaypalActivity extends AppCompatActivity {
                 .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
                 .clientId(Config.PAYPAL_CLIENT_ID);
 
-        btnGoBack = findViewById(R.id.btnGoBack);
-        btnGoBack.setOnClickListener(view -> {
-            navigateToAcceptDeclinePage();
-        });
-
         Intent intent = getIntent();
 
         String jobID = intent.getStringExtra("jobID");
         username = intent.getStringExtra("userName");
-
-        btnPayNow = findViewById(R.id.btnPayNow);
-        btnGoBack = findViewById(R.id.btnGoBack);
-        txtName = findViewById(R.id.txtNameValue);
-        txtDuration = findViewById(R.id.txtDurationValue);
-        txtTotal = findViewById(R.id.txtTotalValue);
-        txtWage = findViewById(R.id.txtWageValue);
-        txtError = findViewById(R.id.invoiceErrorMessage);
-
+        findLayouts();
+        btnGoBack.setOnClickListener(view -> navigateToAcceptDeclinePage());
         retrieveDataFromFirebase(jobID);
         retrieveInvoicesFromFirebase();
 
@@ -87,13 +76,29 @@ public class PaypalActivity extends AppCompatActivity {
         btnPayNow.setOnClickListener(v -> processPayment());
     }
 
+    private void findLayouts() {
+        btnPayNow = findViewById(R.id.btnPayNow);
+        btnGoBack = findViewById(R.id.btnGoBack);
+        txtName = findViewById(R.id.txtNameValue);
+        txtDuration = findViewById(R.id.txtDurationValue);
+        txtTotal = findViewById(R.id.txtTotalValue);
+        txtWage = findViewById(R.id.txtWageValue);
+        txtError = findViewById(R.id.invoiceErrorMessage);
+        btnGoBack = findViewById(R.id.btnGoBack);
+    }
+
     protected void navigateToAcceptDeclinePage() {
         Intent navToAcceptDecline = new Intent(this, AcceptDeclineTasks.class);
         startActivity(navToAcceptDecline);
     }
 
+    /**
+     * Gets the job posting from the database.
+     * @param id, id of the job posting
+     */
     protected void retrieveDataFromFirebase(String id) {
-        DatabaseReference jpDatabase = FirebaseDatabase.getInstance(Constants.FIREBASE_URL).getReference(JobPosting.class.getSimpleName());
+        DatabaseReference jpDatabase = FirebaseDatabase.getInstance(Constants.FIREBASE_URL)
+                .getReference(JobPosting.class.getSimpleName());
         jpDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -115,6 +120,12 @@ public class PaypalActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Returns the job posting with the given id
+     * @param dataSnapshot
+     * @param id
+     * @return
+     */
     protected JobPosting getJPbyID(DataSnapshot dataSnapshot, String id) {
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
             JobPosting jobPosting = snapshot.getValue(JobPosting.class);
@@ -136,16 +147,21 @@ public class PaypalActivity extends AppCompatActivity {
         txtTotal.setText(amount);
     }
 
+    /**
+     * Initializes the paypal activity
+     */
     private void initializeActivityLauncher() {
         // Initialize result launcher
-        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        activityResultLauncher = registerForActivityResult(new ActivityResultContracts
+                .StartActivityForResult(), result -> {
             if (result.getResultCode() == RESULT_OK) {
-                PaymentConfirmation confirmation = result.getData().getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
+                PaymentConfirmation confirmation = result.getData().getParcelableExtra(
+                        PaymentActivity.EXTRA_RESULT_CONFIRMATION);
                 if (confirmation != null) {
                     try {
                         // Getting the payment details
                         String paymentDetails = confirmation.toJSONObject().toString(4);
-                        // on below line we are extracting json response and displaying it in a text view.
+                        // We are extracting json response and displaying it in a text view.
                         JSONObject payObj = new JSONObject(paymentDetails);
                         String payID = payObj.getJSONObject("response").getString("id");
                         String state = payObj.getJSONObject("response").getString("state");
@@ -156,7 +172,7 @@ public class PaypalActivity extends AppCompatActivity {
                     }
                 }
 
-                //Toast.makeText(this, "Cancel", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Cancel", Toast.LENGTH_SHORT).show();
             } else if (result.getResultCode() == PaymentActivity.RESULT_EXTRAS_INVALID) {
                 Log.d(TAG, "Launcher Result Invalid");
             } else if (result.getResultCode() == Activity.RESULT_CANCELED) {
@@ -190,6 +206,11 @@ public class PaypalActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Returns true that if there is an invoice already made => payment can not be made
+     * @param jobPostingId
+     * @return
+     */
     protected boolean paymentMade(String jobPostingId) {
         for (int i = 0; i < lstInvoices.size(); i++) {
             Invoice invoiceItem = lstInvoices.get(i);
@@ -198,6 +219,9 @@ public class PaypalActivity extends AppCompatActivity {
         return false;
     }
 
+    /**
+     * Gets all the invoices from firebase
+     */
     protected void retrieveInvoicesFromFirebase() {
         DatabaseReference invoiceReference = FirebaseDatabase.getInstance(Constants.FIREBASE_URL).getReference(Invoice.class.getSimpleName());
         invoiceReference.addValueEventListener(new ValueEventListener() {

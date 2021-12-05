@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JobPostingDetailsActivity extends AppCompatActivity {
+    public static final String APPLY_NOW = "Apply Now";
     private TextView jobTitle;
     private TextView jobType;
     private TextView duration;
@@ -45,7 +46,6 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
     private String snapshotKey;
     private String employerEmail = "";
     private IUser user;
-    private final boolean dashboardJob = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +58,11 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         userEmail = sessionManager.getKeyEmail();
         ISessionManagerFirebaseUser sessionManagerFirebaseUser = sessionManager.getSessionManagerFirebaseUser();
         user = sessionManagerFirebaseUser.getLoggedInUser();
-        //access the intents & show the welcome message
+        // Access the intents & show the welcome message
         Intent intent = getIntent();
-        //Received location from map and show to the user
+        // Received location from map and show to the user
         String jobID = intent.getStringExtra(JobPostingActivity.EXTRA_MESSAGE);
-        // get the JP
+        // Get the JP
         retrieveDataFromFirebase(jobID);
         initializeButtons();
     }
@@ -109,6 +109,12 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Finds the job posting with the given id
+     * @param dataSnapshot
+     * @param id
+     * @return Job posting with the given email
+     */
     protected JobPosting getJPbyID(DataSnapshot dataSnapshot, String id) {
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
             JobPosting jobPosting = snapshot.getValue(JobPosting.class);
@@ -129,6 +135,10 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         // Set values
         fillLayouts(jobPosting);
         // if the employer accesses the app then he will not see the btn
+        manageButtons(jobPosting);
+    }
+
+    private void manageButtons(JobPosting jobPosting) {
         if (jobPosting.getCreatedBy().equals(userEmail)) {
             restrictEmployerActions();
         } else {
@@ -138,7 +148,7 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
 
     public void showCorrectStatusBtn(JobPosting jobPosting) {
         // If the user has already applied to the job => show applied.
-        btnApply.setText("Apply Now");
+        btnApply.setText(APPLY_NOW);
         btnApply.setClickable(true);
         if (!jobPosting.getLstAppliedBy().isEmpty()) {
             checkStatusOfApplicant(jobPosting);
@@ -219,6 +229,10 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         startActivity(rateIntent);
     }
 
+    /**
+     * Ensures the user access the correct rating activity.
+     * @return the correct rate intent
+     */
     @NonNull
     private Intent chooseIntent() {
         Intent rateIntent;
@@ -255,6 +269,9 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * Updates the job posting and sets completed to true.
+     */
     protected void markCompleted() {
         jobPostingOBJ.setTaskComplete(true);
         changeCompletedStatus(jobPostingOBJ);
@@ -263,15 +280,19 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         // to notify the employer when the employee marks the task as completed.
         EmailNotification emailNotification = new EmailNotification();
         employerEmail = jobPostingOBJ.getCreatedBy();
-        // sender email will be the noreply email
+        // sender email will be the no reply email
         // the recipients email would be the employer email.
-        emailNotification.sendEmailNotification("noreplycsci3130@gmail.com",
-                employerEmail,  "Joben@1999",
-                "Hi " + jobPostingOBJ.getCreatedByName() + "," +
+        emailNotification.sendEmailNotification(Constants.EMAIL_ADDRESS,
+                employerEmail,  Constants.SENDER_PASSWORD,
+                Constants.HI + jobPostingOBJ.getCreatedByName() + "," +
                         " an employee completed the assigned task for your posted job posting." +
                         " Please login to check out details");
     }
 
+    /**
+     * Adds the applicant to the database
+     * @param userEmail, new applicant
+     */
     protected void addApplicant(String userEmail) {
         List<String> lstAppliedBy = addApplicantToLstAppliedBy(userEmail);
         jobPostingOBJ.setLstAppliedBy(lstAppliedBy);
@@ -282,13 +303,22 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         // notify employer when the employee applies.
         EmailNotification emailNotification = new EmailNotification();
         employerEmail = jobPostingOBJ.getCreatedBy();
-        // sender email will be the noreply email
-        // the receipitent email would be the employer email.
-        emailNotification.sendEmailNotification("noreplycsci3130@gmail.com", employerEmail, "Joben@1999", "Hi " + jobPostingOBJ.getCreatedByName() + ", an employee applied for your posted job posting. Please login to check out details");
+        // sender email will be the no reply email
+        // the recipient email would be the employer email.
+        emailNotification.sendEmailNotification(Constants.EMAIL_ADDRESS,
+                employerEmail, Constants.SENDER_PASSWORD, Constants.HI+
+                        jobPostingOBJ.getCreatedByName() +
+                        ", an employee applied for your posted job posting. " +
+                        "Please login to check out details");
         // Change btn text
         btnApply.setText("Applied");
     }
 
+    /**
+     * Adds the applicant to the lst applicant
+     * @param userEmail
+     * @return
+     */
     @NonNull
     private List<String> addApplicantToLstAppliedBy(String userEmail) {
         List<String> lstAppliedBy = jobPostingOBJ.getLstAppliedBy();

@@ -51,12 +51,12 @@ public class JobPostingDetailsActivityJUnitTest {
 
     @Test
     public void CheckIfCovertJPTypeReturnCorrectString() {
-        Assert.assertEquals(jobPostingDetailsActivity.convertJPType(0), "Repairing Computer");
-        Assert.assertEquals(jobPostingDetailsActivity.convertJPType(1), "Mowing The Lawn");
-        Assert.assertEquals(jobPostingDetailsActivity.convertJPType(2), "Design Website");
-        Assert.assertEquals(jobPostingDetailsActivity.convertJPType(3), "Walking A Dog");
-        Assert.assertEquals(jobPostingDetailsActivity.convertJPType(4), "Hourly Babysitting");
-        Assert.assertEquals(jobPostingDetailsActivity.convertJPType(5), "Picking Up Grocery");
+        Assert.assertEquals("Repairing Computer", jobPostingDetailsActivity.convertJPType(0));
+        Assert.assertEquals("Mowing The Lawn", jobPostingDetailsActivity.convertJPType(1));
+        Assert.assertEquals("Design Website", jobPostingDetailsActivity.convertJPType(2));
+        Assert.assertEquals("Walking A Dog", jobPostingDetailsActivity.convertJPType(3));
+        Assert.assertEquals("Hourly Babysitting", jobPostingDetailsActivity.convertJPType(4));
+        Assert.assertEquals("Picking Up Grocery", jobPostingDetailsActivity.convertJPType(5));
     }
 
 

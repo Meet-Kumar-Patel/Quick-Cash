@@ -80,6 +80,11 @@ public class GiveRatingsActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Add rating from firebase
+     * @param rating
+     * @param jobPostingID
+     */
     protected void addRatingToFirebase(Rating rating, String jobPostingID) {
         DatabaseReference ratingsReference = FirebaseDatabase.getInstance(Constants.FIREBASE_URL)
                 .getReference(Rating.class.getSimpleName());
@@ -108,6 +113,11 @@ public class GiveRatingsActivity extends AppCompatActivity {
         ratingsReference.addListenerForSingleValueEvent(addRatingEventListener);
     }
 
+    /**
+     * Sets the rating message
+     * @param rating
+     * @param daoRating
+     */
     private void setRating(Rating rating, DAORating daoRating) {
         if (rating.getSenderUserEmail().equals(senderEmail)) {
             setStatus("Error: You have already sent a rating for this job.");
@@ -117,6 +127,13 @@ public class GiveRatingsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Ensures that for each job posting only one rating per employee and employer is send.
+     * @param jobPostingIDFound
+     * @param adSnapShot
+     * @param jobPostingID
+     * @return
+     */
     private boolean isJobPostingIDFound(boolean jobPostingIDFound, DataSnapshot adSnapShot, String jobPostingID) {
         Rating firebaseRating = adSnapShot.getValue(Rating.class);
         if (firebaseRating.getJobPostingID().equals(jobPostingID)) {
