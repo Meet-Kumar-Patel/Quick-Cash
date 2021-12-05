@@ -14,7 +14,15 @@ public class Preference extends Observer implements IPreference{
     private int wage;
     private String employeeName;
     private String employeeEmail;
-
+    /**
+     * Preference
+     * @param employeeEmail
+     * @param type
+     * @param duration
+     * @param wage
+     * @param employeeName
+     * @return
+     */
     public Preference(String employeeEmail, int type, int duration, int wage,
                       String employeeName) {
         this.preferenceId = UUID.randomUUID().toString();
@@ -27,23 +35,39 @@ public class Preference extends Observer implements IPreference{
 
     public Preference() {
     }
-
+    /**
+     * getPreferenceId return the preferenceId
+     *
+     * @return preferenceId
+     */
     public String getPreferenceId() {
         return preferenceId;
     }
-
+    /**
+     * setPreferenceId set the preferenceId
+     * @param preferenceId
+     * @return
+     */
     public void setPreferenceId(String preferenceId) {
         this.preferenceId = preferenceId;
     }
-
+    /**
+     * getEmployeeName return the employeeName
+     * @return employeeName
+     */
     public String getEmployeeName() {
         return employeeName;
     }
-
+    /**
+     * getEmployeeEmail return the employeeEmail
+     * @return employeeEmail
+     */
     public String getEmployeeEmail() {
         return employeeEmail;
     }
-
+    /**
+     * sending notification to email of users
+     */
     @Override
     public void notifyUsersWithPreferredJobs(IJobPosting jobPosting, ArrayList<IPreference> preferences) {
         for (IPreference pref : preferences) {
@@ -62,27 +86,48 @@ public class Preference extends Observer implements IPreference{
             }
         }
     }
-
+    /**
+     * getDuration return the duration
+     * @return duration
+     */
     public int getDuration() {
         return duration;
     }
-
+    /**
+     * setDuration set the duration
+     *  @param duration
+     * @return
+     */
     public void setDuration(int duration) {
         this.duration = duration;
     }
-
+    /**
+     * getWage return the wage
+     * @return wage
+     */
     public int getWage() {
         return wage;
     }
-
+    /**
+     * setWage set the wage
+     * @param wage
+     * @return
+     */
     public void setWage(int wage) {
         this.wage = wage;
     }
-
+    /**
+     * getJobType return the jobType
+     * @return jobType
+     */
     public int getJobType() {
         return jobType;
     }
-
+    /**
+     * setJobType set the jobType
+     * @param jobType
+     * @return
+     */
     public void setJobType(int jobType) {
         this.jobType = jobType;
     }

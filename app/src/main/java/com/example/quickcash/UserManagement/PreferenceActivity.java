@@ -56,7 +56,9 @@ public class PreferenceActivity extends AppCompatActivity implements
         duration = findViewById(R.id.editTextDuration);
         wage = findViewById(R.id.editWage);
     }
-
+    /**
+     * adding jobs to the spinner of the screen
+     */
     // ref : https://stackoverflow.com/questions/2505207/how-to-add-item-to-spinners-arrayadapter
     // and https://developer.android.com/guide/topics/resources/string-resource
     protected void addJobsToSpinner() {
@@ -68,13 +70,17 @@ public class PreferenceActivity extends AppCompatActivity implements
         jobType.setAdapter(arrayAdapter);
     }
 
-
+    /**
+     * @return the duration of job as inputted
+     */
     protected int getDuration() {
         duration = findViewById(R.id.editTextDuration);
         return Integer.parseInt(duration.getText().toString().trim());
     }
 
-
+    /**
+     * @return the wage of job as inputted
+     */
     protected int getWage() {
         wage = findViewById(R.id.editWage);
         return Integer.parseInt(wage.getText().toString().trim());
@@ -87,21 +93,29 @@ public class PreferenceActivity extends AppCompatActivity implements
                 getIntentInstance(this, EmployeeHomeActivity.class);
         startActivity(intent);
     }
-
+    /**
+     * @return if the duration is empty or not
+     */
     public boolean isEmptyDuration(String duration) {
         return duration.length() <= 0;
     }
-
+    /**
+     * @return if the wage empty of not
+     */
 
     public boolean isEmptyWage(String wage) {
         return wage.length() <= 0;
     }
 
-
+    /**
+     * @return if the duration if less than one or not
+     */
     public boolean isDurationLessThanOne(int duration) {
         return duration < 1;
     }
-
+    /**
+     * @return if the wage if less than 15 or not
+     */
 
     public boolean isWageLessThan15(int wage) {
         return wage < 15;

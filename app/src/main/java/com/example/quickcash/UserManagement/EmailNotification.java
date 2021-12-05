@@ -22,10 +22,12 @@ public class EmailNotification extends AppCompatActivity {
 
     }
 
+    // source for the sendEmailNotification https://www.youtube.com/watch?v=roruU4hVwXA
     public void sendEmailNotification(String senderEmailAddress, String recipientEmailAddress, String senderPassword, String senderMessage) {
         final String username = senderEmailAddress;
         final String password = senderPassword;
         String messageToSend = "The notification has been send to you";
+        // defining properties for the email transfer
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
@@ -40,9 +42,12 @@ public class EmailNotification extends AppCompatActivity {
 
         try {
             Message message = new MimeMessage(session);
+            //setting the sender email adress
             message.setFrom(new InternetAddress(username));
+            //setting the recipieter email address
             message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(recipientEmailAddress));
             message.setSubject("QuickCash Notification");
+            // setting the email message
             message.setText(senderMessage);
             Transport.send(message);
         } catch (MessagingException e) {
