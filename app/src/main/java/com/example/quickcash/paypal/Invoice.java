@@ -2,12 +2,20 @@ package com.example.quickcash.paypal;
 
 import java.util.UUID;
 
+/**
+ * Invoice object which contains the billing information for paypal.
+ */
 public class Invoice {
 
     private final String invoiceID;
     private String jobID;
     private String totalPayment;
 
+    /**
+     * Invoice constructor.
+     * @param jobID
+     * @param totalPayment
+     */
     protected Invoice(String jobID, String totalPayment) {
         this.invoiceID = UUID.randomUUID().toString();
         this.jobID = jobID;

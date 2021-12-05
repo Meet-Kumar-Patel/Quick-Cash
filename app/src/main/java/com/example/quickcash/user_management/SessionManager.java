@@ -36,7 +36,7 @@ public class SessionManager implements ISessionManager {
     @SuppressLint("CommitPrefEdits")
     public SessionManager(Context context) {
         this.context = context;
-        pref = this.context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+        pref = this.context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         editor = pref.edit();
     }
 

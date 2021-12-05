@@ -15,10 +15,10 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.quickcash.accept_decline_tasks.AcceptDeclineTasks;
-import com.example.quickcash.job_posting.JobPosting;
 import com.example.quickcash.R;
+import com.example.quickcash.accept_decline_tasks.AcceptDeclineTasks;
 import com.example.quickcash.common.Constants;
+import com.example.quickcash.job_posting.JobPosting;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,6 +36,9 @@ import org.json.JSONObject;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+/**
+ * Displays the invoice to the user, and allows them to pay via paypal.
+ */
 public class PaypalActivity extends AppCompatActivity {
 
     private static final int PAYPAL_REQUEST_CODE = 555;
@@ -53,7 +56,11 @@ public class PaypalActivity extends AppCompatActivity {
     TextView txtError;
     String amount = "";
 
-
+    /**
+     * Creates and initializes the paypal page.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +94,9 @@ public class PaypalActivity extends AppCompatActivity {
         btnGoBack = findViewById(R.id.btnGoBack);
     }
 
+    /**
+     * Moves to the accept decline page.
+     */
     protected void navigateToAcceptDeclinePage() {
         Intent navToAcceptDecline = new Intent(this, AcceptDeclineTasks.class);
         startActivity(navToAcceptDecline);
@@ -94,6 +104,7 @@ public class PaypalActivity extends AppCompatActivity {
 
     /**
      * Gets the job posting from the database.
+     *
      * @param id, id of the job posting
      */
     protected void retrieveDataFromFirebase(String id) {
@@ -122,6 +133,7 @@ public class PaypalActivity extends AppCompatActivity {
 
     /**
      * Returns the job posting with the given id
+     *
      * @param dataSnapshot
      * @param id
      * @return
@@ -139,6 +151,11 @@ public class PaypalActivity extends AppCompatActivity {
         return null;
     }
 
+    /**
+     * Adds the correct information to each field of the invoice.
+     *
+     * @param jobPosting
+     */
     protected void populateLayout(JobPosting jobPosting) {
         txtName.setText(username);
         txtDuration.setText(String.valueOf(jobPosting.getDuration()));
@@ -208,6 +225,7 @@ public class PaypalActivity extends AppCompatActivity {
 
     /**
      * Returns true that if there is an invoice already made => payment can not be made
+     *
      * @param jobPostingId
      * @return
      */
@@ -244,6 +262,11 @@ public class PaypalActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Adds each of the invoice snapshots to a list of invoices.
+     *
+     * @param dataSnapshot
+     */
     protected void populateLstInvoices(DataSnapshot dataSnapshot) {
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
             Invoice invoice = snapshot.getValue(Invoice.class);
