@@ -9,8 +9,6 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -19,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.quickcash.AcceptDeclineTasks.AcceptDeclineTasks;
 import com.example.quickcash.JobPosting.JobPosting;
 import com.example.quickcash.R;
+import com.example.quickcash.common.Constants;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -94,7 +93,7 @@ public class PaypalActivity extends AppCompatActivity {
     }
 
     protected void retrieveDataFromFirebase(String id) {
-        DatabaseReference jpDatabase = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/").getReference(JobPosting.class.getSimpleName());
+        DatabaseReference jpDatabase = FirebaseDatabase.getInstance(Constants.FIREBASE_URL).getReference(JobPosting.class.getSimpleName());
         jpDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -110,13 +109,13 @@ public class PaypalActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                System.out.println("Could retrieve: " + error.getCode());
+                Log.println(Log.WARN, Constants.TAG_ERROR_FIREBASE, error.toString());
             }
 
         });
     }
 
-    protected JobPosting getJPbyID(DataSnapshot dataSnapshot, String id) throws Exception {
+    protected JobPosting getJPbyID(DataSnapshot dataSnapshot, String id) {
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
             JobPosting jobPosting = snapshot.getValue(JobPosting.class);
             boolean idMatches = jobPosting.getJobPostingId().equals(id);
@@ -139,32 +138,29 @@ public class PaypalActivity extends AppCompatActivity {
 
     private void initializeActivityLauncher() {
         // Initialize result launcher
-        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult result) {
-                if (result.getResultCode() == RESULT_OK) {
-                    PaymentConfirmation confirmation = result.getData().getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
-                    if (confirmation != null) {
-                        try {
-                            // Getting the payment details
-                            String paymentDetails = confirmation.toJSONObject().toString(4);
-                            // on below line we are extracting json response and displaying it in a text view.
-                            JSONObject payObj = new JSONObject(paymentDetails);
-                            String payID = payObj.getJSONObject("response").getString("id");
-                            String state = payObj.getJSONObject("response").getString("state");
-                            txtError.setText("Payment " + state + "\n with payment id is " + payID);
-                        } catch (JSONException e) {
-                            // handling json exception on below line
-                            Log.e("Error", "an extremely unlikely failure occurred: ", e);
-                        }
+        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == RESULT_OK) {
+                PaymentConfirmation confirmation = result.getData().getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
+                if (confirmation != null) {
+                    try {
+                        // Getting the payment details
+                        String paymentDetails = confirmation.toJSONObject().toString(4);
+                        // on below line we are extracting json response and displaying it in a text view.
+                        JSONObject payObj = new JSONObject(paymentDetails);
+                        String payID = payObj.getJSONObject("response").getString("id");
+                        String state = payObj.getJSONObject("response").getString("state");
+                        txtError.setText("Payment " + state + "\n with payment id is " + payID);
+                    } catch (JSONException e) {
+                        // handling json exception on below line
+                        Log.e("Error", "an extremely unlikely failure occurred: ", e);
                     }
-
-                    //Toast.makeText(this, "Cancel", Toast.LENGTH_SHORT).show();
-                } else if (result.getResultCode() == PaymentActivity.RESULT_EXTRAS_INVALID) {
-                    Log.d(TAG, "Launcher Result Invalid");
-                } else if (result.getResultCode() == Activity.RESULT_CANCELED) {
-                    Log.d(TAG, "Launcher Result Cancelled");
                 }
+
+                //Toast.makeText(this, "Cancel", Toast.LENGTH_SHORT).show();
+            } else if (result.getResultCode() == PaymentActivity.RESULT_EXTRAS_INVALID) {
+                Log.d(TAG, "Launcher Result Invalid");
+            } else if (result.getResultCode() == Activity.RESULT_CANCELED) {
+                Log.d(TAG, "Launcher Result Cancelled");
             }
         });
     }
@@ -203,7 +199,7 @@ public class PaypalActivity extends AppCompatActivity {
     }
 
     protected void retrieveInvoicesFromFirebase() {
-        DatabaseReference invoiceReference = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/").getReference(Invoice.class.getSimpleName());
+        DatabaseReference invoiceReference = FirebaseDatabase.getInstance(Constants.FIREBASE_URL).getReference(Invoice.class.getSimpleName());
         invoiceReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -219,7 +215,7 @@ public class PaypalActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                System.out.println("Could retrieve: " + error.getCode());
+                Log.println(Log.WARN, Constants.TAG_ERROR_FIREBASE, error.toString());
             }
         });
     }

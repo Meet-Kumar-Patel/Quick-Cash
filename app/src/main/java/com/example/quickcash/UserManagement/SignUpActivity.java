@@ -404,7 +404,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         //if error message is empty, then create a new intent to move to main activity
         if (errorMessage.equals("")) {
             String type = "";
-            // to find the tyoe of user
+            // to find the type of user
             if (employee.isChecked()) {
                 type = "y";
             } else if (employer.isChecked()) {

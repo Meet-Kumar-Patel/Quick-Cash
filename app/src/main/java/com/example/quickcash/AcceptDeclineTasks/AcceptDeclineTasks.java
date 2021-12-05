@@ -2,7 +2,9 @@ package com.example.quickcash.AcceptDeclineTasks;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.quickcash.Home.EmployerHomeActivity;
 import com.example.quickcash.JobPosting.JobPosting;
 import com.example.quickcash.R;
+import com.example.quickcash.UserManagement.EmailNotification;
 import com.example.quickcash.UserManagement.SessionManager;
 import com.example.quickcash.UserManagement.User;
 
@@ -43,12 +46,14 @@ public class AcceptDeclineTasks extends AppCompatActivity {
         acceptDeclineFirebaseTasks.getJobPostingsFromFirebase(this, employerEmail);
         backToEmployerHomeBtn = findViewById(R.id.backToEmployerHomeBtn);
         backToEmployerHomeBtn.setOnClickListener(view -> backToHome());
+        // For on Create method only.
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
     }
 
     public AcceptDeclineRecyclerAdapter getAdapter() {
         return adapter;
     }
-
     public void setAdapter(AcceptDeclineRecyclerAdapter adapter) {
         this.adapter = adapter;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());

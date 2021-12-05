@@ -17,10 +17,9 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.quickcash.JobPosting.JobPostingActivity;
-import com.example.quickcash.MainActivity;
 import com.example.quickcash.R;
 import com.example.quickcash.TaskList.TaskListActivity;
+import com.example.quickcash.common.Constants;
 import com.example.quickcash.databinding.ActivityMapsBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -32,6 +31,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -52,10 +57,25 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Boolean mLocationPermissionGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     // boolean variable to check whether it is an employee or an employer.
-    private boolean isEmployee = true;
+
+    private String isEmployee;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        SessionManager sessionManager = new SessionManager(getApplicationContext());
+
+        ISessionManagerFirebaseUser sessionManagerFirebaseUser = sessionManager.getSessionManagerFirebaseUser();
+
+        IUser user = sessionManagerFirebaseUser.getLoggedInUser();
+
+        if(user!=null){
+            isEmployee = user.getIsEmployee();
+        }
+        else{
+            Log.d(TAG,"User is null");
+        }
+
 
         super.onCreate(savedInstanceState);
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
@@ -65,56 +85,36 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         // referencing all the buttons in variables.
         Button searchByPreference = (Button) findViewById(R.id.Search_Preference);
         Button searchByManual = (Button) findViewById(R.id.search_Manual);
-        Button createTask = (Button) findViewById(R.id.create_Tasks);
+
+
 
         // to check if is the employee or the employer.
-        if(!isEmployee){
+        if(isEmployee.equals("yes")){
             searchByPreference.setVisibility(View.INVISIBLE);
             searchByManual.setVisibility(View.INVISIBLE);
-            createTask.setVisibility(View.VISIBLE);
-        }
-        else{
-            searchByPreference.setVisibility(View.VISIBLE);
-            searchByManual.setVisibility(View.VISIBLE);
-            createTask.setVisibility(View.INVISIBLE);
+
         }
         // setting up an on click listener for the search by preference button.
-        searchByPreference.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Switching the user to Search By Preference Form.
-                // -- Please change this from MainActivity to the Search By preference form activity.
-                Intent intent = new Intent(getApplicationContext(),TaskListActivity.class);
-                Log.d(TAG,"city name:"+cityName);
-                // --- You need to pass the cityName as a extra attribute to the search preference form.
-                Toast.makeText(MapsActivity.this, cityName, Toast.LENGTH_LONG).show();
-               intent.putExtra("City",cityName);
-               intent.putExtra("Preference", true);
-                startActivity(intent);
-            }
+        searchByPreference.setOnClickListener(view -> {
+            // Switching the user to Search By Preference Form.
+            // -- Please change this from MainActivity to the Search By preference form activity.
+            Intent intent = new Intent(getApplicationContext(),TaskListActivity.class);
+            Log.d(TAG,"city name:"+cityName);
+            // --- You need to pass the cityName as a extra attribute to the search preference form.
+            Toast.makeText(MapsActivity.this, cityName, Toast.LENGTH_LONG).show();
+           intent.putExtra("City",cityName);
+           intent.putExtra("Preference", true);
+            startActivity(intent);
         });
         // setting up an on click listener for the search by manual button.
-        searchByManual.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Switching the user to Search By Manual Form.
-                // -- Please change this from MainActivity to the Search By Manual form activity.
-                Intent intent = new Intent(getApplicationContext(), TaskListActivity.class);
-                Toast.makeText(MapsActivity.this, "", Toast.LENGTH_LONG).show();
-                startActivity(intent);
-            }
+        searchByManual.setOnClickListener(view -> {
+            // Switching the user to Search By Manual Form.
+            // -- Please change this from MainActivity to the Search By Manual form activity.
+            Intent intent = new Intent(getApplicationContext(), TaskListActivity.class);
+            Toast.makeText(MapsActivity.this, "", Toast.LENGTH_LONG).show();
+            startActivity(intent);
         });
-        // setting up an on click listener for the search by create Task button for the employer.
-        createTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Switching the user to Create Task Activity.
-                // -- Please change this from MainActivity to the Create Task activity and comment the Toast.
-                Intent intent = new Intent(getApplicationContext(),JobPostingActivity.class);
-                Toast.makeText(MapsActivity.this, "create Task clicked", Toast.LENGTH_LONG).show();
-                startActivity(intent);
-            }
-        });
+
     }
 
     /**
@@ -212,31 +212,28 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 // to create a task location object by retriving the user's last location.
                 Task location = mFusedLocationProviderClient.getLastLocation();
                 // to add an complete event listener after the user's last location is retrieved.
-                location.addOnCompleteListener(new OnCompleteListener() {
-                    @Override
-                    public void onComplete(@NonNull Task task) {
-                        // to check if the task was successful or not.
-                        if (task.isSuccessful()) {
-                            Location currentLocation = (Location) task.getResult();
-                            // to check if the current location of the user is null or not.
-                            if (currentLocation != null) {
-                                try {
-                                    // to get call the method to get the current address of the user.
-                                    getAddress(currentLocation.getLatitude(),currentLocation.getLongitude());
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                // move the camera to the user's location.
-                                moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
-                                        DEFAULT_ZOOM, "current location");
-                                // just print a null log
-                            } else
-                                Log.d(TAG, "getDeviceLocation: Current location is null");
-                        } else {
-                            // to show a toast message if the user's location is null.
+                location.addOnCompleteListener(task -> {
+                    // to check if the task was successful or not.
+                    if (task.isSuccessful()) {
+                        Location currentLocation = (Location) task.getResult();
+                        // to check if the current location of the user is null or not.
+                        if (currentLocation != null) {
+                            try {
+                                // to get call the method to get the current address of the user.
+                                getAddress(currentLocation.getLatitude(),currentLocation.getLongitude());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            // move the camera to the user's location.
+                            moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
+                                    DEFAULT_ZOOM, "current location");
+                            // just print a null log
+                        } else
                             Log.d(TAG, "getDeviceLocation: Current location is null");
-                            Toast.makeText(MapsActivity.this, "Unable to get curent location", Toast.LENGTH_SHORT).show();
-                        }
+                    } else {
+                        // to show a toast message if the user's location is null.
+                        Log.d(TAG, "getDeviceLocation: Current location is null");
+                        Toast.makeText(MapsActivity.this, "Unable to get current location", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -277,7 +274,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         // getting the exact city name from the address list.
         cityName = addresses.get(0).getAddressLine(0);
         String[] separated = cityName.split(",");
-        cityName = separated[1];
+        cityName = separated[2];
     }
 
     /**
@@ -286,4 +283,74 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void hideSoftKeyboard(){
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
+
+    /**
+     * The method returns the data snapshot from firebase and it calls the method responsible for
+     * checking the credentials.
+     *
+     * @param email    - Email provided by the user.
+     * @param password - Password provided by the user.
+     */
+    private void retrieveDataFromFirebase(String email, String password) {
+
+        //can be refactored.
+        DatabaseReference userReference = FirebaseDatabase.getInstance(Constants.FIREBASE_URL).getReference(User.class.getSimpleName());
+        userReference.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // When the data is received, verify the user credential
+                if (dataSnapshot.exists()) {
+
+                    try {
+                        verifyUserCredentials(dataSnapshot, email, password);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println("Could retrieve: " + error.getCode());
+            }
+
+        });
+    }
+
+    protected User getUserFromDataSnapshot(DataSnapshot dataSnapshot, String email, String password) throws Exception {
+        IUserManagementAbstractFactory userManagementAbstractFactory = UserManagementInjector.
+                getInstance().getUserManagementAbstractFactory();
+        IAESUtils aesUtils = userManagementAbstractFactory.getAESInstance();
+        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+            User user = snapshot.getValue(User.class);
+            boolean emailMatches = user.getEmail().equals(email);
+            boolean passwordMatches =  aesUtils.decrypt(user.getPassword()).equals(password);
+            if (emailMatches && passwordMatches) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    private void verifyUserCredentials(DataSnapshot dataSnapshot, String email, String password) throws Exception {
+        User userWithGivenEmail;
+
+        if (dataSnapshot != null) {
+                       // Find user with the given email and password.
+            userWithGivenEmail = getUserFromDataSnapshot(dataSnapshot, email, password);
+            // If the user if found => switch to the proper homepage.
+            if (userWithGivenEmail != null)
+               {
+                // Creates login session
+                SessionManager sessionManager = new SessionManager(this);
+                sessionManager.createLoginSession(email, password, userWithGivenEmail.getFirstName() + " " + userWithGivenEmail.getLastName());
+                userWithGivenEmail.getIsEmployee().equals("y");
+
+            }
+
+        }
+
+    }
+
 }

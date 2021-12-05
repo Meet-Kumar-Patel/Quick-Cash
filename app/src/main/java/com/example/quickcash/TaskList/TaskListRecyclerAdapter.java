@@ -37,6 +37,8 @@ public class TaskListRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerVi
     }
 
     public TaskListRecyclerAdapter(EmployeeDashboardActivity employeeDashboardActivity, List<JobPosting> jobsAppliedForArray) {
+        this.context = employeeDashboardActivity;
+        this.jobPostingArrayList = (ArrayList<JobPosting>) jobsAppliedForArray;
     }
 
     @NonNull

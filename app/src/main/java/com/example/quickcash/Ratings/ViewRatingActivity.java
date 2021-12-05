@@ -1,11 +1,8 @@
 package com.example.quickcash.Ratings;
 
-import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -24,10 +21,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import android.content.Intent;
 
 public class ViewRatingActivity extends AppCompatActivity {
-    Rating rating = null;
     TextView rating_header = null;
     TextView star_rating_number = null;
     RatingBar ratingBar = null;
@@ -54,19 +49,18 @@ public class ViewRatingActivity extends AppCompatActivity {
         backButton = findViewById(R.id.rating_back_button);
         backButton.setOnClickListener(view -> {
             Intent jobDetailsIntent;
-            if(page.equals("acceptDecline")) {
+            if (page.equals("acceptDecline")) {
                 jobDetailsIntent = new Intent(ViewRatingActivity.this, AcceptDeclineTasks.class);
-            }
-            else {
-                jobDetailsIntent =new Intent(ViewRatingActivity.this, JobPostingDetailsActivity.class);
+            } else {
+                jobDetailsIntent = new Intent(ViewRatingActivity.this, JobPostingDetailsActivity.class);
                 jobDetailsIntent.putExtra(JobPostingActivity.EXTRA_MESSAGE, jobPostingID);
             }
             startActivity(jobDetailsIntent);
         });
     }
 
-    protected void retrieveDataFromFirebase(String receiverEmail, String senderEmail,String jobID) {
-        DatabaseReference jpDatabase = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/").getReference(Rating.class.getSimpleName());
+    protected void retrieveDataFromFirebase(String receiverEmail, String senderEmail, String jobID) {
+        DatabaseReference jpDatabase = FirebaseDatabase.getInstance(Constants.FIREBASE_URL).getReference(Rating.class.getSimpleName());
         jpDatabase.addValueEventListener(new ValueEventListener() {
 
             @Override
@@ -88,14 +82,14 @@ public class ViewRatingActivity extends AppCompatActivity {
         });
     }
 
-    protected Rating getRatingByID(DataSnapshot dataSnapshot, String receiverEmail, String senderEmail, String jobID) throws Exception {
+    protected Rating getRatingByID(DataSnapshot dataSnapshot, String receiverEmail, String senderEmail, String jobID) {
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
             Rating ratingInFirebase = snapshot.getValue(Rating.class);
             boolean receiverEmailMatches = ratingInFirebase.getReceiverUserEmail().equals(receiverEmail);
 
             if (receiverEmailMatches) {
                 ratingSum += ratingInFirebase.getRatingValue();
-                numRatings ++;
+                numRatings++;
             }
         }
         populateLayout(userToRate, numRatings, ratingSum);
@@ -106,17 +100,17 @@ public class ViewRatingActivity extends AppCompatActivity {
         // Find the layout
         findLayout();
         float ratingVal = calculateRating(numReviews, reviewSum);
-        if(numReviews == 0) {
+        if (numReviews == 0) {
             ratingVal = 0;
         }
         // Fill with rating info
-        rating_header.setText( userToRate + "'s Rating");
+        rating_header.setText(userToRate + "'s Rating");
         star_rating_number.setText(ratingVal + "/5");
         ratingBar.setRating(ratingVal);
     }
 
     public float calculateRating(int numReviews, float reviewSum) {
-        return reviewSum/numReviews;
+        return reviewSum / numReviews;
     }
 
     public void findLayout() {
@@ -126,8 +120,6 @@ public class ViewRatingActivity extends AppCompatActivity {
         ratingBar.setClickable(false);
         ratingBar.setEnabled(false);
     }
-
-
 
 
 }
