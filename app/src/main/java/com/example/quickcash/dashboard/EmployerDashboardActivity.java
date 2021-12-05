@@ -20,6 +20,9 @@ import com.example.quickcash.user_management.SessionManager;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Creates an employer dashboard which displays a task list of all the jobs an employer has created.
+ */
 public class EmployerDashboardActivity extends AppCompatActivity {
     TaskListRecyclerAdapter adapter;
     RecyclerView recyclerView;
@@ -27,6 +30,11 @@ public class EmployerDashboardActivity extends AppCompatActivity {
     ArrayList<JobPosting> jobsCreatedArray = new ArrayList<>();
     DashboardFirebaseTasks dashboardFirebaseTasks = new DashboardFirebaseTasks();
 
+    /**
+     *Initializes the EmployerDashboardActivity on creation.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +81,10 @@ public class EmployerDashboardActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Sets the recycler adapter.
+     * @param adapter
+     */
     public void setAdapter(TaskListRecyclerAdapter adapter) {
         this.adapter = adapter;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -81,6 +93,10 @@ public class EmployerDashboardActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
+    /**
+     * Adds a job posting to the complete array of job postings that the employer has created.
+     * @param jobPosting
+     */
     public void addJobToArray(JobPosting jobPosting) {
         jobsCreatedArray.add(jobPosting);
     }

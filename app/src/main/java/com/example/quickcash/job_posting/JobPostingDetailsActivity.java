@@ -11,8 +11,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.quickcash.dashboard.EmployerDashboardActivity;
 import com.example.quickcash.R;
+import com.example.quickcash.common.Constants;
+import com.example.quickcash.dashboard.EmployerDashboardActivity;
 import com.example.quickcash.ratings.GiveRatingsActivity;
 import com.example.quickcash.ratings.ViewRatingActivity;
 import com.example.quickcash.user_management.EmailNotification;
@@ -20,7 +21,6 @@ import com.example.quickcash.user_management.ISessionManagerFirebaseUser;
 import com.example.quickcash.user_management.IUser;
 import com.example.quickcash.user_management.MapsActivity;
 import com.example.quickcash.user_management.SessionManager;
-import com.example.quickcash.common.Constants;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,6 +30,11 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * JobPostingDetails Class
+ * Shows the details of a given job posting when accessed through the tasklist or through
+ * the dashboard.
+ */
 public class JobPostingDetailsActivity extends AppCompatActivity {
     public static final String APPLY_NOW = "Apply Now";
     private TextView jobTitle;
@@ -47,6 +52,12 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
     private String employerEmail = "";
     private IUser user;
 
+    /**
+     * Creates a page containing the details of a job posting, and retrieves intents
+     * from other pages
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,12 +90,16 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         btnTaskCompleted = findViewById(R.id.btnJPDMarkCompleted);
         btnTaskCompleted.setOnClickListener(view -> markCompleted());
         btnTaskCompleted.setVisibility(View.INVISIBLE);
-
         // For on Create method only.
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
     }
 
+    /**
+     * Retrieves the correct job posting from the database.
+     *
+     * @param id
+     */
     protected void retrieveDataFromFirebase(String id) {
         DatabaseReference jpDatabase = FirebaseDatabase.getInstance(Constants.FIREBASE_URL)
                 .getReference(JobPosting.class.getSimpleName());
@@ -93,7 +108,6 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // When the data is received, verify the user credential
                 if (dataSnapshot.exists()) {
-
                     try {
                         getJPbyID(dataSnapshot, id);
                     } catch (Exception e) {
@@ -111,6 +125,7 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
 
     /**
      * Finds the job posting with the given id
+     *
      * @param dataSnapshot
      * @param id
      * @return Job posting with the given email
@@ -129,6 +144,11 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         return null;
     }
 
+    /**
+     * Calls methods to fill in all of the fields of the page with the correct information.
+     *
+     * @param jobPosting
+     */
     protected void populateLayout(JobPosting jobPosting) {
         // Get the layout views
         findLayouts();
@@ -146,6 +166,11 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Changes the text and visibility on the apply now button when the status is changed.
+     *
+     * @param jobPosting
+     */
     public void showCorrectStatusBtn(JobPosting jobPosting) {
         // If the user has already applied to the job => show applied.
         btnApply.setText(APPLY_NOW);
@@ -182,6 +207,9 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * initializes all of the objects on the details page.
+     */
     protected void findLayouts() {
         jobTitle = findViewById(R.id.txtJobTitle);
         jobType = findViewById(R.id.txtJPDTypeValue);
@@ -193,6 +221,11 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         btnTaskCompleted = findViewById(R.id.btnJPDMarkCompleted);
     }
 
+    /**
+     * Fills all of the fields on the details page according to the parameters in the JobPosting
+     *
+     * @param jobPosting
+     */
     protected void fillLayouts(JobPosting jobPosting) {
         jobTitle.setText(jobPosting.getJobTitle());
         jobType.setText(convertJPType(jobPosting.getJobType()));
@@ -219,6 +252,9 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         employerDesc.setText("Employer (Click to give rating)");
     }
 
+    /**
+     * Opens the rate employer intent which opens the rating page.
+     */
     public void openRateEmployer() {
         Intent rateIntent;
         rateIntent = chooseIntent();
@@ -231,6 +267,7 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
 
     /**
      * Ensures the user access the correct rating activity.
+     *
      * @return the correct rate intent
      */
     @NonNull
@@ -249,15 +286,30 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         return rateIntent;
     }
 
+    /**
+     * Disables the task completed and apply buttons for the employer so they can't apply for their
+     * own jobs.
+     */
     public void restrictEmployerActions() {
         btnApply.setVisibility(View.INVISIBLE);
         btnTaskCompleted.setVisibility(View.INVISIBLE);
     }
 
+    /**
+     * Calls the getJobType method from the JobTypeStringGetter class to convert the job type id
+     * into a String to be displayed.
+     *
+     * @param id
+     * @return
+     */
     protected String convertJPType(int id) {
         return JobTypeStringGetter.getJobType(id);
     }
 
+    /**
+     * Called when the search button is clicked, returns the user to the search page if they are
+     * employee, or back to dashboard if they are employer.
+     */
     protected void returnToSearch() {
         Intent intent;
         boolean isEmployee = user.getIsEmployee().equals("y");
@@ -283,7 +335,7 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         // sender email will be the no reply email
         // the recipients email would be the employer email.
         emailNotification.sendEmailNotification(Constants.EMAIL_ADDRESS,
-                employerEmail,  Constants.SENDER_PASSWORD,
+                employerEmail, Constants.SENDER_PASSWORD,
                 Constants.HI + jobPostingOBJ.getCreatedByName() + "," +
                         " an employee completed the assigned task for your posted job posting." +
                         " Please login to check out details");
@@ -291,6 +343,7 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
 
     /**
      * Adds the applicant to the database
+     *
      * @param userEmail, new applicant
      */
     protected void addApplicant(String userEmail) {
@@ -306,7 +359,7 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         // sender email will be the no reply email
         // the recipient email would be the employer email.
         emailNotification.sendEmailNotification(Constants.EMAIL_ADDRESS,
-                employerEmail, Constants.SENDER_PASSWORD, Constants.HI+
+                employerEmail, Constants.SENDER_PASSWORD, Constants.HI +
                         jobPostingOBJ.getCreatedByName() +
                         ", an employee applied for your posted job posting. " +
                         "Please login to check out details");
@@ -316,6 +369,7 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
 
     /**
      * Adds the applicant to the lst applicant
+     *
      * @param userEmail
      * @return
      */

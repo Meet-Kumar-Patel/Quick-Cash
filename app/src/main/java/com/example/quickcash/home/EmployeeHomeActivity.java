@@ -14,8 +14,16 @@ import com.example.quickcash.user_management.PreferenceActivity;
 import com.example.quickcash.user_management.SessionManager;
 import com.google.firebase.FirebaseApp;
 
-
+/**
+ * Creates a page which allows the an employee to access the different pages of the app.
+ */
 public class EmployeeHomeActivity extends AppCompatActivity {
+
+    /**
+     * Initialized the page on creation.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,17 +55,25 @@ public class EmployeeHomeActivity extends AppCompatActivity {
         employeeHeader.setText("Welcome to Home, " + sessionManager.getKeyName() + ".");
     }
 
-    // Created intents for navigating to the pages
+    /**
+     * Creates and accesses an intent to switch to the task searching activity.
+     */
     protected void navigateToSearchTasksPage() {
         Intent searchTasksPageIntent = new Intent(this, MapsActivity.class);
         startActivity(searchTasksPageIntent);
     }
 
+    /**
+     * Creates and accesses an intent to switch to the dashboard activity.
+     */
     protected void navigateToDashboardPage() {
         Intent dashboardPageIntent = new Intent(this, EmployeeDashboardActivity.class);
         startActivity(dashboardPageIntent);
     }
 
+    /**
+     * Creates and accesses an intent to switch to the preference page activity.
+     */
     protected void navigateToSearchPrefPage() {
         Intent searchTasksPageIntent = new Intent(this, PreferenceActivity.class);
         startActivity(searchTasksPageIntent);

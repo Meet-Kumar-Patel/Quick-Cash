@@ -2,6 +2,9 @@ package com.example.quickcash.job_posting;
 
 import com.example.quickcash.common.Constants;
 
+/**
+ * Contains a method to convert the job type integer into a string.
+ */
 public class JobTypeStringGetter {
     public static final String HOURLY_BABYSITTING = "Hourly Babysitting";
 
@@ -10,6 +13,7 @@ public class JobTypeStringGetter {
 
     /**
      * Converts the job type integer identifier to the appropriate job type string.
+     *
      * @param jobType
      * @return
      */
