@@ -27,7 +27,7 @@ public class TaskListActivity extends AppCompatActivity {
 
     TaskListRecyclerAdapter adapter;
     ArrayList<JobPosting> jobPostingArrayList = new ArrayList<>();
-    String city = "Halifax";
+    String city;
     boolean searchByPreference;
     TaskListFirebaseTasks firebaseTasks = new TaskListFirebaseTasks();
     SessionManager sessionManager;
@@ -46,7 +46,7 @@ public class TaskListActivity extends AppCompatActivity {
 
     private void initializeActivity() {
         Intent intent = getIntent();
-        //city = intent.getStringExtra(Constants.CITY_INTENT).trim();
+        city = intent.getStringExtra(Constants.CITY_INTENT).trim();
         setContentView(R.layout.activity_task_list);
         sessionManager = new SessionManager(getApplicationContext());
         recyclerView = findViewById(R.id.recyclerview);

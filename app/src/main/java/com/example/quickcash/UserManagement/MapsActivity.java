@@ -111,6 +111,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             // Switching the user to Search By Manual Form.
             // -- Please change this from MainActivity to the Search By Manual form activity.
             Intent intent = new Intent(getApplicationContext(), TaskListActivity.class);
+            intent.putExtra("City",cityName);
+            intent.putExtra("Preference", false);
             Toast.makeText(MapsActivity.this, "", Toast.LENGTH_LONG).show();
             startActivity(intent);
         });
