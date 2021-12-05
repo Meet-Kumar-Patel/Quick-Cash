@@ -48,7 +48,7 @@ public class EmailNotification extends AppCompatActivity {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(username));
             message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(recipientEmailAddress));
-            message.setSubject("Sending Notification email");
+            message.setSubject("QuickCash Notification");
             message.setText(senderMessage);
             Transport.send(message);
         }catch (MessagingException e){

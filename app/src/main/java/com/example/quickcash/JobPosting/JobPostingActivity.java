@@ -246,7 +246,7 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
         // getting the exact city name from the address list.
         cityName = addresses.get(0).getAddressLine(0);
         String[] separated = cityName.split(",");
-        cityName = separated[1];
+        cityName = separated[2];
         Log.d(TAG, "cityName in getAddress:" + cityName);
 
     }
