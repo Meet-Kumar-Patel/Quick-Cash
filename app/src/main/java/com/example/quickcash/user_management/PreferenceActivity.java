@@ -14,14 +14,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.quickcash.Home.EmployeeHomeActivity;
+import com.example.quickcash.home.EmployeeHomeActivity;
 import com.example.quickcash.R;
 import com.example.quickcash.common.Constants;
 import com.example.quickcash.common.DAO;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class PreferenceActivity extends AppCompatActivity implements

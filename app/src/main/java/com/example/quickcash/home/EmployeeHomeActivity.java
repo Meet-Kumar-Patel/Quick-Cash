@@ -1,4 +1,4 @@
-package com.example.quickcash.Home;
+package com.example.quickcash.home;
 
 import android.content.Intent;
 import android.os.Bundle;

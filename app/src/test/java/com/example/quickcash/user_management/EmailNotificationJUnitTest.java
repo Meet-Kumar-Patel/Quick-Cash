@@ -10,7 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-public class EmailNotificationJUnit {
+public class EmailNotificationJUnitTest {
 
     String senderEmailAddress;
     String recipientEmailAddress;
@@ -23,6 +23,6 @@ public class EmailNotificationJUnit {
         this.recipientEmailAddress = Constants.JOHN_EMAIL_ADDRESS;
         this.senderPassword = Constants.STRONG_PASSWORD;
         this.senderMessage = Constants.HI +Constants.EMAIL_ADDRESS+ Constants.THE_FOLLOWING_EMPLOYER +"Smith" + Constants.CHECK_OUT_DETAILS;
-        Mockito.when(emailNotification.sendEmailNotification(senderEmailAddress,recipientEmailAddress,senderPassword,senderMessage)).thenReturn();
+        //Mockito.when(emailNotification.sendEmailNotification(senderEmailAddress,recipientEmailAddress,senderPassword,senderMessage)).thenReturn();
     }
 }

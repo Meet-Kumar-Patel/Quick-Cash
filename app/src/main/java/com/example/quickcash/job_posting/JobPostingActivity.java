@@ -26,7 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.example.quickcash.Home.EmployerHomeActivity;
+import com.example.quickcash.home.EmployerHomeActivity;
 import com.example.quickcash.R;
 import com.example.quickcash.user_management.IPreference;
 import com.example.quickcash.user_management.Preference;

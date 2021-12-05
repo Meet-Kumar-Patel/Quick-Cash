@@ -42,8 +42,6 @@ public class ViewRatingActivity extends AppCompatActivity {
         String jobPostingID = intent.getStringExtra("jobPostingID");
         userToRate = intent.getStringExtra("userToRate");
         String page = intent.getStringExtra("page");
-        SessionManager sessionManager = new SessionManager(getApplicationContext());
-        String senderEmail = sessionManager.getKeyEmail();
         retrieveDataFromFirebase(receiverEmail);
         initializeBackButton(jobPostingID, page);
     }

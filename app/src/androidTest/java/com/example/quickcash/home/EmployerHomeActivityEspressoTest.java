@@ -1,4 +1,4 @@
-package com.example.quickcash.Home;
+package com.example.quickcash.home;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;

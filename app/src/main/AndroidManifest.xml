@@ -69,8 +69,8 @@
             android:name=".MainActivity"
             android:exported="true" />
         <activity android:name=".user_management.LogInActivity" />
-        <activity android:name=".Home.EmployeeHomeActivity" />
-        <activity android:name=".Home.EmployerHomeActivity" />
+        <activity android:name=".home.EmployeeHomeActivity" />
+        <activity android:name=".home.EmployerHomeActivity" />
         <activity android:name=".accept_decline_tasks.AcceptDeclineTasks" />
         <activity android:name=".dashboard.EmployerDashboardActivity" />
         <activity android:name=".dashboard.EmployeeDashboardActivity" />

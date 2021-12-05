@@ -17,7 +17,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.quickcash.Home.EmployeeHomeActivity;
+import com.example.quickcash.home.EmployeeHomeActivity;
 import com.example.quickcash.R;
 import com.example.quickcash.task_list.TaskListActivity;
 import com.example.quickcash.common.Constants;

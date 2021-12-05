@@ -1,13 +1,12 @@
 package com.example.quickcash.user_management;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-public class preferenceActivityJUnitTest {
+
+public class PreferenceActivityJUnitTest {
 
     static PreferenceActivity preferenceActivity1;
 

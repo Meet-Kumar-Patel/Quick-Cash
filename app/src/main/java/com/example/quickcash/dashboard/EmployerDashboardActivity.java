@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.quickcash.Home.EmployerHomeActivity;
+import com.example.quickcash.home.EmployerHomeActivity;
 import com.example.quickcash.job_posting.JobPosting;
 import com.example.quickcash.R;
 import com.example.quickcash.task_list.TaskListRecyclerAdapter;

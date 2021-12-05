@@ -52,8 +52,8 @@ public class Preference extends Observer implements IPreference{
             boolean durationEqualOrGreater = jobPosting.getDuration() >= pref.getDuration();
             if (jobTypeMatches && wageEqualOrGreater && durationEqualOrGreater) {
                 EmailNotification emailNotification = new EmailNotification();
-                String employeeEmail = pref.getEmployeeEmail();
-                emailNotification.sendEmailNotification(Constants.EMAIL_ADDRESS, employeeEmail,
+                String employeeEmailPref = pref.getEmployeeEmail();
+                emailNotification.sendEmailNotification(Constants.EMAIL_ADDRESS, employeeEmailPref,
                         Constants.SENDER_PASSWORD,
                         Constants.HI +pref.getEmployeeName()+
                                 ", " +

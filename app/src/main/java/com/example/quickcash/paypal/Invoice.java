@@ -4,22 +4,22 @@ import java.util.UUID;
 
 public class Invoice {
 
-    private final String InvoiceID;
+    private final String invoiceID;
     private String jobID;
     private String totalPayment;
 
     protected Invoice(String jobID, String totalPayment) {
-        this.InvoiceID = UUID.randomUUID().toString();
+        this.invoiceID = UUID.randomUUID().toString();
         this.jobID = jobID;
         this.totalPayment = totalPayment;
     }
 
     protected Invoice(){
-        this.InvoiceID = UUID.randomUUID().toString();
+        this.invoiceID = UUID.randomUUID().toString();
     }
 
     public String getInvoiceID() {
-        return InvoiceID;
+        return invoiceID;
     }
 
 

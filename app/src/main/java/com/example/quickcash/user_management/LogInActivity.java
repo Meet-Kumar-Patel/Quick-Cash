@@ -11,8 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.quickcash.Home.EmployeeHomeActivity;
-import com.example.quickcash.Home.EmployerHomeActivity;
+import com.example.quickcash.home.EmployeeHomeActivity;
+import com.example.quickcash.home.EmployerHomeActivity;
 import com.example.quickcash.R;
 import com.example.quickcash.common.Constants;
 import com.google.firebase.database.DataSnapshot;
