@@ -21,6 +21,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+/**
+ * This class is responsible for testing the user_management package
+ */
 @RunWith(AndroidJUnit4.class)
 public class LogInActivityEspressoTest {
     @Rule

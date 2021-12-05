@@ -22,6 +22,9 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 
+/**
+ * This class is responsible for testing the task_list package
+ */
 public class TaskListEspressoTest {
 
     @Rule
@@ -44,6 +47,7 @@ public class TaskListEspressoTest {
         assertEquals("com.example.quickcash", appContext.getPackageName());
     }
 
+    // to check if the page is visible or not.
     @Test
     public void checkIfPageIsVisible() {
         onView(ViewMatchers.withId(R.id.recyclerview));

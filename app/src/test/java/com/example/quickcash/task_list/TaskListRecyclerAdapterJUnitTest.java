@@ -10,6 +10,9 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+/**
+ * This class is testing the adapter class.
+ */
 public class TaskListRecyclerAdapterJUnitTest {
 
     static TaskListRecyclerAdapter recyclerAdapter;
@@ -27,11 +30,17 @@ public class TaskListRecyclerAdapterJUnitTest {
         System.gc();
     }
 
+    /**
+     * To test if the job posting array list is retrieved or not.
+     */
     @Test
     public void testGetJobPostingArrayList() {
         assertEquals(jobPostingArrayList, recyclerAdapter.getJobPostingArrayList());
     }
 
+    /**
+     * To test if the job posting is retrieved or not.
+     */
     @Test
     public void testGetJobPosting() {
         JobPosting jobPosting = new JobPosting("Test", 0, 0, "Halifax", 0, "test@test.com", "test");

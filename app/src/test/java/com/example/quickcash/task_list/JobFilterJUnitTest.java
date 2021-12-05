@@ -11,6 +11,9 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+/**
+ * This class is responsible for testing the Job Filter JUnit Test.
+ */
 public class JobFilterJUnitTest {
 
     static ArrayList<JobPosting> jobPostingArrayList;
@@ -32,6 +35,9 @@ public class JobFilterJUnitTest {
         System.gc();
     }
 
+    /**
+     * This test is to check if the job name is filtered or not.
+     */
     @Test
     public void testFilterByJobName() {
         ArrayList<JobPosting> filteredArrList =
@@ -40,6 +46,9 @@ public class JobFilterJUnitTest {
         assertEquals(jobPosting2,filteredArrList.get(0));
     }
 
+    /**
+     * This test is to check if the job type is filtered or not.
+     */
     @Test
     public void testFilterByJobType() {
         ArrayList<JobPosting> filteredArrList =

@@ -1,7 +1,9 @@
 package com.example.quickcash.job_posting;
 
 import android.content.Intent;
+
 import com.google.firebase.database.DataSnapshot;
+
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -9,15 +11,20 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+
 import java.util.ArrayList;
 
+/**
+ * This class is responsible for testing the job posting details activity class
+ */
 @RunWith(MockitoJUnitRunner.Silent.class)
 public class JobPostingDetailsActivityJUnitTest {
     private static JobPostingDetailsActivity jobPostingDetailsActivity;
     static JobPosting jobPosting;
+
     @BeforeClass
     public static void setup() throws Exception {
-        jobPosting =  createJP();
+        jobPosting = createJP();
         jobPostingDetailsActivity = Mockito.mock(JobPostingDetailsActivity.class);
         DataSnapshot dataSnapshot = Mockito.mock(DataSnapshot.class);
         Intent intent = Mockito.mock(Intent.class);
@@ -29,6 +36,10 @@ public class JobPostingDetailsActivityJUnitTest {
         Mockito.when(jobPostingDetailsActivity.convertJPType(5)).thenReturn("Picking Up Grocery");
     }
 
+    /**
+     * to create a job posting for the class.
+     * @return new job posting
+     */
     private static JobPosting createJP() {
         String jobTitle = "Repair VivoBook";
         int jobType = 0;
@@ -49,6 +60,9 @@ public class JobPostingDetailsActivityJUnitTest {
         System.gc();
     }
 
+    /**
+     * To check if the job type is returning the correct string or not.
+     */
     @Test
     public void CheckIfCovertJPTypeReturnCorrectString() {
         Assert.assertEquals("Repairing Computer", jobPostingDetailsActivity.convertJPType(0));
@@ -58,8 +72,6 @@ public class JobPostingDetailsActivityJUnitTest {
         Assert.assertEquals("Hourly Babysitting", jobPostingDetailsActivity.convertJPType(4));
         Assert.assertEquals("Picking Up Grocery", jobPostingDetailsActivity.convertJPType(5));
     }
-
-
 
 
 }

@@ -8,6 +8,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+/**
+ * This class is responsible for checking the Job posting package
+ */
 public class JobPostingActivityJUnitTest {
     static JobPostingActivity jobPostingActivityMock;
     JobPostingActivity jobPostingActivity;
@@ -24,16 +27,26 @@ public class JobPostingActivityJUnitTest {
     public static void tearDown() {
         System.gc();
     }
+
+    /**
+     * to check if the job title is returned or not.
+     */
     @Test
     public void CheckIfGetJobTitleReturns() {
         Assert.assertEquals("Repairing Computer", jobPostingActivityMock.getJobTitle());
     }
 
+    /**
+     * to check if the duration is returned or not.
+     */
     @Test
     public void CheckIfGetDurationReturns() {
         Assert.assertEquals(2, jobPostingActivityMock.getDuration());
     }
 
+    /**
+     * to check if the location is returned or not.
+     */
     @Test
     public void CheckIfGetLocationReturns() {
         Assert.assertEquals("Halifax", jobPostingActivityMock.getLocation());
