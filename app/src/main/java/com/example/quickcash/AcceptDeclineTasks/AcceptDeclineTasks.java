@@ -31,7 +31,10 @@ public class AcceptDeclineTasks extends AppCompatActivity {
     Button backToEmployerHomeBtn;
     private RecyclerView recyclerView;
 
-    //Refactoring needed, move search, and button init to new methods.
+    /**
+     * Initializes elements on page creation.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +51,10 @@ public class AcceptDeclineTasks extends AppCompatActivity {
         return adapter;
     }
 
+    /**
+     * Sets the recycler adapter to be used for acceptdecline tasks.
+     * @param adapter
+     */
     public void setAdapter(AcceptDeclineRecyclerAdapter adapter) {
         this.adapter = adapter;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -60,6 +67,11 @@ public class AcceptDeclineTasks extends AppCompatActivity {
         return jobPostingHashMap;
     }
 
+    /**
+     * Finds the users that have applied for each job, and adds their emails to an arraylist.
+     * @param hashMap
+     * @return
+     */
     public List<String> getAppliedUserEmailsFromHashMap(Map<String, JobPosting> hashMap) {
         ArrayList<String> emails = new ArrayList<>();
         for (JobPosting jp : hashMap.values()) {
@@ -80,6 +92,10 @@ public class AcceptDeclineTasks extends AppCompatActivity {
         return userArrayList;
     }
 
+    /**
+     * For a given job posting, iterates through all of the users that applied and creates
+     * a new AcceptDecline object.
+     */
     protected void addAcceptDeclineOBJ() {
         for (Map.Entry<String, JobPosting> entry : jobPostingHashMap.entrySet()) {
             String key = entry.getKey();
@@ -121,6 +137,9 @@ public class AcceptDeclineTasks extends AppCompatActivity {
         this.acceptDeclineOBJList = (ArrayList<AcceptDeclineObject>) acceptDeclineOBJList;
     }
 
+    /**
+     * Starts an intent which moves back to home page.
+     */
     public void backToHome() {
         Intent intent;
         intent = new Intent(this, EmployerHomeActivity.class);
