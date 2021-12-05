@@ -35,4 +35,6 @@ public class Constants {
     public static final String CHECK_OUT_DETAILS = "posted a job that is matching your preference. Please login to check out details";
     public static final String THE_FOLLOWING_EMPLOYER = " the following Employer";
     public static final String HI = "Hi ";
+    public static final String JOHN_EMAIL_ADDRESS = "john@smith.ca";
+    public static final String STRONG_PASSWORD = "pU3@u3%Bsxx@A];c5/";
 }
