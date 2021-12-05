@@ -39,8 +39,8 @@ public class Constants {
     public static final String THE_FOLLOWING_EMPLOYER = " the following Employer ";
     public static final String HI = "Hi ";
     public static final String JOHN_EMAIL_ADDRESS = "john@smith.ca";
-    public static final String CONGRATULATIONS_YOU_HAVE_BEEN_ACCEPTED_ = ", Congratulations! You have been accepted for a job posting. Please login to check out details";
-
+    public static final String CONGRATULATIONS_YOU_HAVE_BEEN_ACCEPTED = ", Congratulations! You have been accepted for a job posting. Please login to check out details";
+    public static final String STRONG_PASSWORD = "Adjd132Df!";
     private Constants() {
     }
 

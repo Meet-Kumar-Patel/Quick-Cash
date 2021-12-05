@@ -30,7 +30,7 @@
                 android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                tools:context=".JobPosting.JobPostingActivity"
+                tools:context=".job_posting.JobPostingActivity"
                 android:layout_marginBottom="15dp"/>
 
             <TextView

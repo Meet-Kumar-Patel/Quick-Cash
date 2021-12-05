@@ -6,9 +6,9 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.quickcash.UserManagement.EmailNotification;
-import com.example.quickcash.UserManagement.LogInActivity;
-import com.example.quickcash.UserManagement.SignUpActivity;
+import com.example.quickcash.user_management.EmailNotification;
+import com.example.quickcash.user_management.LogInActivity;
+import com.example.quickcash.user_management.SignUpActivity;
 import com.google.firebase.FirebaseApp;
 
 public class WelcomePage extends AppCompatActivity {
