@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -97,7 +98,7 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                System.out.println("Could retrieve: " + error.getCode());
+                Log.println(Log.WARN, Constants.TAG_ERROR_FIREBASE, error.toString());
             }
 
         });
@@ -136,7 +137,7 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
     public void showCorrectStatusBtn(JobPosting jobPosting) {
         // If the user has already applied to the job => show applied.
         btnApply.setText("Apply Now");
-        btnApply.setClickable(false);
+        btnApply.setClickable(true);
 
         if (!jobPosting.getLstAppliedBy().isEmpty()) {
             checkStatusOfApplicant(jobPosting);
@@ -163,11 +164,12 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
                     btnApply.setText("Sorry Rejected");
                 }
             }
-            btnApply.setClickable(true);
+            btnApply.setClickable(false);
         }
         // User has not applied
         else if (!jobPosting.getAccepted().isEmpty()) {
             btnApply.setText("Candidate Already Selected");
+            btnApply.setClickable(false);
         }
 
     }

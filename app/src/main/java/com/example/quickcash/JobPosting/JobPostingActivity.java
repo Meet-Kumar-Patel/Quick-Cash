@@ -413,18 +413,4 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
     public void onNothingSelected(AdapterView<?> parent) {
         // Another interface callback. (Default=0)
     }
-
-    public void notifyAllEmployee(int jobType) {
-
-        for (IPreference pref : preferences) {
-            if (pref.getJobType() == jobType) {
-                EmailNotification emailNotification = new EmailNotification();
-                String employeeEmail = pref.getEmployeeEmail();
-                emailNotification.sendEmailNotification("noreplycsci3130@gmail.com", employeeEmail, "Joben@1999", "Hi " + pref.getEmployeeEmail() + ", There is a job posting matching your preference. Please login to check out details");
-
-            }
-        }
-
-    }
-
 }
