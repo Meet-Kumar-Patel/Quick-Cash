@@ -1,8 +1,10 @@
 package com.example.quickcash.UserManagement;
 
+import com.example.quickcash.JobPosting.Observer;
+
 import java.util.UUID;
 
-public class Preference implements IPreference {
+public class Preference extends Observer implements IPreference{
     private String preferenceId;
     private int jobType;
     private int duration;

@@ -54,7 +54,5 @@ public class EmailNotification extends AppCompatActivity {
         }catch (MessagingException e){
             throw  new RuntimeException(e);
         }
-
-
     }
 }
