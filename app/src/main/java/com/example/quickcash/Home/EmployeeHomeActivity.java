@@ -7,11 +7,11 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.quickcash.Dashboard.EmployeeDashboardActivity;
 import com.example.quickcash.R;
-import com.example.quickcash.UserManagement.MapsActivity;
-import com.example.quickcash.UserManagement.PreferenceActivity;
-import com.example.quickcash.UserManagement.SessionManager;
+import com.example.quickcash.dashboard.EmployeeDashboardActivity;
+import com.example.quickcash.user_management.MapsActivity;
+import com.example.quickcash.user_management.PreferenceActivity;
+import com.example.quickcash.user_management.SessionManager;
 import com.google.firebase.FirebaseApp;
 
 
@@ -44,7 +44,7 @@ public class EmployeeHomeActivity extends AppCompatActivity {
         btnLogOut.setOnClickListener(view -> sessionManager.logoutUser());
 
         TextView employeeHeader = findViewById(R.id.etEmployeeMessage);
-        employeeHeader.setText("Welcome to Home, "+sessionManager.getKeyName() + ".");
+        employeeHeader.setText("Welcome to Home, " + sessionManager.getKeyName() + ".");
     }
 
     // Created intents for navigating to the pages

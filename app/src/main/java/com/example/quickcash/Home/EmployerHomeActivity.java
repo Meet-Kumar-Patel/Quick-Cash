@@ -7,11 +7,11 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.quickcash.AcceptDeclineTasks.AcceptDeclineTasks;
-import com.example.quickcash.Dashboard.EmployerDashboardActivity;
-import com.example.quickcash.JobPosting.JobPostingActivity;
+import com.example.quickcash.accept_decline_tasks.AcceptDeclineTasks;
+import com.example.quickcash.dashboard.EmployerDashboardActivity;
+import com.example.quickcash.job_posting.JobPostingActivity;
 import com.example.quickcash.R;
-import com.example.quickcash.UserManagement.SessionManager;
+import com.example.quickcash.user_management.SessionManager;
 import com.google.firebase.FirebaseApp;
 
 public class EmployerHomeActivity extends AppCompatActivity {

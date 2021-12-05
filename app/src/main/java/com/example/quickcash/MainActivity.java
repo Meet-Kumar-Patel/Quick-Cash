@@ -5,8 +5,8 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.quickcash.UserManagement.EmailNotification;
-import com.example.quickcash.UserManagement.SignUpActivity;
+import com.example.quickcash.user_management.EmailNotification;
+import com.example.quickcash.user_management.SignUpActivity;
 
 
 public class MainActivity extends AppCompatActivity {

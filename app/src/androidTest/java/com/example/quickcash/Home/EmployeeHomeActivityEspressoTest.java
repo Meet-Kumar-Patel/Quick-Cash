@@ -13,7 +13,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.quickcash.R;
-import com.example.quickcash.TaskList.TaskListActivity;
+import com.example.quickcash.task_list.TaskListActivity;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;

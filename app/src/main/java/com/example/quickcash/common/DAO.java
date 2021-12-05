@@ -1,8 +1,8 @@
 package com.example.quickcash.common;
 
-import com.example.quickcash.JobPosting.JobPosting;
-import com.example.quickcash.UserManagement.IPreference;
-import com.example.quickcash.UserManagement.IUser;
+import com.example.quickcash.job_posting.JobPosting;
+import com.example.quickcash.user_management.IPreference;
+import com.example.quickcash.user_management.IUser;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 
