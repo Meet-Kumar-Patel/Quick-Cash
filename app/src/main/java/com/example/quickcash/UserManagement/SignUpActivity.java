@@ -19,7 +19,6 @@ import com.example.quickcash.common.DAO;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.regex.Matcher;
@@ -29,14 +28,10 @@ import java.util.regex.Pattern;
  * This class is responsible for the implementation of the Sign Up Activity
  */
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
-    static boolean userExists = true;   // boolean to check whether the user Exists or not.
-    static FirebaseDatabase db;         // reference to the fireBase.
     String aes = Constants.AES;                 // String required for encryption
     // The instance variable for the Activity
     private EditText firstName;         // firstName of the user
     private EditText lastName;          // LastName of the user
-    private Button register;            // reference to the register button
-    private Button login;               // reference to the login button
     private EditText email;             // email of the user
     private EditText password;          // password entered by the user
     private EditText confirmPassword;   // confirm password entered by the user
@@ -58,6 +53,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void initializeActivity() {
+        Button register;
+        Button login;
         firstName = (EditText) findViewById(R.id.txtFirstName);
         lastName = (EditText) findViewById(R.id.txtLastName);
         email = (EditText) findViewById(R.id.txtEmail);
@@ -66,8 +63,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         confirmPassword = (EditText) findViewById(R.id.txtConfirmPassword);
         employee = (RadioButton) findViewById(R.id.radioButton_Employee);
         employer = (RadioButton) findViewById(R.id.radioButton_Employer);
-        // establishing a connection to the firebase database.
-        db = FirebaseDatabase.getInstance(Constants.FIREBASE_URL);
         // Showcasing a message for the user to know that they have entered the app.
         Toast.makeText(SignUpActivity.this, "Welcome to Signup", Toast.LENGTH_LONG).show();
         register = (Button) findViewById(R.id.btnRegister);
@@ -227,16 +222,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
      * @return returns true if the email is valid, false otherwise
      */
     public boolean isEmailValid(String emailAddress) {
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
-                "[a-zA-Z0-9_+&*-]+)*@" +
-                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
-                "A-Z]{2,7}$";
-        Pattern pat = Pattern.compile(emailRegex);
+        String emailRegex = Constants.EMAIL_REGEX_RULE;
+        Pattern pattern = Pattern.compile(emailRegex);
         // to check whether the email address is null
         if (emailAddress == null)
             return false;
         else
-            return pat.matcher(emailAddress).matches();
+            return pattern.matcher(emailAddress).matches();
     }
 
     /**
@@ -244,7 +236,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
      *
      * @return returns true if the password is valid, false otherwise
      */
-    //source for ragex : https://stackoverflow.com/questions/3802192/regexp-java-for-password-validation/3802238
+    //source for regex : https://stackoverflow.com/questions/3802192/regexp-java-for-password-validation/3802238
     public boolean isValidPassword(String password) {
         Pattern pattern = Pattern.
                 compile(Constants.REGEX_PASSWORD_RULE);
@@ -284,16 +276,15 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                         encryptedConfirmPassword, type);
         // pushes the information entered by the user to the firebase
         userDAO.add(user).addOnSuccessListener(saved ->
-                // Message if push was successful
-            Toast.makeText(SignUpActivity.this,
-                    Constants.FIREBASE_CONNECTED_DATA_SAVED,
-                    Toast.LENGTH_LONG).show()
-            // Message if push was not successful
+                        // Message if push was successful
+                        Toast.makeText(SignUpActivity.this,
+                                Constants.FIREBASE_CONNECTED_DATA_SAVED,
+                                Toast.LENGTH_LONG).show()
+                // Message if push was not successful
         ).addOnFailureListener(failed ->
-            Toast.makeText(SignUpActivity.this, Constants.DATA_NOT_SAVED,
-                    Toast.LENGTH_LONG).show()
+                Toast.makeText(SignUpActivity.this, Constants.DATA_NOT_SAVED,
+                        Toast.LENGTH_LONG).show()
         );
-        // switch to the login page
         switch2Login();
     }
 
@@ -332,85 +323,36 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         String userEnteredPassword = getUserEnteredPassword();
         String confirmEnteredPassword = getConfirmPassword();
         String errorMessage = "";
-        // Sign Up logic
-        // loop to check whether all the information is added correctly or not.
-        for (int i = 0; i < 1; i++) {
-            // to check for empty first Name
-            if (isEmptyFirstName(firstNameStr)) {
-                errorMessage = Constants.FIRST_NAME_ERROR;
-                break;
-            }
-            // to check for empty last name
-            if (isEmptyLastName(lastNameStr)) {
-                errorMessage = Constants.LAST_NAME_ERROR;
-                break;
-            }
-            // to check for empty email address
-            if (isEmptyEmail(emailAddress)) {
-                errorMessage = Constants.EMAIL_ERROR;
-                break;
-            } else {
-                // to check for valid email address
-                if (!isEmailValid(emailAddress)) {
-                    errorMessage = Constants.INVALID_EMAIL_ADDRESS;
-                    break;
-                }
-            }
-            // to check for empty phone number
-            if (isEmptyPhoneNumber(phoneStr)) {
-                errorMessage = Constants.PHONE_NUMBER_MANDATORY;
-                break;
-            } else {
-                // to check for valid phone number
-                if (!isValidPhoneNumber(phoneStr)) {
-                    errorMessage = Constants.PHONE_INVALID_ERROR;
-                    break;
-                }
-            }
-            // to check for empty user entered password
-            if (isEmptyPassword(userEnteredPassword)) {
-                errorMessage = "Please Enter your password";
-                break;
-            } else {
-                // to check for valid user entered password
-                if (isValidPassword(userEnteredPassword)) {
-                    errorMessage = "";
-                } else {
-                    errorMessage = "Please Enter valid Password";
-                    break;
-                }
-            }
-            // to check the confirm Password
-            if (isEmptyConfirmPassword(confirmEnteredPassword)) {
-                errorMessage = "Please Enter to confirm your password";
-                break;
-            } else {
-                // to check whether the user entered password and confirm password match or not.
-                if (isPasswordMatch(userEnteredPassword, confirmEnteredPassword)) {
-                    errorMessage = "";
-                } else {
-                    errorMessage = "Passwords don't match. Please Enter again";
-                    break;
-                }
-            }
-            // to check that the user has selected one of the two radio buttons
-            if (getSelectedRadioButton() == null) {
-                errorMessage = "Please Select one of the two given options";
-                break;
-            }
+        if (isEmptyFirstName(firstNameStr)) {
+            errorMessage = Constants.FIRST_NAME_ERROR;
+        } else if (isEmptyLastName(lastNameStr)) {
+            errorMessage = Constants.LAST_NAME_ERROR;
+        } else if (isEmptyEmail(emailAddress)) {
+            errorMessage = Constants.EMAIL_ERROR;
+        } else if (!isEmailValid(emailAddress)) {
+            errorMessage = Constants.INVALID_EMAIL_ADDRESS;
+        } else if (isEmptyPhoneNumber(phoneStr)) {
+            errorMessage = Constants.PHONE_NUMBER_MANDATORY;
+        } else if (!isValidPhoneNumber(phoneStr)) {
+            errorMessage = Constants.PHONE_INVALID_ERROR;
+        } else if (isEmptyPassword(userEnteredPassword)) {
+            errorMessage = "Please Enter your password";
+        } else if (!isValidPassword(userEnteredPassword)) {
+            errorMessage = "Please Enter valid Password";
+        } else if (isEmptyConfirmPassword(confirmEnteredPassword)) {
+            errorMessage = "Please Enter to confirm your password";
+        } else if (!isPasswordMatch(userEnteredPassword, confirmEnteredPassword)) {
+            errorMessage = "Passwords don't match. Please Enter again";
+        } else if (getSelectedRadioButton() == null) {
+            errorMessage = "Please Select one of the two given options";
+        } else {
+            errorMessage = "";
         }
         // to set the error message in the status Label
         setStatusMessage(errorMessage);
         //if error message is empty, then create a new intent to move to main activity
         if (errorMessage.equals("")) {
-            String type = "";
-            // to find the tyoe of user
-            if (employee.isChecked()) {
-                type = "y";
-            } else if (employer.isChecked()) {
-                type = "N";
-            }
-            // to check whether the user already exists or not.
+            String type = employee.isChecked() ? "y" : "N";
             retrieveDataFromFirebase(emailAddress, type);
         }
     }
@@ -431,10 +373,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         userReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // to see if there is any data in the database
                 if (dataSnapshot.exists()) {
                     try {
-                        // verifying the user credentials using the email and type of user
                         verifyUserCredentials(dataSnapshot, getEmail(), type);
                     } catch (Exception e) {
                         e.printStackTrace();

@@ -14,9 +14,11 @@ public abstract class DAO {
     public Task<Void> add(IUser user) {
         return null;
     }
+
     public Task<Void> add(IPreference preference) {
         return null;
     }
+
     public Task<Void> add(JobPosting jobPosting) {
         return null;
     }

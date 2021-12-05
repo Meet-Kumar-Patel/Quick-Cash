@@ -1,9 +1,20 @@
 package com.example.quickcash.UserManagement;
 
-public interface IAESUtils {
-    String encrypt(String cleartext) throws Exception;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
-    String decrypt(String encrypted) throws Exception;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
+public interface IAESUtils {
+    String encrypt(String cleartext) throws NoSuchAlgorithmException,
+    NoSuchPaddingException, InvalidKeyException, BadPaddingException,
+    IllegalBlockSizeException;
+
+    String decrypt(String encrypted) throws NoSuchAlgorithmException,
+    NoSuchPaddingException, InvalidKeyException, BadPaddingException,
+    IllegalBlockSizeException;
 
     byte[] toByte(String hexString);
 

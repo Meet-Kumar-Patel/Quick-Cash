@@ -18,6 +18,7 @@ import com.example.quickcash.Paypal.PaypalActivity;
 import com.example.quickcash.R;
 import com.example.quickcash.Ratings.GiveRatingsActivity;
 import com.example.quickcash.Ratings.ViewRatingActivity;
+import com.example.quickcash.common.Constants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +31,14 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
     private ArrayList<AcceptDeclineObject> acceptDeclineObjects;
     private Context context;
 
-    //Code adapted from https://www.youtube.com/watch?v=sJ-Z9G0SDhc
+    /**
+     * Initializes a recycler adapter to display a list of employees to be accepted/declined.
+     * Code adapted from https://www.youtube.com/watch?v=sJ-Z9G0SDhc
+     *
+     * @param context
+     * @param acceptDeclineObjects
+     * @param hashMap
+     */
     public AcceptDeclineRecyclerAdapter(Context context, List<AcceptDeclineObject> acceptDeclineObjects, Map<? extends Object, ? extends Object> hashMap) {
         this.acceptDeclineObjects = (ArrayList<AcceptDeclineObject>) acceptDeclineObjects;
         this.context = context;
@@ -40,6 +48,13 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
     public AcceptDeclineRecyclerAdapter() {
     }
 
+    /**
+     * Initializes the view holder for the recycler adapter.
+     *
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -47,7 +62,12 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
         return new MyViewHolder(itemView);
     }
 
-
+    /**
+     * Initializes each of the elements inside of the view holder on binding.
+     *
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         AcceptDeclineObject acceptDeclineObject = acceptDeclineObjects.get(position);
@@ -61,19 +81,26 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
             daoJobPosting.update(jobPosting, jpKey);
             disableAcceptBtn(holder);
         });
-
-        // If the candidate has been accepted then the btn should say Selected and should not be clickable
+        // If the candidate has been accepted then the btn should say Selected and should not be
+        // clickable
         if (acceptDeclineObject.isAccepted()) {
             disableAcceptBtn(holder);
         }
-
-        if(acceptDeclineObject.isTaskComplete()){showPayBtn(holder, jpKey, acceptDeclineObject.getUserName());}
-        holder.ratingsButton.setOnClickListener(view -> openIntent(jpKey, acceptDeclineObject.getUserName(), acceptDeclineObject.getUserEmail()));
+        if (acceptDeclineObject.isTaskComplete()) {
+            showPayBtn(holder, jpKey, acceptDeclineObject.getUserName());
+        }
+        holder.ratingsButton.setOnClickListener(view -> openIntent(jpKey,
+                acceptDeclineObject.getUserName(), acceptDeclineObject.getUserEmail()));
     }
 
+    /**
+     * Disables the accept button and changes display text so employee can't be accepted twice.
+     *
+     * @param holder
+     */
     public void disableAcceptBtn(MyViewHolder holder) {
         holder.acceptButton.setClickable(false);
-        holder.acceptButton.setText("Selected");
+        holder.acceptButton.setText(Constants.ACCEPT_BUTTON_DISABLE_TEXT);
     }
 
     public void showPayBtn(MyViewHolder holder, String key, String userName) {
@@ -82,27 +109,15 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
         holder.acceptButton.setOnClickListener((view) -> openPayPalActivity(key, userName));
     }
 
+    /**
+     * Returns the number of acceptdecline objects in the arraylist
+     *
+     * @return
+     */
     @Override
     public int getItemCount() {
         return acceptDeclineObjects.size();
     }
-
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        Button acceptButton;
-        Button ratingsButton;
-        TextView employeeName;
-        TextView jobTitleButton;
-
-        public MyViewHolder(final View view) {
-            super(view);
-            employeeName = view.findViewById(R.id.employeename);
-            ratingsButton = view.findViewById(R.id.ratingsbutton);
-            acceptButton = view.findViewById(R.id.acceptbutton);
-            jobTitleButton = view.findViewById(R.id.txt_job_title);
-        }
-    }
-
-
 
     public List<AcceptDeclineObject> getAcceptDeclineArraylist() {
         return acceptDeclineObjects;
@@ -112,6 +127,13 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
         this.acceptDeclineObjects = (ArrayList<AcceptDeclineObject>) acceptDeclineObjects;
     }
 
+    /**
+     * Initializes intents
+     *
+     * @param key
+     * @param userName
+     * @param userEmail
+     */
     public void openIntent(String key, String userName, String userEmail) {
         JobPosting jobPosting = hashMap.get(key);
         Intent intent;
@@ -134,6 +156,21 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
         intent.putExtra("userName", userName);
         intent.putExtra("jobID", jobPosting.getJobPostingId());
         context.startActivity(intent);
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        Button acceptButton;
+        Button ratingsButton;
+        TextView employeeName;
+        TextView jobTitleButton;
+
+        public MyViewHolder(final View view) {
+            super(view);
+            employeeName = view.findViewById(R.id.employeename);
+            ratingsButton = view.findViewById(R.id.ratingsbutton);
+            acceptButton = view.findViewById(R.id.acceptbutton);
+            jobTitleButton = view.findViewById(R.id.txt_job_title);
+        }
     }
 
 }

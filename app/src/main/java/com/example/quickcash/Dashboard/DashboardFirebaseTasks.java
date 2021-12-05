@@ -15,10 +15,10 @@ import com.google.firebase.database.ValueEventListener;
 
 public class DashboardFirebaseTasks {
 
-    FirebaseDatabase db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
+    FirebaseDatabase db = FirebaseDatabase.getInstance(Constants.FIREBASE_URL);
 
     public void getDashboardJobs(EmployeeDashboardActivity employeeDashboardActivity, String email) {
-        DatabaseReference jobPostingReference = db.getReference("JobPosting");
+        DatabaseReference jobPostingReference = db.getReference(JobPosting.class.getSimpleName());
         jobPostingReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -30,7 +30,6 @@ public class DashboardFirebaseTasks {
                 }
                 employeeDashboardActivity.setAdapter(new TaskListRecyclerAdapter(employeeDashboardActivity, employeeDashboardActivity.getJobsAppliedForArray()));
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.println(Log.WARN, Constants.TAG_ERROR_FIREBASE, error.toString());
@@ -39,7 +38,7 @@ public class DashboardFirebaseTasks {
     }
 
     public void getDashboardJobs(EmployerDashboardActivity employerDashboardActivity, String email) {
-        DatabaseReference jobPostingReference = db.getReference("JobPosting");
+        DatabaseReference jobPostingReference = db.getReference(JobPosting.class.getSimpleName());
         jobPostingReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -51,7 +50,6 @@ public class DashboardFirebaseTasks {
                 }
                 employerDashboardActivity.setAdapter(new TaskListRecyclerAdapter(employerDashboardActivity, employerDashboardActivity.getJobsCreatedArray()));
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.println(Log.WARN, Constants.TAG_ERROR_FIREBASE, error.toString());

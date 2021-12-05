@@ -13,8 +13,13 @@ import com.google.firebase.database.ValueEventListener;
 
 public class SessionManagerFirebaseUser implements ISessionManagerFirebaseUser {
 
-    private IUser loggedInUser;
     FirebaseDatabase db = FirebaseDatabase.getInstance(Constants.FIREBASE_URL);
+    private IUser loggedInUser;
+
+    @Override
+    public IUser getLoggedInUser() {
+        return loggedInUser;
+    }
 
     @Override
     public void setLoggedInUser(String userEmail) {
@@ -24,7 +29,7 @@ public class SessionManagerFirebaseUser implements ISessionManagerFirebaseUser {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot adSnapshot : dataSnapshot.getChildren()) {
                     IUser user = adSnapshot.getValue(User.class);
-                    if(user.getEmail().equals(userEmail)) {
+                    if (user.getEmail().equals(userEmail)) {
                         loggedInUser = user;
                     }
                 }
@@ -35,10 +40,5 @@ public class SessionManagerFirebaseUser implements ISessionManagerFirebaseUser {
                 Log.println(Log.WARN, Constants.TAG_ERROR_FIREBASE, error.toString());
             }
         });
-    }
-
-    @Override
-    public IUser getLoggedInUser() {
-        return loggedInUser;
     }
 }

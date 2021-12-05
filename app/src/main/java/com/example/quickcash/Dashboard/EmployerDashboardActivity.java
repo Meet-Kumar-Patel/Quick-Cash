@@ -2,7 +2,6 @@ package com.example.quickcash.Dashboard;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.SearchView;
@@ -33,8 +32,28 @@ public class EmployerDashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_list);
         SessionManager sessionManager = new SessionManager(getApplicationContext());
-        dashboardFirebaseTasks.getDashboardJobs(this, sessionManager.getKeyEmail());
+        dashboardFirebaseTasks.getDashboardJobs(this,
+                sessionManager.getKeyEmail());
         recyclerView = findViewById(R.id.recyclerview);
+        initializeJobSearchView();
+        initializeButtons();
+    }
+
+    private void initializeButtons() {
+        Button resetButton = findViewById(R.id.resetbutton);
+        resetButton.setOnClickListener(view -> {
+            jobSearchView.setQuery("", false);
+            jobSearchView.clearFocus();
+        });
+        Button homeButton = findViewById(R.id.backToEmployerHomeBtn);
+        homeButton.setOnClickListener(view -> {
+            Intent homeIntent = new Intent(EmployerDashboardActivity.this,
+                    EmployerHomeActivity.class);
+            startActivity(homeIntent);
+        });
+    }
+
+    private void initializeJobSearchView() {
         jobSearchView = findViewById(R.id.jobsearch);
         jobSearchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
         jobSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -48,16 +67,6 @@ public class EmployerDashboardActivity extends AppCompatActivity {
                 adapter.getFilter().filter(s);
                 return false;
             }
-        });
-        Button resetButton = findViewById(R.id.resetbutton);
-        resetButton.setOnClickListener(view -> {
-            jobSearchView.setQuery("", false);
-            jobSearchView.clearFocus();
-        });
-        Button homeButton = findViewById(R.id.backToEmployerHomeBtn);
-        homeButton.setOnClickListener(view -> {
-            Intent homeIntent = new Intent(EmployerDashboardActivity.this, EmployerHomeActivity.class);
-            startActivity(homeIntent);
         });
     }
 
@@ -73,5 +82,7 @@ public class EmployerDashboardActivity extends AppCompatActivity {
         jobsCreatedArray.add(jobPosting);
     }
 
-    public List<JobPosting> getJobsCreatedArray() { return jobsCreatedArray; }
+    public List<JobPosting> getJobsCreatedArray() {
+        return jobsCreatedArray;
+    }
 }

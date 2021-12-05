@@ -26,12 +26,9 @@ import com.google.firebase.database.ValueEventListener;
 
 public class PreferenceActivity extends AppCompatActivity implements
         AdapterView.OnItemSelectedListener {
-    static FirebaseDatabase db;
     Spinner jobType;
     private EditText duration;
     private EditText wage;
-    private Button submitButton;
-    private Button cancelButton;
     private int jobTypeId = 0;
 
     @Override
@@ -42,27 +39,23 @@ public class PreferenceActivity extends AppCompatActivity implements
     }
 
     private void initializeActivity() {
+        Button submitButton;
+        Button cancelButton;
         IUserManagementAbstractFactory userManagementAbstractFactory = UserManagementInjector.
                 getInstance().getUserManagementAbstractFactory();
         ISessionManager sessionManager = userManagementAbstractFactory.
                 getSessionInstance(getApplicationContext());
         sessionManager.checkLogin();
         addJobsToSpinner();
-        Spinner spinner = (Spinner) findViewById(R.id.jType);
+        Spinner spinner = findViewById(R.id.jType);
         spinner.setOnItemSelectedListener(this);
-        initializeFirebase();
-        cancelButton = (Button) findViewById(R.id.button_Cancel);
+        cancelButton = findViewById(R.id.button_Cancel);
         cancelButton.setOnClickListener(view -> returnToEmployeePage());
-        submitButton = (Button) findViewById(R.id.button_Submit);
+        submitButton = findViewById(R.id.button_Submit);
         submitButton.setOnClickListener(view -> createNewPreference());
-        duration = (EditText) findViewById(R.id.editTextDuration);
-        wage = (EditText) findViewById(R.id.editWage);
+        duration = findViewById(R.id.editTextDuration);
+        wage = findViewById(R.id.editWage);
     }
-
-    private void initializeFirebase() {
-        db = FirebaseDatabase.getInstance(Constants.FIREBASE_URL);
-    }
-
 
     // ref : https://stackoverflow.com/questions/2505207/how-to-add-item-to-spinners-arrayadapter
     // and https://developer.android.com/guide/topics/resources/string-resource
@@ -70,7 +63,7 @@ public class PreferenceActivity extends AppCompatActivity implements
         ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.
                 createFromResource(this, R.array.planets_array,
                         android.R.layout.simple_spinner_item);
-        jobType = (Spinner) findViewById(R.id.jType);
+        jobType = findViewById(R.id.jType);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         jobType.setAdapter(arrayAdapter);
     }
@@ -188,5 +181,6 @@ public class PreferenceActivity extends AppCompatActivity implements
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
+        //Not required
     }
 }

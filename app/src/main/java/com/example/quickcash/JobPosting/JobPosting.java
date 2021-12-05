@@ -43,7 +43,9 @@ public class JobPosting {
         return jobTitle;
     }
 
-    public void setJobTitle(String jobTitle) { this.jobTitle = jobTitle; }
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
+    }
 
     public int getDuration() {
         return duration;
@@ -92,7 +94,9 @@ public class JobPosting {
         return lstAppliedBy;
     }
 
-    public void setLstAppliedBy(List<String> lstAppliedBy) { this.lstAppliedBy = (ArrayList) lstAppliedBy; }
+    public void setLstAppliedBy(List<String> lstAppliedBy) {
+        this.lstAppliedBy = (ArrayList) lstAppliedBy;
+    }
 
     public String getAccepted() {
         return accepted;
