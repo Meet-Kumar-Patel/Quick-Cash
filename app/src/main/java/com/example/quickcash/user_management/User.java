@@ -14,7 +14,18 @@ public class User implements IUser {
     private String confirmPassword;
     private String isEmployee; // Values y = yes, n= no.
     private String employeePreferenceID;
-
+    /**
+     * User
+     * creating new user
+     * @param firstName
+     * @param lastName
+     * @param email
+     * @param phone
+     * @param password
+     * @param confirmPassword
+     * @param isEmployee
+     * @return
+     */
     public User(String firstName, String lastName, String email, String phone, String password,
                 String confirmPassword, String isEmployee) {
         this.firstName = firstName;
