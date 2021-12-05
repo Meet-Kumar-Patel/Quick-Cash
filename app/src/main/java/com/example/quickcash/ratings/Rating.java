@@ -9,7 +9,15 @@ public class Rating {
     private String receiverUserEmail;
     private float ratingValue;
     private String jobPostingID;
-
+    /**
+     * Rating
+     *
+     * @param senderUserEmail
+     * @param receiverUserEmail
+     * @param ratingValue
+     * @param jobPostingID
+     * @return
+     */
     public Rating(String senderUserEmail, String receiverUserEmail, float ratingValue, String jobPostingID) {
         this.ratingID = UUID.randomUUID().toString();
         this.senderUserEmail = senderUserEmail;
@@ -17,7 +25,10 @@ public class Rating {
         this.ratingValue = ratingValue;
         this.jobPostingID = jobPostingID;
     }
-
+    /**
+     * Rating
+     * setting random ratingID
+     */
     public Rating() {
         this.ratingID = UUID.randomUUID().toString();
     }

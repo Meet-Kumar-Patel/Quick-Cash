@@ -17,6 +17,12 @@ public class DAORating {
         return databaseReference;
     }
 
+    /**
+     * add
+     * add rating to user
+     * @param rating
+     * @return rating confirm
+     */
     public Task<Void> add(Rating rating) {
         return databaseReference.push().setValue(rating);
     }
