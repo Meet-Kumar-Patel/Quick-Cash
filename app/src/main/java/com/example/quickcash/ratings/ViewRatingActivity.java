@@ -113,7 +113,13 @@ public class ViewRatingActivity extends AppCompatActivity {
         populateLayout(userToRate, numRatings, ratingSum);
         return null;
     }
-
+    /**
+     * populateLayout
+     * @param userToRate
+     * @param numReviews
+     *@param reviewSum
+     * populates the payoyt
+     */
     public void populateLayout(String userToRate, int numReviews, float reviewSum) {
         findLayout();
         float ratingVal = calculateRating(numReviews, reviewSum);
@@ -122,7 +128,12 @@ public class ViewRatingActivity extends AppCompatActivity {
         }
         setRatingInfo(userToRate, ratingVal);
     }
-
+    /**
+     * setRatingInfo
+     * @param userToRate
+     * @param ratingVal
+     * setting the rate info
+     */
     private void setRatingInfo(String userToRate, float ratingVal) {
         String headerString = userToRate + "'s Rating";
         ratingHeader.setText(headerString);
@@ -130,11 +141,19 @@ public class ViewRatingActivity extends AppCompatActivity {
         starRatingNumber.setText(ratingNumber);
         ratingBar.setRating(ratingVal);
     }
-
+    /**
+     * calculateRating
+     * @param numReviews
+     * @param reviewSum
+     * @return average rating
+     */
     public float calculateRating(int numReviews, float reviewSum) {
         return reviewSum / numReviews;
     }
-
+    /**
+     * findLayout
+     *find the layout
+     */
     public void findLayout() {
         ratingHeader = findViewById(R.id.rating_header);
         starRatingNumber = findViewById(R.id.star_rating_number);
