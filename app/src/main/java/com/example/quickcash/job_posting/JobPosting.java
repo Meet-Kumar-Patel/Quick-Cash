@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Creates a job posting object.
+ */
 public class JobPosting implements IJobPosting {
     private final String jobPostingId;
     private String jobTitle;
@@ -17,6 +20,16 @@ public class JobPosting implements IJobPosting {
     private String accepted;
     private String createdByName;
 
+    /**
+     * Constructor for a job posting object.
+     * @param jobTitle
+     * @param type
+     * @param duration
+     * @param location
+     * @param wage
+     * @param createdBy
+     * @param createdByName
+     */
     public JobPosting(String jobTitle, int type, int duration, String location, int wage, String createdBy, String createdByName) {
         this.jobPostingId = UUID.randomUUID().toString();
         this.jobTitle = jobTitle;

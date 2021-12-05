@@ -2,6 +2,9 @@ package com.example.quickcash.job_posting;
 
 import java.util.List;
 
+/**
+ * Job Posting Interface class.
+ */
 public interface IJobPosting {
     String getJobPostingId();
 
