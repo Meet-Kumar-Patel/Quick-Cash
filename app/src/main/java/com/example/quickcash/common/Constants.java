@@ -31,6 +31,8 @@ public class Constants {
     public static final String STRING_INTENT_KEY = "com.example.quickcash.Employer";
     public static final String ACCEPT_DECLINE = "acceptDecline";
     public static final String ACCEPT_BUTTON_DISABLE_TEXT = "Selected";
+    public static final String EMAIL_REGEX_RULE = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@" +
+            "(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
 
     private Constants() {
     }
