@@ -29,6 +29,7 @@ import androidx.core.content.ContextCompat;
 import com.example.quickcash.Home.EmployerHomeActivity;
 import com.example.quickcash.R;
 import com.example.quickcash.UserManagement.EmailNotification;
+import com.example.quickcash.UserManagement.IPreference;
 import com.example.quickcash.UserManagement.Preference;
 import com.example.quickcash.UserManagement.SessionManager;
 import com.example.quickcash.common.Constants;
@@ -62,7 +63,7 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private final ArrayList<String> titleList = new ArrayList<>();
-    private ArrayList<Preference> preferences = new ArrayList<>();
+    private ArrayList<IPreference> preferences = new ArrayList<>();
     private final DAOJobPosting daoJobPosting = new DAOJobPosting();
     private EditText location;
     private GoogleMap mMap;
@@ -124,7 +125,7 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot adSnapshot : dataSnapshot.getChildren()) {
-                    Preference pref = adSnapshot.getValue(Preference.class);
+                    IPreference pref = adSnapshot.getValue(Preference.class);
                     preferences.add(pref);
                 }
             }
@@ -379,7 +380,8 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
             // Adding the Job Posting obj to the database.
             daoJobPosting.add(jobPosting);
 
-            notifyAllEmployee(jobPosting.getJobType());
+            Observer preference = new Preference();
+            preference.notifyUsersWithPreferredJobs(jobPosting,preferences);
 
             switchToJPDetails(jobPosting.getJobPostingId());
 
@@ -414,7 +416,7 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
 
     public void notifyAllEmployee(int jobType) {
 
-        for (Preference pref : preferences) {
+        for (IPreference pref : preferences) {
             if (pref.getJobType() == jobType) {
                 EmailNotification emailNotification = new EmailNotification();
                 String employeeEmail = pref.getEmployeeEmail();

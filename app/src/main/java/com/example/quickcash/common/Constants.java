@@ -30,4 +30,9 @@ public class Constants {
     public  static final String TAG_ERROR_FIREBASE = "Firebase Error: ";
     public static  final  String STRING_INTENT_KEY = "com.example.quickcash.Employer";
 
+    public static final String EMAIL_ADDRESS = "noreplycsci3130@gmail.com";
+    public static final String SENDER_PASSWORD = "Joben@1999";
+    public static final String CHECK_OUT_DETAILS = "posted a job that is matching your preference. Please login to check out details";
+    public static final String THE_FOLLOWING_EMPLOYER = " the following Employer";
+    public static final String HI = "Hi ";
 }
