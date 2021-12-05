@@ -23,8 +23,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-public class PreferenceActivity extends AppCompatActivity implements
-        AdapterView.OnItemSelectedListener {
+/**
+ * This class is responsible
+ */
+public class PreferenceActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     Spinner jobType;
     private EditText duration;
     private EditText wage;

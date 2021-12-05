@@ -5,6 +5,9 @@ import android.content.Intent;
 
 import com.example.quickcash.common.DAO;
 
+/**
+ * This class is responsible for implementing the UserManagementAbstractFactory class.
+ */
 public class UserManagementAbstractFactory implements IUserManagementAbstractFactory {
 
     @Override

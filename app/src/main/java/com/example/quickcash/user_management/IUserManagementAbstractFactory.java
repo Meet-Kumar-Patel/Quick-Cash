@@ -5,6 +5,9 @@ import android.content.Intent;
 
 import com.example.quickcash.common.DAO;
 
+/**
+ * This interface is responsible for implementing the IUserManagementAbstractFactory class
+ */
 public interface IUserManagementAbstractFactory {
 
     Intent getIntentInstance(Context context, Class<?> c);

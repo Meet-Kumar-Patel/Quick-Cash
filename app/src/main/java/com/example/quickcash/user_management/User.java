@@ -4,6 +4,9 @@ import android.util.Log;
 
 import com.example.quickcash.common.Constants;
 
+/**
+ * This class is responsible for implementing the user object.
+ */
 public class User implements IUser {
 
     private String firstName;
@@ -14,17 +17,18 @@ public class User implements IUser {
     private String confirmPassword;
     private String isEmployee; // Values y = yes, n= no.
     private String employeePreferenceID;
+
     /**
      * User
      * creating new user
-     * @param firstName
-     * @param lastName
-     * @param email
-     * @param phone
-     * @param password
-     * @param confirmPassword
-     * @param isEmployee
-     * @return
+     * @param firstName       user firstname
+     * @param lastName        user last name
+     * @param email           user email
+     * @param phone           user phone
+     * @param password        user password
+     * @param confirmPassword user confirm password
+     * @param isEmployee      employee or employer
+     * @return user
      */
     public User(String firstName, String lastName, String email, String phone, String password,
                 String confirmPassword, String isEmployee) {

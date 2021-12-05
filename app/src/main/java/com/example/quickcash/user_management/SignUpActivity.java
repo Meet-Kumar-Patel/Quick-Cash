@@ -41,7 +41,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     /**
      * This method is responsible for implementing the initial build of the program.
-     *
      * @param savedInstanceState reference to a Bundle object that is passed into the onCreate method of every Android Activity. [Reference: https://tanzu.vmware.com/content/blog/android-savedinstancestate-bundle-faq]
      */
     @Override
@@ -74,8 +73,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     /**
-     * To retrive the first Name of the user
-     *
+     * To retrieve the first Name of the user
      * @return returns the first Name of the user in the form of string.
      */
     protected String getFirstName() {
@@ -85,8 +83,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     /**
-     * To retrive the last Name of the user
-     *
+     * To retrieve the last Name of the user
      * @return returns the last Name of the user in the form of string.
      */
     protected String getLastName() {
@@ -95,8 +92,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     /**
-     * To retrive the email of the user
-     *
+     * To retrieve the email of the user
      * @return returns the email of the user in the form of string.
      */
     protected String getEmail() {
@@ -105,8 +101,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     /**
-     * To retrive the phone of the user
-     *
+     * To retrieve the phone of the user
      * @return returns the phone of the user in the form of string.
      */
     protected String getPhoneNumber() {
@@ -115,8 +110,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     /**
-     * To retrive the user entered password of the user
-     *
+     * To retrieve the user entered password of the user
      * @return returns the user entered password of the user in the form of string.
      */
     protected String getUserEnteredPassword() {
@@ -125,8 +119,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     /**
-     * To retrive the confirm password of the user
-     *
+     * To retrieve the confirm password of the user
      * @return returns the confirm password of the user in the form of string.
      */
     protected String getConfirmPassword() {
@@ -136,7 +129,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     /**
      * To check whether the one of the two radio buttons is selected or not.
-     *
      * @return returns true if one of the radio button is selected, null otherwise
      */
     protected RadioButton getSelectedRadioButton() {
@@ -155,7 +147,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     /**
      * To check whether the firstName is empty or not
-     *
      * @return returns true if empty, false otherwise
      */
     public boolean isEmptyFirstName(String firstName) {
@@ -164,7 +155,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     /**
      * To check whether the lastName is empty or not
-     *
      * @return returns true if empty, false otherwise
      */
     public boolean isEmptyLastName(String lastName) {
@@ -173,7 +163,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     /**
      * To check whether the email is empty or not
-     *
      * @return returns true if empty, false otherwise
      */
     public boolean isEmptyEmail(String email) {
@@ -182,7 +171,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     /**
      * To check whether the password is empty or not
-     *
      * @return returns true if empty, false otherwise
      */
     public boolean isEmptyPassword(String password) {
@@ -191,7 +179,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     /**
      * To check whether the phone number is empty or not
-     *
      * @return returns true if empty, false otherwise
      */
     public boolean isEmptyPhoneNumber(String phone) {
@@ -200,7 +187,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     /**
      * To check whether the confirm password is empty or not
-     *
      * @return returns true if empty, false otherwise
      */
     public boolean isEmptyConfirmPassword(String confirmPassword) {
@@ -209,7 +195,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     /**
      * To check whether the phone number is valid or not
-     *
      * @return returns true if of length 10, false otherwise
      */
     public boolean isValidPhoneNumber(String phone) {
@@ -218,7 +203,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     /**
      * To check whether the email is valid
-     *
      * @return returns true if the email is valid, false otherwise
      */
     public boolean isEmailValid(String emailAddress) {
@@ -233,7 +217,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     /**
      * To check whether the password is valid
-     *
      * @return returns true if the password is valid, false otherwise
      */
     //source for regex : https://stackoverflow.com/questions/3802192/regexp-java-for-password-validation/3802238
@@ -246,7 +229,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     /**
      * To check whether the password and confirm passwords match
-     *
      * @return returns true if the passwords match, false otherwise
      */
     public boolean isPasswordMatch(String password1, String password2) {
@@ -255,7 +237,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     /**
      * This method is responsible for pushing the data to the database
-     *
      * @param type The type of user , whether employee or employer
      * @throws Exception To check whether it is not null
      */
@@ -290,7 +271,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     /**
      * To set the text of the Status label
-     *
      * @param message The message which needs to be set
      */
     protected void setStatusMessage(String message) {
@@ -311,7 +291,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     /**
      * The OnClick method is responsible for executing the logic of the Signup
-     *
      * @param view The UI of the SignUp activity
      */
     public void onClick(View view) {
@@ -359,7 +338,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     /**
      * To retrieve information from the firebase
-     *
      * @param email email of the user
      * @param type  type of the user
      */
@@ -391,7 +369,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     /**
      * This method is responsible for verifying the details of the user
-     *
      * @param dataSnapshot The firebase object which contains the data
      * @param email        The email of the user
      * @param type         The type of the user
@@ -418,7 +395,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     /**
      * This method is responsible for going over the data in the database and check whether the user exists or not.
-     *
      * @param dataSnapshot The firebase object which contains all the user information
      * @param email        The email of the user
      * @return Returns null if user not found, other wise the user object
@@ -447,10 +423,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     // Reference: https://wajahatkarim.com/2018/08/encrypt-/-decrypt-strings-in-android/
     // The below given method was taken from the above mentioned url
     // Date accessed: 17 October,2021
-
     /**
      * This method is responsible for encrypting the user entered password
-     *
      * @param password The user entered password
      * @return Returns the encrypted string
      * @throws Exception Check for NullPointerException
@@ -471,10 +445,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     // Reference: https://wajahatkarim.com/2018/08/encrypt-/-decrypt-strings-in-android/
     // The below given method was taken from the above mentioned url
     // Date accessed: 17 October,2021
-
     /**
      * This method is responsible for decrypting the encrypted password string
-     *
      * @param encrypted the encrypted password string
      * @return returns decrypted password string
      * @throws Exception To check for NullPointerException

@@ -11,6 +11,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+/**
+ * This class is responsible for implementing session manager firebase user class.
+ */
 public class SessionManagerFirebaseUser implements ISessionManagerFirebaseUser {
 
     FirebaseDatabase db = FirebaseDatabase.getInstance(Constants.FIREBASE_URL);

@@ -7,10 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.quickcash.home.EmployeeHomeActivity;
 import com.example.quickcash.home.EmployerHomeActivity;
 import com.example.quickcash.R;
@@ -20,21 +18,21 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
+/**
+ * This class is responsible for implementing the logIn activity functionality.
+ */
 public class LogInActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseDatabase db;
 
     /**
      * Initialized the login page on load.
-     *
      * @param savedInstanceState
      */
     @Override
@@ -66,7 +64,6 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     /**
      * The method returns the data snapshot from firebase and it calls the method responsible for
      * checking the credentials.
-     *
      * @param email    - Email provided by the user.
      * @param password - Password provided by the user.
      */
@@ -97,7 +94,6 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
      * Finds a user with the given email. If the user exists => checks the password.
      * If the user credentials match => user is redirected to the proper homepage.
      * If the user email or password do not match the user is informed that "Invalid Email or Password."
-     *
      * @param dataSnapshot - data from firebase
      * @param email        - email given by the user
      * @param password     - password given by the user
@@ -130,7 +126,6 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
     /**
      * Gets the email and password and calls other methods to ensure their validity.
-     *
      * @param loginPage - login page view.
      */
     @Override
@@ -156,7 +151,6 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
     /**
      * Returns the user with given email.
-     *
      * @param dataSnapshot - is the data received from Firebase
      * @param email        - is the email of the user
      * @param password     - password of the user.
@@ -182,7 +176,6 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
     /**
      * This method is responsible for decrypting the encrypted password string
-     *
      * @param encrypted the encrypted password string
      * @return returns decrypted password string
      * @throws Exception To check for NullPointerException
@@ -205,7 +198,6 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
     /**
      * Switches to the proper homepage
-     *
      * @param isEmployee - boolean used to determine which home page to open.
      */
     protected void switchToHomePage(boolean isEmployee) {
@@ -232,14 +224,29 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         return etPassword.getText().toString().trim();
     }
 
+    /**
+     * This method is responsible for checking if the email is empty or not.
+     * @param email user given email
+     * @return true if empty, false otherwise.
+     */
     protected boolean isEmailEmpty(String email) {
         return email.trim().isEmpty();
     }
 
+    /**
+     * This method is responsible for checking if the password is empty or not.
+     * @param password user given password
+     * @return true if empty, false otherwise.
+     */
     protected boolean isPasswordEmpty(String password) {
         return password.trim().isEmpty();
     }
 
+    /**
+     * This method is responsible for checking if the email address is proper or not.
+     * @param emailAddress user given email address
+     * @return true if proper, false otherwise.
+     */
     protected boolean isProperEmailAddress(String emailAddress) {
         return emailAddress.trim().matches("..*@..*\\...*");
     }
