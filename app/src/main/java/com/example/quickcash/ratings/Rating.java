@@ -1,7 +1,9 @@
 package com.example.quickcash.ratings;
 
 import java.util.UUID;
-
+/**
+ * Rating Object
+ */
 public class Rating {
 
     private final String ratingID;
@@ -10,6 +12,15 @@ public class Rating {
     private float ratingValue;
     private String jobPostingID;
 
+    /**
+     * Rating
+     *
+     * @param senderUserEmail
+     * @param receiverUserEmail
+     * @param ratingValue
+     * @param jobPostingID
+     * @return
+     */
     public Rating(String senderUserEmail, String receiverUserEmail, float ratingValue, String jobPostingID) {
         this.ratingID = UUID.randomUUID().toString();
         this.senderUserEmail = senderUserEmail;
@@ -18,6 +29,10 @@ public class Rating {
         this.jobPostingID = jobPostingID;
     }
 
+    /**
+     * Rating
+     * setting random ratingID
+     */
     public Rating() {
         this.ratingID = UUID.randomUUID().toString();
     }

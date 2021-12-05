@@ -4,7 +4,9 @@ import com.example.quickcash.common.Constants;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
+/**
+ * pushing rating subject to database
+ */
 public class DAORating {
     private final DatabaseReference databaseReference;
 
@@ -17,6 +19,12 @@ public class DAORating {
         return databaseReference;
     }
 
+    /**
+     * add
+     * add rating to user
+     * @param rating
+     * @return rating confirm
+     */
     public Task<Void> add(Rating rating) {
         return databaseReference.push().setValue(rating);
     }

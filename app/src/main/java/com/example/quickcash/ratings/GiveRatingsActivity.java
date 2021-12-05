@@ -22,7 +22,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
+/**
+ * create a page which allow a user to another user a rating
+ */
 public class GiveRatingsActivity extends AppCompatActivity {
 
     private TextView statusView;
@@ -82,6 +84,7 @@ public class GiveRatingsActivity extends AppCompatActivity {
 
     /**
      * Add rating from firebase
+     *
      * @param rating
      * @param jobPostingID
      */
@@ -115,6 +118,7 @@ public class GiveRatingsActivity extends AppCompatActivity {
 
     /**
      * Sets the rating message
+     *
      * @param rating
      * @param daoRating
      */
@@ -129,6 +133,7 @@ public class GiveRatingsActivity extends AppCompatActivity {
 
     /**
      * Ensures that for each job posting only one rating per employee and employer is send.
+     *
      * @param jobPostingIDFound
      * @param adSnapShot
      * @param jobPostingID
@@ -142,6 +147,12 @@ public class GiveRatingsActivity extends AppCompatActivity {
         return jobPostingIDFound;
     }
 
+    /**
+     * setStatus
+     * Sets the Status message
+     *
+     * @param statusMessage
+     */
     public void setStatus(String statusMessage) {
         statusView.setVisibility(View.VISIBLE);
         statusView.setText(statusMessage);

@@ -26,14 +26,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.example.quickcash.home.EmployerHomeActivity;
 import com.example.quickcash.R;
+import com.example.quickcash.common.Constants;
+import com.example.quickcash.databinding.ActivityJobPostingBinding;
+import com.example.quickcash.home.EmployerHomeActivity;
 import com.example.quickcash.user_management.IPreference;
 import com.example.quickcash.user_management.Preference;
 import com.example.quickcash.user_management.SessionManager;
 import com.example.quickcash.user_management.User;
-import com.example.quickcash.common.Constants;
-import com.example.quickcash.databinding.ActivityJobPostingBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -54,6 +54,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Creates a page containing a form to allow an employer to create a job posting.
+ */
 public class JobPostingActivity extends AppCompatActivity implements OnMapReadyCallback,
         AdapterView.OnItemSelectedListener {
     public static final String EXTRA_MESSAGE = Constants.STRING_INTENT_KEY;
@@ -156,6 +159,7 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
 
     /**
      * Starts the location permission if the location permission is granted.
+     *
      * @param requestCode
      * @param permissions
      * @param grantResults
@@ -194,7 +198,6 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     /**
-     *
      * @param googleMap
      */
     @Override
@@ -264,8 +267,15 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
 
     }
 
+    /**
+     * Moves the camera in the maps window to the users location.
+     *
+     * @param latlng
+     * @param zoom
+     * @param title
+     */
     public void moveCamera(LatLng latlng, float zoom, String title) {
-        // to move the camera to hte latitude and zoom value.
+        // to move the camera to the latitude and zoom value.
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, zoom));
         // create a marker
         MarkerOptions options = new MarkerOptions().position(latlng).title(title);
@@ -318,6 +328,7 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
 
     /**
      * Gets a list of titles, to make sure that the title is unique
+     *
      * @param dataSnapshot
      * @return
      */
@@ -332,6 +343,9 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
         return null;
     }
 
+    /**
+     * Initializes a spinner object with job types to be selected by employer.
+     */
     protected void populateSpinner() {
         ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(this, R.array.planets_array, android.R.layout.simple_spinner_item);
         Spinner jobType = findViewById(R.id.etJPType);
@@ -339,11 +353,21 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
         jobType.setAdapter(arrayAdapter);
     }
 
+    /**
+     * Gets the job title that has been entered by the employer.
+     *
+     * @return Job Title
+     */
     protected String getJobTitle() {
         EditText jobTitle = findViewById(R.id.etJPTitle);
         return jobTitle.getText().toString().trim();
     }
 
+    /**
+     * Gets the duration that has been entered by the employer.
+     *
+     * @return Duration in hours.
+     */
     protected int getDuration() {
         EditText duration = findViewById(R.id.etDuration);
         String durationString = duration.getText().toString();
@@ -354,6 +378,11 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
 
     }
 
+    /**
+     * Gets the location that has been set by the maps.
+     *
+     * @return
+     */
     protected String getLocation() {
         location = findViewById(R.id.etLocation);
         return location.getText().toString().trim();
@@ -361,6 +390,7 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
 
     /**
      * Fills the location in the layout from the intent
+     *
      * @param intent
      */
     private void setLocation(Intent intent) {
@@ -369,6 +399,11 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
         location.setText(locationStr);
     }
 
+    /**
+     * Gets the wage that has been entered by the employer.
+     *
+     * @return
+     */
     protected int getWage() {
         EditText wage = findViewById(R.id.etWage);
         String wageString = wage.getText().toString();
@@ -399,6 +434,7 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
     /**
      * If the user input are valid, it notifies the preferred users using
      * the observer and calla createJobPosting. Else it displays an error message.
+     *
      * @param jobTitleStr
      * @param durationInt
      * @param wageInt
@@ -427,6 +463,7 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
 
     /**
      * Adds the job posting to the database
+     *
      * @param jobTitleStr
      * @param durationInt
      * @param wageInt
@@ -448,6 +485,11 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
         etError.setText(statusMessage);
     }
 
+    /**
+     * Changes pages to the job posting details once the job has been created.
+     *
+     * @param jobTypeId
+     */
     protected void switchToJPDetails(String jobTypeId) {
         Intent testIntent = new Intent(this, JobPostingDetailsActivity.class);
         testIntent.putExtra(EXTRA_MESSAGE, jobTypeId);
@@ -459,12 +501,16 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
      * The method sets the jobTypeID, if the user does not select job type, default value 0 is
      * given
      */
-
     public void onItemSelected(AdapterView<?> parent, View view,
                                int pos, long id) {
         jobTypeId = pos > 0 ? pos : 0;
     }
 
+    /**
+     * Required by interface.
+     *
+     * @param parent
+     */
     public void onNothingSelected(AdapterView<?> parent) {
         // Another interface callback. (Default=0)
     }
