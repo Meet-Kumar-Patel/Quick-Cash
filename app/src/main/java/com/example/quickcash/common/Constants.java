@@ -35,8 +35,8 @@ public class Constants {
             "(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
     public static final String EMAIL_ADDRESS = "noreplycsci3130@gmail.com";
     public static final String SENDER_PASSWORD = "Joben@1999";
-    public static final String CHECK_OUT_DETAILS = "posted a job that is matching your preference. Please login to check out details";
-    public static final String THE_FOLLOWING_EMPLOYER = " the following Employer";
+    public static final String CHECK_OUT_DETAILS = " posted a job that is matching your preference. Please login to check out details";
+    public static final String THE_FOLLOWING_EMPLOYER = " the following Employer ";
     public static final String HI = "Hi ";
     public static final String JOHN_EMAIL_ADDRESS = "john@smith.ca";
     public static final String CONGRATULATIONS_YOU_HAVE_BEEN_ACCEPTED_ = ", Congratulations! You have been accepted for a job posting. Please login to check out details";
