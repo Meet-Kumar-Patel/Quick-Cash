@@ -14,13 +14,18 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 public class AcceptDeclineFirebaseTasks {
 
     FirebaseDatabase db = FirebaseDatabase.getInstance(Constants.FIREBASE_URL);
 
+    /**
+     * Gets the job postings created by the current logged user and it passes the list to
+     * getUsersFromFirebase()
+     * @param acceptDeclineTasks
+     * @param createdByEmail, email of the current logged user.
+     */
     public void getJobPostingsFromFirebase(AcceptDeclineTasks acceptDeclineTasks,
                                            String createdByEmail) {
         DatabaseReference jobPostingReference = db.getReference(JobPosting.class.getSimpleName());
@@ -45,6 +50,12 @@ public class AcceptDeclineFirebaseTasks {
         });
     }
 
+    /**
+     * Gets the users from the firebase that have applied to the job posting created by the current
+     * logged user.
+     * @param acceptDeclineTasks
+     * @param hashMap, list of jobs created by the current logged user.
+     */
     public void getUsersFromFirebase(AcceptDeclineTasks acceptDeclineTasks,
                                      Map<String, JobPosting> hashMap) {
         DatabaseReference userReference = db.getReference(User.class.getSimpleName());

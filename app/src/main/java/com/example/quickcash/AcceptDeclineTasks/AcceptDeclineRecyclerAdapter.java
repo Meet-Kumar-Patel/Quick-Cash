@@ -26,7 +26,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDeclineRecyclerAdapter.MyViewHolder> {
+public class AcceptDeclineRecyclerAdapter extends
+        RecyclerView.Adapter<AcceptDeclineRecyclerAdapter.MyViewHolder> {
 
     HashMap<String, JobPosting> hashMap;
     private ArrayList<AcceptDeclineObject> acceptDeclineObjects;
@@ -40,7 +41,8 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
      * @param acceptDeclineObjects
      * @param hashMap
      */
-    public AcceptDeclineRecyclerAdapter(Context context, List<AcceptDeclineObject> acceptDeclineObjects, Map<? extends Object, ? extends Object> hashMap) {
+    public AcceptDeclineRecyclerAdapter(Context context, List<AcceptDeclineObject>
+            acceptDeclineObjects, Map<? extends Object, ? extends Object> hashMap) {
         this.acceptDeclineObjects = (ArrayList<AcceptDeclineObject>) acceptDeclineObjects;
         this.context = context;
         this.hashMap = (HashMap<String, JobPosting>) hashMap;
@@ -59,7 +61,8 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.accept_decline_items, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(
+                R.layout.accept_decline_items, parent, false);
         return new MyViewHolder(itemView);
     }
 
@@ -71,23 +74,27 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
      */
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        // Initializing the job list items
         AcceptDeclineObject acceptDeclineObject = acceptDeclineObjects.get(position);
         holder.employeeName.setText(acceptDeclineObject.getUserName());
         holder.jobTitleButton.setText(acceptDeclineObject.getJobPostingName());
         DAOJobPosting daoJobPosting = new DAOJobPosting();
         String jpKey = acceptDeclineObject.getJobKey();
         JobPosting jobPosting = hashMap.get(jpKey);
+        // When the user clicks on the accept btn, update the database
         holder.acceptButton.setOnClickListener(view -> {
             jobPosting.setAccepted(acceptDeclineObject.getUserEmail());
-
-// --------------- Notify employee when employer accepts the employee for the job.//----------------
+            //Notify employee when employer accepts the employee for the job.
             EmailNotification emailNotification = new EmailNotification();
             String employeeEmail = acceptDeclineObject.getUserEmail();
-            emailNotification.sendEmailNotification("noreplycsci3130@gmail.com", employeeEmail, "Joben@1999", "Hi " + acceptDeclineObject.getUserName() + ", Congratulations! You have been accepted for a job posting. Please login to check out details");
-
+            emailNotification.sendEmailNotification(Constants.EMAIL_ADDRESS, employeeEmail,
+                    Constants.SENDER_PASSWORD, Constants.HI +
+                            acceptDeclineObject.getUserName() +
+                            Constants.CONGRATULATIONS_YOU_HAVE_BEEN_ACCEPTED_);
             daoJobPosting.update(jobPosting, jpKey);
             disableAcceptBtn(holder);
         });
+
         // If the candidate has been accepted then the btn should say Selected and should not be
         // clickable
         if (acceptDeclineObject.isAccepted()) {
@@ -110,10 +117,16 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
         holder.acceptButton.setText(Constants.ACCEPT_BUTTON_DISABLE_TEXT);
     }
 
+    /**
+     * Allows the employer to check the invoice page for paying the employees
+     * @param holder, is the adapter holding the btn
+     * @param key, is the location string in firebase real time database
+     * @param userName, is the name of the receiver of the payment.
+     */
     public void showPayBtn(MyViewHolder holder, String key, String userName) {
         holder.acceptButton.setClickable(true);
         holder.acceptButton.setText("Pay Now");
-        holder.acceptButton.setOnClickListener((view) -> openPayPalActivity(key, userName));
+        holder.acceptButton.setOnClickListener(view -> openPayPalActivity(key, userName));
     }
 
     /**
@@ -135,11 +148,11 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
     }
 
     /**
-     * Initializes intents
-     *
-     * @param key
-     * @param userName
-     * @param userEmail
+     * Initializes rating intents. If the task is completed GiveRatingsActivity page is opened, else
+     * the employer can only view the rating.
+     * @param key, is the location in the database
+     * @param userName, is the name of the user receiving the payment
+     * @param userEmail, is the email of the user receiving the email
      */
     public void openIntent(String key, String userName, String userEmail) {
         JobPosting jobPosting = hashMap.get(key);
@@ -156,6 +169,11 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
         context.startActivity(intent);
     }
 
+    /**
+     * Opens the paypal activity and it passes the key and name of the user receiving the payment.
+     * @param key, the location in the database
+     * @param userName, is the name of the user receiving the payment
+     */
     public void openPayPalActivity(String key, String userName) {
         JobPosting jobPosting = hashMap.get(key);
         Intent intent = new Intent(context, PaypalActivity.class);
@@ -165,6 +183,9 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
         context.startActivity(intent);
     }
 
+    /**
+     * The methods initializes the buttons of the holder
+     */
     public class MyViewHolder extends RecyclerView.ViewHolder {
         Button acceptButton;
         Button ratingsButton;

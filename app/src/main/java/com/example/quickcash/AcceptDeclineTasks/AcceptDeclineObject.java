@@ -2,6 +2,10 @@ package com.example.quickcash.AcceptDeclineTasks;
 
 import java.util.UUID;
 
+/**
+ * Holds the information required to display job posting along with buttons required to accept, pay
+ * and view rating. The object is not stored in the database.
+ */
 public class AcceptDeclineObject {
     private final String id;
     private String userName;
@@ -12,7 +16,9 @@ public class AcceptDeclineObject {
     private boolean isAccepted;
     private boolean isTaskComplete;
 
-    public AcceptDeclineObject(String userName, String userEmail, String jobPostingID, String jobPostingName, String jobKey, boolean isAccepted, boolean isTaskComplete) {
+    public AcceptDeclineObject(String userName, String userEmail, String jobPostingID,
+                               String jobPostingName, String jobKey, boolean isAccepted,
+                               boolean isTaskComplete) {
         id = UUID.randomUUID().toString();
         this.userName = userName;
         this.userEmail = userEmail;
@@ -67,13 +73,19 @@ public class AcceptDeclineObject {
         this.jobKey = jobKey;
     }
 
-    public boolean isAccepted() { return isAccepted; }
+    public boolean isAccepted() {
+        return isAccepted;
+    }
 
     public void setAccepted(boolean accepted) {
         isAccepted = accepted;
     }
 
-    public boolean isTaskComplete() { return isTaskComplete; }
+    public boolean isTaskComplete() {
+        return isTaskComplete;
+    }
 
-    public void setTaskComplete(boolean taskComplete) { isTaskComplete = taskComplete; }
+    public void setTaskComplete(boolean taskComplete) {
+        isTaskComplete = taskComplete;
+    }
 }

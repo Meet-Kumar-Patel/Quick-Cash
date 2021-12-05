@@ -1,7 +1,5 @@
 package com.example.quickcash.JobPosting;
 
-import com.example.quickcash.UserManagement.EmailNotification;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -18,7 +16,6 @@ public class JobPosting implements IJobPosting {
     private ArrayList<String> lstAppliedBy;
     private String accepted;
     private String createdByName;
-    private final ArrayList<Observer> preferences = new ArrayList<>();
 
     public JobPosting(String jobTitle, int type, int duration, String location, int wage, String createdBy, String createdByName) {
         this.jobPostingId = UUID.randomUUID().toString();
