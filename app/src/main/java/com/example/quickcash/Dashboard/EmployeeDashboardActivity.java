@@ -33,8 +33,28 @@ public class EmployeeDashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_list);
         SessionManager sessionManager = new SessionManager(getApplicationContext());
-        dashboardFirebaseTasks.getDashboardJobs(this, sessionManager.getKeyEmail());
+        dashboardFirebaseTasks.getDashboardJobs(this,
+                sessionManager.getKeyEmail());
         recyclerView = findViewById(R.id.recyclerview);
+        initializeJobSearchView();
+        initializeButtons();
+    }
+
+    private void initializeButtons() {
+        Button resetButton = findViewById(R.id.resetbutton);
+        resetButton.setOnClickListener(view -> {
+            jobSearchView.setQuery("", false);
+            jobSearchView.clearFocus();
+        });
+        Button homeButton = findViewById(R.id.backToEmployerHomeBtn);
+        homeButton.setOnClickListener(view -> {
+            Intent homeIntent = new Intent(EmployeeDashboardActivity.this,
+                    EmployeeHomeActivity.class);
+            startActivity(homeIntent);
+        });
+    }
+
+    private void initializeJobSearchView() {
         jobSearchView = findViewById(R.id.jobsearch);
         jobSearchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
         jobSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -48,16 +68,6 @@ public class EmployeeDashboardActivity extends AppCompatActivity {
                 adapter.getFilter().filter(s);
                 return false;
             }
-        });
-        Button resetButton = findViewById(R.id.resetbutton);
-        resetButton.setOnClickListener(view -> {
-            jobSearchView.setQuery("", false);
-            jobSearchView.clearFocus();
-        });
-        Button homeButton = findViewById(R.id.backToEmployerHomeBtn);
-        homeButton.setOnClickListener(view -> {
-            Intent homeIntent = new Intent(EmployeeDashboardActivity.this, EmployeeHomeActivity.class);
-            startActivity(homeIntent);
         });
     }
 

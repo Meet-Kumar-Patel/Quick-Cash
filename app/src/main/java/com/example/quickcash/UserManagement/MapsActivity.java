@@ -277,7 +277,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         // getting the exact city name from the address list.
         cityName = addresses.get(0).getAddressLine(0);
         String[] separated = cityName.split(",");
-        cityName = separated[1];
+        cityName = separated[2];
     }
 
     /**

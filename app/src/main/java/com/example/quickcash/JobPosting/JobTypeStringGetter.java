@@ -1,10 +1,18 @@
-package com.example.quickcash.TaskList;
+package com.example.quickcash.JobPosting;
 
 import com.example.quickcash.common.Constants;
 
 public class JobTypeStringGetter {
     public static final String HOURLY_BABYSITTING = "Hourly Babysitting";
 
+    private JobTypeStringGetter() {
+    }
+
+    /**
+     * Converts the job type integer identifier to the appropriate job type string.
+     * @param jobType
+     * @return
+     */
     public static String getJobType(int jobType) {
         String jobTypeString = "";
         switch (jobType) {

@@ -21,6 +21,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
 public class LogInActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseDatabase db;
@@ -78,6 +85,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                     }
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.println(Log.WARN, Constants.TAG_ERROR_FIREBASE, error.toString());
@@ -94,7 +102,9 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
      * @param email        - email given by the user
      * @param password     - password given by the user
      */
-    private void verifyUserCredentials(DataSnapshot dataSnapshot, String email, String password) throws Exception {
+    private void verifyUserCredentials(DataSnapshot dataSnapshot, String email, String password)
+            throws InvalidKeyException, BadPaddingException, NoSuchAlgorithmException,
+            IllegalBlockSizeException, NoSuchPaddingException {
         IUser userWithGivenEmail;
         IUserManagementAbstractFactory userManagementAbstractFactory = UserManagementInjector.
                 getInstance().getUserManagementAbstractFactory();
@@ -152,7 +162,9 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
      * @param password     - password of the user.
      * @return user with the given email, if not user is not found => null.
      */
-    protected IUser getUserFromDataSnapshot(DataSnapshot dataSnapshot, String email, String password) throws Exception {
+    protected IUser getUserFromDataSnapshot(DataSnapshot dataSnapshot, String email, String password)
+            throws IllegalBlockSizeException, InvalidKeyException,
+            BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException {
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
             IUser user = snapshot.getValue(User.class);
             boolean emailMatches = user.getEmail().equals(email);
@@ -175,7 +187,9 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
      * @return returns decrypted password string
      * @throws Exception To check for NullPointerException
      */
-    public String decrypt(String encrypted) throws Exception {
+    public String decrypt(String encrypted) throws NoSuchAlgorithmException,
+            NoSuchPaddingException, InvalidKeyException, BadPaddingException,
+            IllegalBlockSizeException {
         IUserManagementAbstractFactory userManagementAbstractFactory = UserManagementInjector.
                 getInstance().getUserManagementAbstractFactory();
         IAESUtils aesUtils = userManagementAbstractFactory.getAESInstance();

@@ -15,25 +15,22 @@ public class SessionManager implements ISessionManager {
     public static final String KEY_PASSWORD = "name";
     // Email address (make variable public to access from outside)
     public static final String KEY_EMAIL = "email";
+    // Shared pref mode
+    static final int PRIVATE_MODE = 0;
     // Session file name
     private static final String PREF_NAME = "SessionManagerFile";
     // All Shared Preferences Keys
     private static final String IS_LOGIN = "IsLoggedIn";
-
     private static final String KEY_NAME = "userName";
-
     private static final ISessionManagerFirebaseUser sessionManagerFirebaseUser =
             UserManagementInjector.getInstance().getUserManagementAbstractFactory().
                     getISessionManagerFirebaseUserInstance();
-
     // Shared Preferences
     SharedPreferences pref;
     // Editor for Shared preferences
     SharedPreferences.Editor editor;
     // Context
     Context context;
-    // Shared pref mode
-    static final int PRIVATE_MODE = 0;
 
     // Constructor
     @SuppressLint("CommitPrefEdits")
@@ -86,13 +83,8 @@ public class SessionManager implements ISessionManager {
     @Override
     public HashMap<String, String> getUserDetails() {
         HashMap<String, String> user = new HashMap<>();
-        // email
         user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
-        // password
-        user.put(KEY_PASSWORD, pref.getString(KEY_PASSWORD, null));
-        // password
         user.put(KEY_PASSWORD, pref.getString(KEY_NAME, null));
-        // return user
         return user;
     }
 

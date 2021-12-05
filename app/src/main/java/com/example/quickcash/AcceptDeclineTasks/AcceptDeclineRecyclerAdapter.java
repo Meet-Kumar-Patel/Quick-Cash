@@ -17,6 +17,7 @@ import com.example.quickcash.JobPosting.JobPostingActivity;
 import com.example.quickcash.R;
 import com.example.quickcash.Ratings.GiveRatingsActivity;
 import com.example.quickcash.Ratings.ViewRatingActivity;
+import com.example.quickcash.common.Constants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,19 +61,16 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
             daoJobPosting.update(jobPosting, jpKey);
             disableAcceptBtn(holder);
         });
-
         // If the candidate has been accepted then the btn should say Selected and should not be clickable
         if (acceptDeclineObject.isAccepted()) {
             disableAcceptBtn(holder);
         }
-
-
         holder.ratingsButton.setOnClickListener(view -> openIntent(jpKey, acceptDeclineObject.getUserName(), acceptDeclineObject.getUserEmail()));
     }
 
     public void disableAcceptBtn(MyViewHolder holder) {
         holder.acceptButton.setClickable(false);
-        holder.acceptButton.setText("Selected");
+        holder.acceptButton.setText(Constants.ACCEPT_BUTTON_DISABLE_TEXT);
     }
 
     @Override

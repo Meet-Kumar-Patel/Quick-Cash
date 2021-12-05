@@ -11,10 +11,10 @@ import android.widget.Filterable;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.quickcash.Dashboard.EmployeeDashboardActivity;
 import com.example.quickcash.JobPosting.JobPosting;
 import com.example.quickcash.JobPosting.JobPostingActivity;
 import com.example.quickcash.JobPosting.JobPostingDetailsActivity;
+import com.example.quickcash.JobPosting.JobTypeStringGetter;
 import com.example.quickcash.R;
 
 import java.util.ArrayList;
@@ -26,8 +26,13 @@ public class TaskListRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerVi
     private Context context;
     private Filter jobFilter;
 
-    //Code adapted from https://www.youtube.com/watch?v=sJ-Z9G0SDhc
-
+    /**
+     * Initializes a recycler adapter to display job postings.
+     * Code adapted from https://www.youtube.com/watch?v=sJ-Z9G0SDhc
+     *
+     * @param context
+     * @param jobPostingArrayList
+     */
     public TaskListRecyclerAdapter(Context context, List<JobPosting> jobPostingArrayList) {
         this.context = context;
         this.jobPostingArrayList = (ArrayList<JobPosting>) jobPostingArrayList;
@@ -36,9 +41,16 @@ public class TaskListRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerVi
         jobFilter = taskListFilterFactory.getFilter(this, jobPostingArrayListFull);
     }
 
-    public TaskListRecyclerAdapter(EmployeeDashboardActivity employeeDashboardActivity, List<JobPosting> jobsAppliedForArray) {
+    public TaskListRecyclerAdapter() {
     }
 
+    /**
+     * Initializes the view holder for the recycler adapter.
+     *
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @NonNull
     @Override
     public TaskRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -46,6 +58,12 @@ public class TaskListRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerVi
         return new TaskRecyclerViewHolder(itemView);
     }
 
+    /**
+     * Initializes each of the elements inside of the view holder on binding.
+     *
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull TaskRecyclerViewHolder holder, int position) {
         JobPosting jobPosting = jobPostingArrayList.get(position);
@@ -63,6 +81,11 @@ public class TaskListRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerVi
         });
     }
 
+    /**
+     * Returns the number of job postings being displayed.
+     *
+     * @return size of Job Posting List.
+     */
     @Override
     public int getItemCount() {
         return jobPostingArrayList.size();
@@ -77,6 +100,11 @@ public class TaskListRecyclerAdapter extends RecyclerView.Adapter<TaskRecyclerVi
         return jobPostingArrayList;
     }
 
+    /**
+     * Sets the JobPosting List, and updates the contents of the recycler view.
+     *
+     * @param jobPostingArrayList
+     */
     public void setJobPostingArrayList(List<JobPosting> jobPostingArrayList) {
         this.jobPostingArrayList = (ArrayList<JobPosting>) jobPostingArrayList;
         notifyDataSetChanged();

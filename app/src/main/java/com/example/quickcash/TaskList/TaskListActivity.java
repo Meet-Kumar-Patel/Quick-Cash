@@ -34,7 +34,11 @@ public class TaskListActivity extends AppCompatActivity {
     SearchView jobSearchView;
     private RecyclerView recyclerView;
 
-    //Refactoring needed, move search, and button init to new methods.
+    /**
+     * Calls methods to initialize TaskListActivity on load.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +50,7 @@ public class TaskListActivity extends AppCompatActivity {
 
     private void initializeActivity() {
         Intent intent = getIntent();
-        //city = intent.getStringExtra(Constants.CITY_INTENT).trim();
+        city = intent.getStringExtra("City").trim();
         setContentView(R.layout.activity_task_list);
         sessionManager = new SessionManager(getApplicationContext());
         recyclerView = findViewById(R.id.recyclerview);
@@ -105,6 +109,11 @@ public class TaskListActivity extends AppCompatActivity {
         return adapter;
     }
 
+    /**
+     * Sets the recycler adapter for the task list.
+     *
+     * @param adapter
+     */
     public void setAdapter(TaskListRecyclerAdapter adapter) {
         this.adapter = adapter;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -113,6 +122,11 @@ public class TaskListActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
+    /**
+     * Adds a job posting to the ArrayList of JobPosting's to be displayed on page.
+     *
+     * @param jobPosting
+     */
     public void addJobPostingToArray(JobPosting jobPosting) {
         jobPostingArrayList.add(jobPosting);
     }
@@ -121,6 +135,11 @@ public class TaskListActivity extends AppCompatActivity {
         return jobPostingArrayList;
     }
 
+    /**
+     * Set's the query to be searched in the search view.
+     *
+     * @param query
+     */
     public void setSearchQuery(String query) {
         jobSearchView.setQuery(query, false);
     }

@@ -7,7 +7,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class DAOJobPosting extends DAO {
-    private DatabaseReference databaseReference;
+    private final DatabaseReference databaseReference;
 
     public DAOJobPosting() {
         FirebaseDatabase db = FirebaseDatabase.getInstance(Constants.FIREBASE_URL);

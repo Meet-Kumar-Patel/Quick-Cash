@@ -19,10 +19,11 @@ import java.util.Map;
 
 public class AcceptDeclineFirebaseTasks {
 
-    FirebaseDatabase db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
+    FirebaseDatabase db = FirebaseDatabase.getInstance(Constants.FIREBASE_URL);
 
-    public void getJobPostingsFromFirebase(AcceptDeclineTasks acceptDeclineTasks, String createdByEmail) {
-        DatabaseReference jobPostingReference = db.getReference("JobPosting");
+    public void getJobPostingsFromFirebase(AcceptDeclineTasks acceptDeclineTasks,
+                                           String createdByEmail) {
+        DatabaseReference jobPostingReference = db.getReference(JobPosting.class.getSimpleName());
         jobPostingReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -44,22 +45,26 @@ public class AcceptDeclineFirebaseTasks {
         });
     }
 
-    public void getUsersFromFirebase(AcceptDeclineTasks acceptDeclineTasks, Map<String, JobPosting> hashMap) {
-        DatabaseReference userReference = db.getReference("User");
-        ArrayList<String> emails = (ArrayList<String>) acceptDeclineTasks.getAppliedUserEmailsFromHashMap( hashMap);
+    public void getUsersFromFirebase(AcceptDeclineTasks acceptDeclineTasks,
+                                     Map<String, JobPosting> hashMap) {
+        DatabaseReference userReference = db.getReference(User.class.getSimpleName());
+        ArrayList<String> emails = (ArrayList<String>) acceptDeclineTasks
+                .getAppliedUserEmailsFromHashMap(hashMap);
         userReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot adSnapshot : snapshot.getChildren()) {
                     User user = adSnapshot.getValue(User.class);
                     for (String email : emails) {
-                        if (email.equals(user.getEmail()) && !acceptDeclineTasks.getUserArrayList().contains(user)) {
+                        if (email.equals(user.getEmail()) && !acceptDeclineTasks
+                                .getUserArrayList().contains(user)) {
                             acceptDeclineTasks.addUserToArray(user);
                         }
                     }
                 }
                 acceptDeclineTasks.addAcceptDeclineOBJ();
-                acceptDeclineTasks.setAdapter(new AcceptDeclineRecyclerAdapter(acceptDeclineTasks, acceptDeclineTasks.getAcceptDeclineOBJList(), (HashMap) hashMap));
+                acceptDeclineTasks.setAdapter(new AcceptDeclineRecyclerAdapter(acceptDeclineTasks,
+                        acceptDeclineTasks.getAcceptDeclineOBJList(), hashMap));
 
             }
 

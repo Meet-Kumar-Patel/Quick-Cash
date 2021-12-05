@@ -3,16 +3,25 @@ package com.example.quickcash.TaskList;
 import android.widget.Filter;
 
 import com.example.quickcash.JobPosting.JobPosting;
+import com.example.quickcash.JobPosting.JobTypeStringGetter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TaskListFilterFactory {
 
+    /**
+     * Creates and returns a filter to be used to search through job postings.
+     *
+     * @param taskListRecyclerAdapter
+     * @param fullJobPostingList
+     * @return
+     */
     public Filter getFilter(TaskListRecyclerAdapter taskListRecyclerAdapter,
                             List<JobPosting> fullJobPostingList) {
         return new Filter() {
-            TaskListFilterFactory taskListFilterFactory = new TaskListFilterFactory();
+            final TaskListFilterFactory taskListFilterFactory = new TaskListFilterFactory();
+
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 List<JobPosting> filteredJobList =
@@ -32,6 +41,13 @@ public class TaskListFilterFactory {
         };
     }
 
+    /**
+     * Filters a List of JobPostings according to either their name or job type.
+     *
+     * @param fullJobPostingList
+     * @param constraint
+     * @return
+     */
     public List<JobPosting> filterJobPostingList(List<JobPosting> fullJobPostingList,
                                                  CharSequence constraint) {
         List<JobPosting> filteredJobList = new ArrayList<>();

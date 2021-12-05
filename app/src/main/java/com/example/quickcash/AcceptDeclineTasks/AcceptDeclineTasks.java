@@ -17,7 +17,6 @@ import com.example.quickcash.UserManagement.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -82,9 +81,9 @@ public class AcceptDeclineTasks extends AppCompatActivity {
     }
 
     protected void addAcceptDeclineOBJ() {
-        for (String key : jobPostingHashMap.keySet()) {
+        for (Map.Entry<String, JobPosting> entry : jobPostingHashMap.entrySet()) {
+            String key = entry.getKey();
             JobPosting jobPosting = jobPostingHashMap.get(key);
-
             for (int i = 0; i < userArrayList.size(); i++) {
                 User user = userArrayList.get(i);
                 initializeAcceptDeclineOBJ(key, jobPosting, user);
@@ -110,7 +109,9 @@ public class AcceptDeclineTasks extends AppCompatActivity {
         }
     }
 
-    protected JobPosting getJobPosting(String key) {  return jobPostingHashMap.get(key); }
+    protected JobPosting getJobPosting(String key) {
+        return jobPostingHashMap.get(key);
+    }
 
     public List<AcceptDeclineObject> getAcceptDeclineOBJList() {
         return acceptDeclineOBJList;

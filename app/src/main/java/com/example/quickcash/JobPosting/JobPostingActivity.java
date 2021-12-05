@@ -2,6 +2,7 @@ package com.example.quickcash.JobPosting;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.quickcash.Home.EmployerHomeActivity;
 import com.example.quickcash.R;
 import com.example.quickcash.UserManagement.SessionManager;
+import com.example.quickcash.UserManagement.User;
 import com.example.quickcash.common.Constants;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,29 +38,22 @@ public class JobPostingActivity extends AppCompatActivity implements AdapterView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_posting);
-
-        // Ensure that the user is logged in
-
-        //access the intents & show the welcome message
         Intent intent = getIntent();
+        setLocation(intent);
+        initializeSpinner();
+        retrieveDataFromFirebase();
+        initializeButtons();
+    }
 
-        //Received location from map and show to the user
-        locationStr = intent.getStringExtra(Constants.STRING_INTENT_KEY);
-        location = findViewById(R.id.etLocation);
-        location.setText(locationStr);
-
-        // Populate dropdown and assign on select listener
+    private void initializeSpinner() {
         populateSpinner();
         Spinner spinner = findViewById(R.id.etJPType);
         spinner.setOnItemSelectedListener(this);
+    }
 
-        // As soon as the activity opens, load the job title => verify that the job title is unique.
-        retrieveDataFromFirebase();
-
-        // Declare, Initialize and set on click listener to each btn
+    private void initializeButtons() {
         Button homePage = findViewById(R.id.btnJPHomePage);
         homePage.setOnClickListener(view -> returnToHomePage());
-
         Button createJP = findViewById(R.id.btnCreateJP);
         createJP.setOnClickListener(view -> createNewPosting());
     }
@@ -82,14 +77,13 @@ public class JobPostingActivity extends AppCompatActivity implements AdapterView
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                System.out.println(error.getCode());
+                Log.e(Constants.FIREBASE_ERROR, Constants.FIREBASE_ERROR + error.getCode());
             }
 
         });
     }
 
-    protected com.example.quickcash.UserManagement.User getAllTitles(DataSnapshot dataSnapshot) {
-
+    protected User getAllTitles(DataSnapshot dataSnapshot) {
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
             // get all the titles
             JobPosting jobPosting = snapshot.getValue(JobPosting.class);
@@ -127,6 +121,12 @@ public class JobPostingActivity extends AppCompatActivity implements AdapterView
         return location.getText().toString().trim();
     }
 
+    private void setLocation(Intent intent) {
+        locationStr = intent.getStringExtra(Constants.STRING_INTENT_KEY);
+        location = findViewById(R.id.etLocation);
+        location.setText(locationStr);
+    }
+
     protected int getWage() {
         EditText wage = findViewById(R.id.etWage);
         String wageString = wage.getText().toString();
@@ -140,14 +140,15 @@ public class JobPostingActivity extends AppCompatActivity implements AdapterView
     }
 
     protected void createNewPosting() {
-        // Get all the fields
         location = findViewById(R.id.etLocation);
         String jobTitleStr = getJobTitle();
         int durationInt = getDuration();
         locationStr = getLocation();
         int wageInt = getWage();
+        verifyJobPostingIsValid(jobTitleStr, durationInt, wageInt);
+    }
 
-        // Verify the validity
+    private void verifyJobPostingIsValid(String jobTitleStr, int durationInt, int wageInt) {
         if (jobTitleStr == null || jobTitleStr.isEmpty()) {
             setStatusMessage("Job title is required.");
         } else if (titleList.contains(jobTitleStr)) {
@@ -159,24 +160,23 @@ public class JobPostingActivity extends AppCompatActivity implements AdapterView
         } else if (wageInt < 15) {
             setStatusMessage("Wage less than $15 are not accepted.");
         } else {
-            // Reassign location if there is a value. Else the locationStr remains the passed intent value.
             if (!getLocation().isEmpty()) {
                 locationStr = getLocation();
             }
-            // Initializing Session Manager to automatically assign created by and created by Name fields.
-            SessionManager sessionManager = new SessionManager(getApplicationContext());
-            String employer = sessionManager.getKeyEmail();
-            String employerName = sessionManager.getKeyName();
-
-            // Declaring and initializing a new Job Posting obj
-            JobPosting jobPosting = new JobPosting(jobTitleStr, jobTypeId, durationInt, locationStr, wageInt, employer, employerName);
-
-            // Adding the Job Posting obj to the database.
-            daoJobPosting.add(jobPosting);
-
+            JobPosting jobPosting = createJobPosting(jobTitleStr, durationInt, wageInt);
             switchToJPDetails(jobPosting.getJobPostingId());
-
         }
+    }
+
+    @NonNull
+    private JobPosting createJobPosting(String jobTitleStr, int durationInt, int wageInt) {
+        SessionManager sessionManager = new SessionManager(getApplicationContext());
+        String employer = sessionManager.getKeyEmail();
+        String employerName = sessionManager.getKeyName();
+        JobPosting jobPosting = new JobPosting(jobTitleStr, jobTypeId, durationInt, locationStr,
+                wageInt, employer, employerName);
+        daoJobPosting.add(jobPosting);
+        return jobPosting;
     }
 
     private void setStatusMessage(String statusMessage) {

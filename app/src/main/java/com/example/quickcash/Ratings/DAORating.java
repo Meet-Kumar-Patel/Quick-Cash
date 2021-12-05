@@ -1,5 +1,6 @@
 package com.example.quickcash.Ratings;
 
+import com.example.quickcash.common.Constants;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -8,7 +9,7 @@ public class DAORating {
     private final DatabaseReference databaseReference;
 
     public DAORating() {
-        FirebaseDatabase db = FirebaseDatabase.getInstance("https://csci3130-quickcash-group9-default-rtdb.firebaseio.com/");
+        FirebaseDatabase db = FirebaseDatabase.getInstance(Constants.FIREBASE_URL);
         databaseReference = db.getReference(Rating.class.getSimpleName());
     }
 

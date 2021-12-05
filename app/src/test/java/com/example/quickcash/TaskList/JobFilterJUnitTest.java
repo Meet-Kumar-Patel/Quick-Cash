@@ -2,9 +2,8 @@ package com.example.quickcash.TaskList;
 
 import static org.junit.Assert.assertEquals;
 
-import android.widget.Filter;
-
 import com.example.quickcash.JobPosting.JobPosting;
+import com.example.quickcash.JobPosting.JobTypeStringGetter;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -45,7 +44,7 @@ public class JobFilterJUnitTest {
     public void testFilterByJobType() {
         ArrayList<JobPosting> filteredArrList =
                 (ArrayList<JobPosting>) taskListFilterFactory.
-                        filterJobPostingList(jobPostingArrayList,JobTypeStringGetter.getJobType(1));
+                        filterJobPostingList(jobPostingArrayList, JobTypeStringGetter.getJobType(1));
         assertEquals(jobPosting2,filteredArrList.get(0));
     }
 }
