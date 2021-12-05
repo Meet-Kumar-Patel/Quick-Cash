@@ -23,12 +23,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class ViewRatingActivity extends AppCompatActivity {
+
     Rating rating = null;
     TextView ratingHeader = null;
     TextView starRatingNumber = null;
     RatingBar ratingBar = null;
     Button backButton;
-
     float ratingSum = 0;
     String userToRate = "";
     int numRatings = 0;
@@ -77,6 +77,7 @@ public class ViewRatingActivity extends AppCompatActivity {
                     }
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.println(Log.WARN, Constants.TAG_ERROR_FIREBASE, error.toString());
@@ -125,6 +126,5 @@ public class ViewRatingActivity extends AppCompatActivity {
         ratingBar.setClickable(false);
         ratingBar.setEnabled(false);
     }
-
 
 }

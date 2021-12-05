@@ -2,6 +2,7 @@ package com.example.quickcash.AcceptDeclineTasks;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,6 +34,7 @@ public class AcceptDeclineTasks extends AppCompatActivity {
 
     /**
      * Initializes elements on page creation.
+     *
      * @param savedInstanceState
      */
     @Override
@@ -45,6 +47,9 @@ public class AcceptDeclineTasks extends AppCompatActivity {
         acceptDeclineFirebaseTasks.getJobPostingsFromFirebase(this, employerEmail);
         backToEmployerHomeBtn = findViewById(R.id.backToEmployerHomeBtn);
         backToEmployerHomeBtn.setOnClickListener(view -> backToHome());
+        // For on Create method only.
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
     }
 
     public AcceptDeclineRecyclerAdapter getAdapter() {
@@ -53,6 +58,7 @@ public class AcceptDeclineTasks extends AppCompatActivity {
 
     /**
      * Sets the recycler adapter to be used for acceptdecline tasks.
+     *
      * @param adapter
      */
     public void setAdapter(AcceptDeclineRecyclerAdapter adapter) {
@@ -69,6 +75,7 @@ public class AcceptDeclineTasks extends AppCompatActivity {
 
     /**
      * Finds the users that have applied for each job, and adds their emails to an arraylist.
+     *
      * @param hashMap
      * @return
      */
@@ -145,6 +152,4 @@ public class AcceptDeclineTasks extends AppCompatActivity {
         intent = new Intent(this, EmployerHomeActivity.class);
         startActivity(intent);
     }
-
-
 }

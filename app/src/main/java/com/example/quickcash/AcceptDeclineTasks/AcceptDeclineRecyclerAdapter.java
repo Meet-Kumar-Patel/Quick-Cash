@@ -18,6 +18,7 @@ import com.example.quickcash.Paypal.PaypalActivity;
 import com.example.quickcash.R;
 import com.example.quickcash.Ratings.GiveRatingsActivity;
 import com.example.quickcash.Ratings.ViewRatingActivity;
+import com.example.quickcash.UserManagement.EmailNotification;
 import com.example.quickcash.common.Constants;
 
 import java.util.ArrayList;
@@ -78,6 +79,12 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
         JobPosting jobPosting = hashMap.get(jpKey);
         holder.acceptButton.setOnClickListener(view -> {
             jobPosting.setAccepted(acceptDeclineObject.getUserEmail());
+
+// --------------- Notify employee when employer accepts the employee for the job.//----------------
+            EmailNotification emailNotification = new EmailNotification();
+            String employeeEmail = acceptDeclineObject.getUserEmail();
+            emailNotification.sendEmailNotification("noreplycsci3130@gmail.com", employeeEmail, "Joben@1999", "Hi " + acceptDeclineObject.getUserName() + ", Congratulations! You have been accepted for a job posting. Please login to check out details");
+
             daoJobPosting.update(jobPosting, jpKey);
             disableAcceptBtn(holder);
         });
@@ -172,5 +179,4 @@ public class AcceptDeclineRecyclerAdapter extends RecyclerView.Adapter<AcceptDec
             jobTitleButton = view.findViewById(R.id.txt_job_title);
         }
     }
-
 }

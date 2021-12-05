@@ -18,6 +18,7 @@ public class EmployerHomeActivity extends AppCompatActivity {
 
     // Created intents for navigating to the pages
     protected void navigateToCreateTasksPage() {
+//        Intent createTasksPageIntent = new Intent(this, JobPostingTrialActivity.class);
         Intent createTasksPageIntent = new Intent(this, JobPostingActivity.class);
         createTasksPageIntent.putExtra(EXTRA_MESSAGE, "Not Given. Please Enter.");
         startActivity(createTasksPageIntent);

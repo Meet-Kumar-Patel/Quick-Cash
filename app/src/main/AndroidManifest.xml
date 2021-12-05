@@ -8,9 +8,12 @@
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the "MyLocation" functionality.
     -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <meta-data
         android:name="com.google.android.geo.API_KEY"
@@ -29,6 +32,9 @@
         <activity
             android:name=".Paypal.PaypalActivity"
             android:exported="true" />
+        <activity
+            android:name=".UserManagement.EmailNotification"
+            android:exported="true" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -41,6 +47,10 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <activity
+            android:name=".JobPosting.JobPostingActivity"
+            android:exported="true"
+            android:label="@string/title_activity_job_posting_trial" />
         <activity
             android:name=".UserManagement.MapsActivity"
             android:exported="true"
@@ -61,15 +71,16 @@
         <activity android:name=".UserManagement.LogInActivity" />
         <activity android:name=".Home.EmployeeHomeActivity" />
         <activity android:name=".Home.EmployerHomeActivity" />
-        <activity android:name=".AcceptDeclineTasks.AcceptDeclineTasks"></activity>
+        <activity android:name=".AcceptDeclineTasks.AcceptDeclineTasks" />
         <activity android:name=".Dashboard.EmployerDashboardActivity" />
         <activity android:name=".Dashboard.EmployeeDashboardActivity" />
         <activity android:name=".JobPosting.JobPostingDetailsActivity"></activity>
-        <activity android:name=".JobPosting.JobPostingActivity"></activity>
+
         <activity android:name=".TaskList.TaskListActivity"></activity>
         <activity android:name=".UserManagement.PreferenceActivity"></activity>
         <activity android:name=".Ratings.ViewRatingActivity"></activity>
         <activity android:name=".Ratings.GiveRatingsActivity"></activity>
+
     </application>
 
 </manifest>

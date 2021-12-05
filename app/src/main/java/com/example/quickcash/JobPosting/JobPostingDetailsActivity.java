@@ -2,6 +2,7 @@ package com.example.quickcash.JobPosting;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,7 @@ import com.example.quickcash.R;
 import com.example.quickcash.Ratings.GiveRatingsActivity;
 import com.example.quickcash.Ratings.ViewRatingActivity;
 import com.example.quickcash.TaskList.TaskListActivity;
+import com.example.quickcash.UserManagement.EmailNotification;
 import com.example.quickcash.UserManagement.SessionManager;
 import com.example.quickcash.common.Constants;
 import com.google.firebase.database.DataSnapshot;
@@ -38,6 +40,7 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
     private JobPosting jobPostingOBJ;
     private String userEmail = "";
     private String snapshotKey;
+    private String employerEmail = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +72,10 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         btnTaskCompleted = findViewById(R.id.btnJPDMarkCompleted);
         btnTaskCompleted.setOnClickListener(view -> markCompleted());
         btnTaskCompleted.setVisibility(View.INVISIBLE);
+
+        // For on Create method only.
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
     }
 
     protected void retrieveDataFromFirebase(String id) {
@@ -87,6 +94,7 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
                     }
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.e(Constants.FIREBASE_ERROR, Constants.FIREBASE_ERROR + error.getCode());
@@ -148,11 +156,13 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
                     btnApply.setText("Sorry Rejected");
                 }
             }
+            btnApply.setClickable(true);
         }
         // User has not applied
         else if (!jobPosting.getAccepted().isEmpty()) {
             btnApply.setText("Candidate Already Selected");
         }
+
     }
 
     protected void findLayouts() {
@@ -237,6 +247,16 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         changeCompletedStatus(jobPostingOBJ);
         DAOJobPosting daoJobPosting = new DAOJobPosting();
         daoJobPosting.update(jobPostingOBJ, snapshotKey);
+        // to notify the employer when the employee marks the task as completed.
+        EmailNotification emailNotification = new EmailNotification();
+        employerEmail = jobPostingOBJ.getCreatedBy();
+        // sender email will be the noreply email
+        // the receipitent email would be the employer email.
+        emailNotification.sendEmailNotification("noreplycsci3130@gmail.com",
+                employerEmail, "Joben@1999",
+                "Hi " + jobPostingOBJ.getCreatedByName() + "," +
+                        " an employee completed the assigned task for your posted job posting." +
+                        " Please login to check out details");
     }
 
     protected void addApplicant(String userEmail) {
@@ -246,6 +266,12 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         daoJobPosting.update(jobPostingOBJ, snapshotKey);
         // Show confirmation message
         setStatusMessage("Your application was send successfully!");
+        // notify employer when the employee applies.
+        EmailNotification emailNotification = new EmailNotification();
+        employerEmail = jobPostingOBJ.getCreatedBy();
+        // sender email will be the noreply email
+        // the receipitent email would be the employer email.
+        emailNotification.sendEmailNotification("noreplycsci3130@gmail.com", employerEmail, "Joben@1999", "Hi " + jobPostingOBJ.getCreatedByName() + ", an employee applied for your posted job posting. Please login to check out details");
         // Change btn text
         btnApply.setText("Applied");
     }

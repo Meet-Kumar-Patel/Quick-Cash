@@ -1,10 +1,14 @@
-plugins {
+    plugins {
     id 'com.android.application'
 }
 
 android {
     compileSdk 31
 
+    packagingOptions {
+        exclude 'META-INF/NOTICE.md'
+        exclude 'META-INF/LICENSE.md'
+    }
 
     defaultConfig {
         applicationId "com.example.quickcash"
@@ -19,6 +23,7 @@ android {
 
     buildFeatures{
         dataBinding = true
+        viewBinding true
     }
 
     viewBinding{
@@ -60,8 +65,9 @@ dependencies {
     testImplementation "org.mockito:mockito-inline:3.4.0"
     implementation 'com.google.android.gms:play-services-maps:18.0.0'
     implementation 'com.google.android.gms:play-services-location:18.0.0'
-
     implementation 'com.paypal.sdk:paypal-android-sdk:2.15.3'
+    implementation 'com.sun.mail:android-mail:1.6.6'
+    implementation 'com.sun.mail:android-activation:1.6.6'
 }
 
 apply plugin: 'com.google.gms.google-services'
