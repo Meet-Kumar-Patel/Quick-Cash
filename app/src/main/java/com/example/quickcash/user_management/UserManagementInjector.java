@@ -1,5 +1,8 @@
 package com.example.quickcash.user_management;
 
+/**
+ * This class is responsible for implementing  the UserManagementInjector object.
+ */
 public class UserManagementInjector {
     private static UserManagementInjector instance = null;
     private final IUserManagementAbstractFactory userManagementAbstractFactory;

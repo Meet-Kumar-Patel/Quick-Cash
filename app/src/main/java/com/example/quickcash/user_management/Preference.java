@@ -7,6 +7,9 @@ import com.example.quickcash.common.Constants;
 import java.util.ArrayList;
 import java.util.UUID;
 
+/**
+ * This class is responsible for implementing the Preference object.
+ */
 public class Preference extends Observer implements IPreference{
     private String preferenceId;
     private int jobType;
@@ -16,12 +19,12 @@ public class Preference extends Observer implements IPreference{
     private String employeeEmail;
     /**
      * Preference
-     * @param employeeEmail
-     * @param type
-     * @param duration
-     * @param wage
-     * @param employeeName
-     * @return
+     * @param employeeEmail user given employee email
+     * @param type user given type
+     * @param duration user given duration
+     * @param wage user given wage
+     * @param employeeName user given employee name
+     * @return a preference object
      */
     public Preference(String employeeEmail, int type, int duration, int wage,
                       String employeeName) {

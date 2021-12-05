@@ -3,12 +3,9 @@ package com.example.quickcash.user_management;
 //[Reference: https://wajahatkarim.com/2018/08/encrypt-/-decrypt-strings-in-android/#aesutils-class]
 // This entire java class was taken from the above mentioned url
 // Date Accessed: 17 October,2021
-
 import com.example.quickcash.common.Constants;
-
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -16,6 +13,9 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
+/**
+ * This class is responsible for implementing the encryption and decryption of a given string.
+ */
 public class AESUtils implements IAESUtils {
 
     private static final byte[] keyValue =
@@ -48,10 +48,10 @@ public class AESUtils implements IAESUtils {
     private static void appendHex(StringBuilder stringBuilder, byte b) {
         stringBuilder.append(HEX.charAt((b >> 4) & 0x0f)).append(HEX.charAt(b & 0x0f));
     }
+
     /**
-     * encrypt
-     * encrypt a plain text
-     * @param cleartext
+     * This method is responsible for encrypting plain text
+     * @param cleartext the text which needs to be encrypted
      * @return encrypted text
      */
     @Override
@@ -63,10 +63,10 @@ public class AESUtils implements IAESUtils {
         byte[] result = encrypt(rawKey, cleartext.getBytes());
         return toHex(result);
     }
+
     /**
-     * decrypt
-     * decrypt a plain text
-     * @param encrypted
+     * This method is responsible for decrypting plain text
+     * @param encrypted the encrypted text that needs to be decrypted
      * @return decrypted text
      */
     @Override
@@ -79,6 +79,11 @@ public class AESUtils implements IAESUtils {
         return new String(result);
     }
 
+    /**
+     * This method is responsible for converting the hex string into byte code
+     * @param hexString the hexadecimal string which needs to be converted into bytes.
+     * @return the converted hex string into byte.
+     */
     @Override
     public byte[] toByte(String hexString) {
         int len = hexString.length() / 2;
@@ -89,11 +94,18 @@ public class AESUtils implements IAESUtils {
         return result;
     }
 
+    /**
+     * This method is responsible for converting the byte array into hexadecimal
+     * @param buffer the byte array which needs to be converted.
+     * @return returns a string which is a conversion of the byte array into hexadecimal string.
+     */
     @Override
     public String toHex(byte[] buffer) {
+        // to check if the array is null or not.
         if (buffer == null)
             return "";
         StringBuilder result = new StringBuilder(2 * buffer.length);
+        // run the loop and create the hexadecimal string.
         for (int i = 0; i < buffer.length; i++) {
             appendHex(result, buffer[i]);
         }

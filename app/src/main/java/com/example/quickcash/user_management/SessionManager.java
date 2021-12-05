@@ -4,12 +4,14 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-
 import com.example.quickcash.WelcomePage;
 
 import java.util.HashMap;
 
 // Taken from: https://stackoverflow.com/questions/23720313/android-save-user-session
+/**
+ * This class is responsible for implementing the Session Manager class object.
+ */
 public class SessionManager implements ISessionManager {
     // public email name
     public static final String KEY_PASSWORD = "name";
@@ -32,16 +34,22 @@ public class SessionManager implements ISessionManager {
     // Context
     Context context;
 
-    // Constructor
+    /**
+     * This is the constructor for the session Manager class.
+     * @param context context of the current class.
+     */
     @SuppressLint("CommitPrefEdits")
     public SessionManager(Context context) {
         this.context = context;
-        pref = this.context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+        pref = this.context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         editor = pref.edit();
     }
 
     /**
-     * Create login session
+     * create login session
+     * @param email    user email
+     * @param password user password
+     * @param name     user name
      */
     @Override
     public void createLoginSession(String email, String password, String name) {

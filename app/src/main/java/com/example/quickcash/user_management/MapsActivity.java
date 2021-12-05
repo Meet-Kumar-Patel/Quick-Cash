@@ -1,4 +1,5 @@
 package com.example.quickcash.user_management;
+
 import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +17,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
-
 import com.example.quickcash.home.EmployeeHomeActivity;
 import com.example.quickcash.R;
 import com.example.quickcash.task_list.TaskListActivity;
@@ -36,7 +36,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -69,11 +68,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         IUser user = sessionManagerFirebaseUser.getLoggedInUser();
 
-        if(user!=null){
+        if (user != null) {
             isEmployee = user.getIsEmployee();
-        }
-        else{
-            Log.d(TAG,"User is null");
+        } else {
+            Log.d(TAG, "User is null");
         }
 
 
@@ -89,7 +87,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         // to check if is the employee or the employer.
-        if(!isEmployee.equals("y")){
+        if (!isEmployee.equals("y")) {
             searchByPreference.setVisibility(View.INVISIBLE);
             searchByManual.setVisibility(View.INVISIBLE);
 
@@ -98,12 +96,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         searchByPreference.setOnClickListener(view -> {
             // Switching the user to Search By Preference Form.
             // -- Please change this from MainActivity to the Search By preference form activity.
-            Intent intent = new Intent(getApplicationContext(),TaskListActivity.class);
-            Log.d(TAG,"city name:"+cityName);
+            Intent intent = new Intent(getApplicationContext(), TaskListActivity.class);
+            Log.d(TAG, "city name:" + cityName);
             // --- You need to pass the cityName as a extra attribute to the search preference form.
             Toast.makeText(MapsActivity.this, cityName, Toast.LENGTH_LONG).show();
-           intent.putExtra("City",cityName);
-           intent.putExtra("Preference", true);
+            intent.putExtra("City", cityName);
+            intent.putExtra("Preference", true);
             startActivity(intent);
         });
         // setting up an on click listener for the search by manual button.
@@ -111,7 +109,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             // Switching the user to Search By Manual Form.
             // -- Please change this from MainActivity to the Search By Manual form activity.
             Intent intent = new Intent(getApplicationContext(), TaskListActivity.class);
-            intent.putExtra("City",cityName);
+            intent.putExtra("City", cityName);
             intent.putExtra("Preference", false);
             Toast.makeText(MapsActivity.this, "", Toast.LENGTH_LONG).show();
             startActivity(intent);
@@ -145,8 +143,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     /**
      * This method is responsible for requesting the permission
-     * @param requestCode the passed in request codes.
-     * @param permissions the requested permissions
+     * @param requestCode  the passed in request codes.
+     * @param permissions  the requested permissions
      * @param grantResults the grant results for the requested permissions
      */
     @Override
@@ -226,7 +224,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         if (currentLocation != null) {
                             try {
                                 // to get call the method to get the current address of the user.
-                                getAddress(currentLocation.getLatitude(),currentLocation.getLongitude());
+                                getAddress(currentLocation.getLatitude(), currentLocation.getLongitude());
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -252,8 +250,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     /**
      * This method is responsible for the camera motion
      * @param latlng the latitude of the location
-     * @param zoom the zoom of the location
-     * @param title the title of the location.
+     * @param zoom   the zoom of the location
+     * @param title  the title of the location.
      */
     public void moveCamera(LatLng latlng, float zoom, String title) {
         // to move the camera to hte latitude and zoom value.
@@ -268,7 +266,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     /**
      * This method is used to retrieve the city name from the location
-     * @param latitude the latitude of the user location
+     * @param latitude  the latitude of the user location
      * @param longitude the longitude of the user location
      * @throws IOException The Input Output Exception which might occur while finding the user location.
      */
@@ -286,14 +284,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     /**
      * This method is used to hide the onscreen keyboard.
      */
-    private void hideSoftKeyboard(){
+    private void hideSoftKeyboard() {
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     /**
      * The method returns the data snapshot from firebase and it calls the method responsible for
      * checking the credentials.
-     *
      * @param email    - Email provided by the user.
      * @param password - Password provided by the user.
      */
@@ -324,6 +321,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
 
+    /**
+     * This method is responsible for retrieving the user matching dataSnapShot object from firebase.
+     * @param dataSnapshot the user given dataSnapShot object
+     * @param email        the user given email
+     * @param password     the user given password
+     * @return user matching the dataSnapShot object
+     * @throws Exception an exception is thrown in case of error.
+     */
     protected User getUserFromDataSnapshot(DataSnapshot dataSnapshot, String email, String password) throws Exception {
         IUserManagementAbstractFactory userManagementAbstractFactory = UserManagementInjector.
                 getInstance().getUserManagementAbstractFactory();
@@ -331,7 +336,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
             User user = snapshot.getValue(User.class);
             boolean emailMatches = user.getEmail().equals(email);
-            boolean passwordMatches =  aesUtils.decrypt(user.getPassword()).equals(password);
+            boolean passwordMatches = aesUtils.decrypt(user.getPassword()).equals(password);
+            // check if th email and password match or not.
             if (emailMatches && passwordMatches) {
                 return user;
             }
@@ -343,11 +349,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         User userWithGivenEmail;
 
         if (dataSnapshot != null) {
-                       // Find user with the given email and password.
+            // Find user with the given email and password.
             userWithGivenEmail = getUserFromDataSnapshot(dataSnapshot, email, password);
             // If the user if found => switch to the proper homepage.
-            if (userWithGivenEmail != null)
-               {
+            if (userWithGivenEmail != null) {
                 // Creates login session
                 SessionManager sessionManager = new SessionManager(this);
                 sessionManager.createLoginSession(email, password, userWithGivenEmail.getFirstName() + " " + userWithGivenEmail.getLastName());
