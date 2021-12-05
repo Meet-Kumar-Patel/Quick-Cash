@@ -48,7 +48,12 @@ public class AESUtils implements IAESUtils {
     private static void appendHex(StringBuilder stringBuilder, byte b) {
         stringBuilder.append(HEX.charAt((b >> 4) & 0x0f)).append(HEX.charAt(b & 0x0f));
     }
-
+    /**
+     * encrypt
+     * encrypt a plain text
+     * @param cleartext
+     * @return encrypted text
+     */
     @Override
     public String encrypt(String cleartext)
             throws NoSuchAlgorithmException,
@@ -58,7 +63,12 @@ public class AESUtils implements IAESUtils {
         byte[] result = encrypt(rawKey, cleartext.getBytes());
         return toHex(result);
     }
-
+    /**
+     * decrypt
+     * decrypt a plain text
+     * @param encrypted
+     * @return decrypted text
+     */
     @Override
     public String decrypt(String encrypted)
             throws NoSuchAlgorithmException,
