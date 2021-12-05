@@ -3,6 +3,7 @@ package com.example.quickcash.Home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -41,6 +42,9 @@ public class EmployeeHomeActivity extends AppCompatActivity {
         );
         Button btnLogOut = findViewById(R.id.btnLogOutEmployee);
         btnLogOut.setOnClickListener(view -> sessionManager.logoutUser());
+
+        TextView employeeHeader = findViewById(R.id.etEmployeeMessage);
+        employeeHeader.setText("Welcome to Home, "+sessionManager.getKeyName() + ".");
     }
 
     // Created intents for navigating to the pages

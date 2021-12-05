@@ -86,8 +86,11 @@ public class JobPostingActivity extends AppCompatActivity implements OnMapReadyC
         StrictMode.setThreadPolicy(policy);
     }
 
+    /**
+     * This method initializes the buttons, calls methods to retrieve data from firebase
+     * and
+     */
     private void remainingStuff() {
-
         Log.d(TAG, "cityName in remaining stuff:" + cityName);
         locationStr = cityName;
         location = findViewById(R.id.etLocation);

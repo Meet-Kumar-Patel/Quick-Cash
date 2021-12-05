@@ -163,7 +163,6 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
             btnApply.setText("Candidate Already Selected");
             btnApply.setClickable(false);
         }
-
     }
 
     protected void findLayouts() {
@@ -252,9 +251,9 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         EmailNotification emailNotification = new EmailNotification();
         employerEmail = jobPostingOBJ.getCreatedBy();
         // sender email will be the noreply email
-        // the receipitent email would be the employer email.
+        // the recipients email would be the employer email.
         emailNotification.sendEmailNotification("noreplycsci3130@gmail.com",
-                employerEmail, "Joben@1999",
+                employerEmail,  "Joben@1999",
                 "Hi " + jobPostingOBJ.getCreatedByName() + "," +
                         " an employee completed the assigned task for your posted job posting." +
                         " Please login to check out details");
