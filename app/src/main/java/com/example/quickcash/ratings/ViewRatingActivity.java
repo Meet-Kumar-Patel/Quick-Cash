@@ -21,7 +21,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
+/**
+ * allow rating to view the rating of another user
+ */
 public class ViewRatingActivity extends AppCompatActivity {
 
     Rating rating = null;
@@ -45,7 +47,11 @@ public class ViewRatingActivity extends AppCompatActivity {
         retrieveDataFromFirebase(receiverEmail);
         initializeBackButton(jobPostingID, page);
     }
-
+    /**
+     * initializeBackButton
+     * @param jobPostingID
+     * @param page
+     */
     private void initializeBackButton(String jobPostingID, String page) {
         backButton = findViewById(R.id.rating_back_button);
         backButton.setOnClickListener(view -> {
@@ -61,7 +67,11 @@ public class ViewRatingActivity extends AppCompatActivity {
             startActivity(jobDetailsIntent);
         });
     }
-
+    /**
+     * initializeBackButton
+     * @param receiverEmail
+     * getting the data from fire base
+     */
     protected void retrieveDataFromFirebase(String receiverEmail) {
         DatabaseReference jpDatabase = FirebaseDatabase.getInstance(Constants.FIREBASE_URL)
                 .getReference(Rating.class.getSimpleName());
@@ -84,7 +94,12 @@ public class ViewRatingActivity extends AppCompatActivity {
             }
         });
     }
-
+    /**
+     * getRatingByID
+     * @param dataSnapshot
+     * @param receiverEmail
+     * getting rating by ID from firebase
+     */
     protected Rating getRatingByID(DataSnapshot dataSnapshot, String receiverEmail) {
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
             Rating ratingInFirebase = snapshot.getValue(Rating.class);
