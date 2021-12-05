@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.quickcash.Home.EmployeeHomeActivity;
 import com.example.quickcash.R;
 import com.example.quickcash.TaskList.TaskListActivity;
 import com.example.quickcash.common.Constants;
@@ -83,9 +84,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         getLocationPermission();
 
         // referencing all the buttons in variables.
-        Button searchByPreference = (Button) findViewById(R.id.Search_Preference);
-        Button searchByManual = (Button) findViewById(R.id.search_Manual);
-
+        Button searchByPreference = findViewById(R.id.Search_Preference);
+        Button searchByManual = findViewById(R.id.search_Manual);
+        Button backToHome = findViewById(R.id.Back_To_Home);
 
 
         // to check if is the employee or the employer.
@@ -114,6 +115,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             intent.putExtra("City",cityName);
             intent.putExtra("Preference", false);
             Toast.makeText(MapsActivity.this, "", Toast.LENGTH_LONG).show();
+            startActivity(intent);
+        });
+        backToHome.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), EmployeeHomeActivity.class);
             startActivity(intent);
         });
 

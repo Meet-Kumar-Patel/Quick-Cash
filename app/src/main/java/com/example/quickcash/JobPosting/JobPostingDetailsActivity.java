@@ -11,11 +11,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.quickcash.Dashboard.EmployerDashboardActivity;
 import com.example.quickcash.R;
 import com.example.quickcash.Ratings.GiveRatingsActivity;
 import com.example.quickcash.Ratings.ViewRatingActivity;
-import com.example.quickcash.TaskList.TaskListActivity;
 import com.example.quickcash.UserManagement.EmailNotification;
+import com.example.quickcash.UserManagement.ISessionManagerFirebaseUser;
+import com.example.quickcash.UserManagement.IUser;
+import com.example.quickcash.UserManagement.MapsActivity;
 import com.example.quickcash.UserManagement.SessionManager;
 import com.example.quickcash.common.Constants;
 import com.google.firebase.database.DataSnapshot;
@@ -41,6 +44,8 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
     private String userEmail = "";
     private String snapshotKey;
     private String employerEmail = "";
+    private IUser user;
+    private final boolean dashboardJob = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +56,8 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
         sessionManager.checkLogin();
         // Get user email from Session Manager
         userEmail = sessionManager.getKeyEmail();
+        ISessionManagerFirebaseUser sessionManagerFirebaseUser = sessionManager.getSessionManagerFirebaseUser();
+        user = sessionManagerFirebaseUser.getLoggedInUser();
         //access the intents & show the welcome message
         Intent intent = getIntent();
         //Received location from map and show to the user
@@ -238,7 +245,13 @@ public class JobPostingDetailsActivity extends AppCompatActivity {
     }
 
     protected void returnToSearch() {
-        Intent intent = new Intent(this, TaskListActivity.class);
+        Intent intent;
+        boolean isEmployee = user.getIsEmployee().equals("y");
+        if (isEmployee) {
+            intent = new Intent(this, MapsActivity.class);
+        } else {
+            intent = new Intent(this, EmployerDashboardActivity.class);
+        }
         startActivity(intent);
     }
 

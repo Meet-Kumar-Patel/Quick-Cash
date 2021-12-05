@@ -41,6 +41,18 @@
         android:layout_marginBottom="286dp"
         android:text="Search By Preference" />
 
+    <Button
+        android:id="@+id/Back_To_Home"
+        android:layout_width="221dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="98dp"
+        android:layout_marginEnd="89dp"
+        android:layout_marginBottom="33dp"
+        android:text="Back To Home" />
+
 </RelativeLayout>
 
 

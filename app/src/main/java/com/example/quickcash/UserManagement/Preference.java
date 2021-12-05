@@ -47,7 +47,10 @@ public class Preference extends Observer implements IPreference{
     @Override
     public void notifyUsersWithPreferredJobs(IJobPosting jobPosting, ArrayList<IPreference> preferences) {
         for (IPreference pref : preferences) {
-            if (pref.getJobType() == jobPosting.getJobType() && pref.getWage() >= jobPosting.getWage() && pref.getDuration() >= jobPosting.getDuration()) {
+            boolean jobTypeMatches = pref.getJobType() == jobPosting.getJobType();
+            boolean wageEqualOrGreater = jobPosting.getWage() >= pref.getWage();
+            boolean durationEqualOrGreater = jobPosting.getDuration() >= pref.getDuration();
+            if (jobTypeMatches && wageEqualOrGreater && durationEqualOrGreater) {
                 EmailNotification emailNotification = new EmailNotification();
                 String employeeEmail = pref.getEmployeeEmail();
                 emailNotification.sendEmailNotification(Constants.EMAIL_ADDRESS, employeeEmail, Constants.SENDER_PASSWORD, Constants.HI +pref.getEmployeeName()+ Constants.THE_FOLLOWING_EMPLOYER +jobPosting.getCreatedByName() + Constants.CHECK_OUT_DETAILS);
