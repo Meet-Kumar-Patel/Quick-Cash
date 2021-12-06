@@ -5,7 +5,8 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.quickcash.UserManagement.SignUpActivity;
+import com.example.quickcash.user_management.EmailNotification;
+import com.example.quickcash.user_management.SignUpActivity;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -15,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Intent intent = new Intent(this, SignUpActivity.class);
+
         startActivity(intent);
     }
 

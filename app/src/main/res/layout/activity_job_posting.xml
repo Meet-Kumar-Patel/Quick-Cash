@@ -1,193 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btnJPHomePage"
-        android:layout_width="338dp"
-        android:layout_height="56dp"
-        android:text="Return To Home Page"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.636"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnCreateJP"
-        app:layout_constraintVertical_bias="0.192" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btnCreateJP"
-        android:layout_width="338dp"
-        android:layout_height="56dp"
-        android:text="Create Job Posting"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.636"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etErrorJP"
-        app:layout_constraintVertical_bias="0.223" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
 
-    <TextView
-        android:id="@+id/etErrorJP"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.101"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etWage"
-        app:layout_constraintVertical_bias="0.05" />
+            <TextView
+                android:id="@+id/txtCreateJPTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="53dp"
+                android:text="Create Job Posting"
+                android:textSize="34sp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="50dp"/>
+
+            <fragment
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                tools:context=".job_posting.JobPostingActivity"
+                android:layout_marginBottom="15dp"/>
+
+            <TextView
+                android:id="@+id/txtJPTitleField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:text="Job Title"
+                android:layout_marginLeft="15dp"/>
+
+            <EditText
+                android:id="@+id/etJPTitle"
+                android:layout_width="366dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textShortMessage"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="30dp"/>
+
+            <TextView
+                android:id="@+id/txtJPType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Job Type"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="15dp"/>
 
 
-    <EditText
-        android:id="@+id/etWage"
-        android:layout_width="335dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.603"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtWage"
-        app:layout_constraintVertical_bias="0.094" />
+            <Spinner
+                android:id="@+id/etJPType"
+                android:layout_width="335dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="30dp"/>
 
-    <TextView
-        android:id="@+id/txtWage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Wage"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etLocation"
-        app:layout_constraintVertical_bias="0.072" />
+            <TextView
+                android:id="@+id/txtDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Duration"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"/>
 
-    <EditText
-        android:id="@+id/etLocation"
-        android:layout_width="335dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.603"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtLocation"
-        app:layout_constraintVertical_bias="0.04" />
+            <EditText
+                android:id="@+id/etDuration"
+                android:layout_width="335dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="30dp"/>
 
-    <TextView
-        android:id="@+id/txtLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Location"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.106"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etDuration"
-        app:layout_constraintVertical_bias="0.019" />
+            <TextView
+                android:id="@+id/txtLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Location"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"/>
 
-    <EditText
-        android:id="@+id/etDuration"
-        android:layout_width="335dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.603"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtDuration"
-        app:layout_constraintVertical_bias="0.025" />
+            <EditText
+                android:id="@+id/etLocation"
+                android:layout_width="335dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="30dp"/>
 
-    <TextView
-        android:id="@+id/txtDuration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Duration"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.103"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etJPType"
-        app:layout_constraintVertical_bias="0.028" />
+            <TextView
+                android:id="@+id/txtWage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wage"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"/>
 
-    <EditText
-        android:id="@+id/etJPTitle"
-        android:layout_width="335dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textShortMessage"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.603"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtJPTitleField"
-        app:layout_constraintVertical_bias="0.016" />
+            <EditText
+                android:id="@+id/etWage"
+                android:layout_width="335dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="30dp"/>
 
-    <TextView
-        android:id="@+id/txtJPType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Job Type"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.104"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etJPTitle"
-        app:layout_constraintVertical_bias="0.035" />
+            <TextView
+                android:id="@+id/etErrorJP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"/>
 
-    <TextView
-        android:id="@+id/txtCreateJPTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="53dp"
-        android:text="Create Job Posting"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.05" />
+            <Button
+                android:id="@+id/btnCreateJP"
+                android:layout_width="338dp"
+                android:layout_height="56dp"
+                android:text="Create Job Posting"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="30dp"/>
 
-    <TextView
-        android:id="@+id/txtJPTitleField"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Job Title"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.106"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtCreateJPTitle"
-        app:layout_constraintVertical_bias="0.05" />
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/btnJPHomePage"
+                android:layout_width="338dp"
+                android:layout_height="56dp"
+                android:text="Return To Home Page"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="30dp"/>
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/group2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
 
-    <Spinner
-        android:id="@+id/etJPType"
-        android:layout_width="335dp"
-        android:ems="10"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.603"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtJPType"
-        app:layout_constraintVertical_bias="0.162"
-        android:layout_marginBottom="448dp"
-        />
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/group2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

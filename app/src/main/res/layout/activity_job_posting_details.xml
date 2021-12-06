@@ -1,226 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/txtJPDError"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.09"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtJPDStatusValue"
-        app:layout_constraintVertical_bias="0.073" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btnJPDApplyNow"
-        android:layout_width="335dp"
-        android:layout_height="56dp"
-        android:text="Apply Now"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnJPDMarkCompleted"
-        app:layout_constraintVertical_bias="0.171" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btnJPDReturnToSearch"
-        android:layout_width="335dp"
-        android:layout_height="56dp"
-        android:text="Search More"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnJPDApplyNow"
-        app:layout_constraintVertical_bias="0.214" />
+            <TextView
+                android:id="@+id/txtJobTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="53dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginBottom="15dp"
+                android:text="Job Title"
+                android:textSize="34sp" />
 
-    <TextView
-        android:id="@+id/txtJPDStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Status"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.10"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtJDPCreatedByValue"
-        app:layout_constraintVertical_bias="0.015" />
+            <TextView
+                android:id="@+id/txtName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Job Type"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="30dp"
+                />
 
-    <TextView
-        android:id="@+id/txtJPDStatusValue"
-        android:layout_width="335dp"
-        android:layout_height="39dp"
-        android:text="Press 'Apply Now' to register"
-        android:textSize="24sp"
-        app:autoSizeTextType="none"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtJPDStatus"
-        app:layout_constraintVertical_bias="0.014" />
+            <TextView
+                android:id="@+id/txtJPDTypeValue"
+                android:layout_width="335dp"
+                android:layout_height="39dp"
+                android:text="Job Type"
+                android:textSize="24sp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="30dp"
+                />
 
-    <TextView
-        android:id="@+id/txtJDPLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Location"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.10"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtJPDDurationValue"
-        app:layout_constraintVertical_bias="0.015" />
+            <TextView
+                android:id="@+id/txtJDPLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginBottom="15dp"
+                android:text="Location" />
 
-    <TextView
-        android:id="@+id/txtJobDuration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Duration"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.10"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtJPDTypeValue"
-        app:layout_constraintVertical_bias="0.015" />
+            <TextView
+                android:id="@+id/txtJDPLocationValue"
+                android:layout_width="335dp"
+                android:layout_height="39dp"
+                android:text="Location"
+                android:textSize="24sp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="30dp"
+                />
 
-    <TextView
-        android:id="@+id/txtJPDWageValue"
-        android:layout_width="335dp"
-        android:layout_height="39dp"
-        android:text="Wage"
-        android:textSize="24sp"
-        app:autoSizeTextType="none"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtJPDWage"
-        app:layout_constraintVertical_bias="0.014" />
+            <TextView
+                android:id="@+id/txtJPDWage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wage (on task completed)"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="30dp"
+                />
 
-    <TextView
-        android:id="@+id/txtJDPLocationValue"
-        android:layout_width="335dp"
-        android:layout_height="39dp"
-        android:text="Location"
-        android:textSize="24sp"
-        app:autoSizeTextType="none"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtJDPLocation"
-        app:layout_constraintVertical_bias="0.014" />
+            <TextView
+                android:id="@+id/txtJPDWageValue"
+                android:layout_width="335dp"
+                android:layout_height="39dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginBottom="15dp"
+                android:text="Wage"
+                android:textSize="24sp" />
 
-    <TextView
-        android:id="@+id/txtJPDDurationValue"
-        android:layout_width="335dp"
-        android:layout_height="39dp"
-        android:text="Duration"
-        android:textSize="24sp"
-        app:autoSizeTextType="none"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtJobDuration"
-        app:layout_constraintVertical_bias="0.014" />
+            <TextView
+                android:id="@+id/txtJDPCreatedBy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginBottom="15dp"
+                android:text="Employer (Click to check rating)" />
 
-    <TextView
-        android:id="@+id/txtJDPCreatedByValue"
-        android:layout_width="335dp"
-        android:layout_height="39dp"
-        android:clickable="false"
-        android:text="Employer"
-        android:textColor="#222DF6"
-        android:textSize="24sp"
-        app:autoSizeTextType="none"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtJDPCreatedBy"
-        app:layout_constraintVertical_bias="0.014" />
+            <TextView
+                android:id="@+id/txtJDPCreatedByValue"
+                android:layout_width="335dp"
+                android:layout_height="39dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginBottom="15dp"
+                android:clickable="false"
+                android:text="Employer"
+                android:textColor="#222DF6"
+                android:textSize="24sp" />
 
-    <TextView
-        android:id="@+id/txtJPDTypeValue"
-        android:layout_width="335dp"
-        android:layout_height="39dp"
-        android:text="Job Type"
-        android:textSize="24sp"
-        app:autoSizeTextType="none"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.482"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtJPDType"
-        app:layout_constraintVertical_bias="0.015" />
+            <TextView
+                android:id="@+id/txtJobDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginBottom="15dp"
+                android:text="Duration" />
 
-    <TextView
-        android:id="@+id/txtJobTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="53dp"
-        android:text="Job Title"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.048" />
+            <TextView
+                android:id="@+id/txtJPDDurationValue"
+                android:layout_width="335dp"
+                android:layout_height="39dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginBottom="15dp"
+                android:text="Duration"
+                android:textSize="24sp" />
 
-    <TextView
-        android:id="@+id/txtJPDType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Job Type"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.10"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtJobTitle"
-        app:layout_constraintVertical_bias="0.027" />
+            <TextView
+                android:id="@+id/txtJPDStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginBottom="15dp"
+                android:text="Status" />
 
-    <TextView
-        android:id="@+id/txtJPDWage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Wage (on task completed)"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.10"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtJDPLocationValue"
-        app:layout_constraintVertical_bias="0.026" />
+            <TextView
+                android:id="@+id/txtJPDStatusValue"
+                android:layout_width="335dp"
+                android:layout_height="39dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginBottom="15dp"
+                android:text="Press 'Apply Now' to register"
+                android:textSize="24sp" />
 
-    <TextView
-        android:id="@+id/txtJDPCreatedBy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Employer (Click to check rating)"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.10"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtJPDWageValue"
-        app:layout_constraintVertical_bias="0.015" />
+            <TextView
+                android:id="@+id/txtJPDError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginBottom="15dp"
+                android:text="" />
 
-    <Button
-        android:id="@+id/btnJPDMarkCompleted"
-        android:layout_width="335dp"
-        android:layout_height="56dp"
-        android:text="Mark Task Completed"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.484"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtJPDError"
-        app:layout_constraintVertical_bias="0.054" />
+            <Button
+                android:id="@+id/btnJPDMarkCompleted"
+                android:layout_width="335dp"
+                android:layout_height="56dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginBottom="15dp"
+                android:text="Mark Task Completed" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <Button
+                android:id="@+id/btnJPDApplyNow"
+                android:layout_width="335dp"
+                android:layout_height="56dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginBottom="15dp"
+                android:text="Apply Now" />
+
+            <Button
+                android:id="@+id/btnJPDReturnToSearch"
+                android:layout_width="335dp"
+                android:layout_height="56dp"
+                android:text="Search More"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="30dp"
+                />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/group2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
